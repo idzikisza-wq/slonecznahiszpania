@@ -1,6 +1,6 @@
 ---
-// 12. Opinie (#opinie): kafelek z oceną 4,9 (jedyna czerwona liczba), dwie opinie jako callout.
-// Bez gwiazdek, bez logo Google, bez chmury tagów.
+// 12. Opinie (#opinie): kafelek z oceną 4,9 (jedyna czerwona liczba), dwie opinie jako callout,
+// pod nimi nota, że dotyczą obsługi w Polsce. Bez gwiazdek, bez logo Google, bez chmury tagów.
 import SectionHead from './ui/SectionHead.astro';
 import { site } from '../content/site';
 
@@ -33,6 +33,7 @@ const { rating } = reviews;
           </figure>
         ))
       }
+      <p class="small mt-m">{reviews.quotesNote}</p>
       <p class="mt-m">
         <a class="cta-2" href={reviews.cta.href}>{reviews.cta.label}</a>
       </p>

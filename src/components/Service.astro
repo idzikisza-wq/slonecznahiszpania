@@ -1,7 +1,9 @@
 ---
-// 10. Obsługa 360°: sześć punktów jako dwie listy atutów po trzy, 6+6.
+// 10. Obsługa 360°: jedna lista atutów (najwyżej pięć punktów) i zdjęcie 4:3, 6+6.
+// Na mobile zdjęcie ląduje nad listą.
 import SectionHead from './ui/SectionHead.astro';
 import List from './ui/List.astro';
+import Photo from './ui/Photo.astro';
 import { site } from '../content/site';
 
 const { service } = site;
@@ -10,12 +12,11 @@ const { service } = site;
 <section class="section container">
   <SectionHead label={service.label} title={service.title} />
   <div class="grid mt-l">
-    {
-      service.lists.map((items) => (
-        <div class="col-6">
-          <List items={items} variant="plus" />
-        </div>
-      ))
-    }
+    <div class="col-6">
+      <List items={service.list} variant="plus" />
+    </div>
+    <div class="col-6 media-first">
+      <Photo image={service.image} sizes="(min-width: 760px) min(588px, calc(50vw - 88px)), calc(100vw - 48px)" />
+    </div>
   </div>
 </section>

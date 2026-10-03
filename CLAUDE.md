@@ -105,8 +105,8 @@ Kontener `--container`, margines `--side`. 12 kolumn, gutter `--gutter`. Dozwolo
 - Tabela danych: dwie kolumny, lewa w `muted` o stałej szerokości, prawa w `text`, linie włosowe między wierszami, bez pionowych linii, bez zebry.
 - CTA główny: prostokąt z tłem `--ink`, tekst `label` w `--paper`, padding 16px 28px, bez zaokrąglenia, bez cienia. Hover: tło `--text`. Focus: outline 2px `--ink` z offsetem 3px. To jedyne ciemne pole na stronie.
 - CTA drugi: tekst `label` w `--ink` z linią 1px `--ink` pod spodem. Hover: kolor `--muted`.
-- Pole formularza: tło `--surface`, brak obramowania, dolna linia 1px `--line`, padding 14px 16px, tekst `body`. Etykieta pola w `label` nad polem. Focus: dolna linia 2px `--ink`. Błąd: komunikat w `small` w `--ink` pod polem, bez koloru czerwonego (czerwień nie sygnalizuje błędów). Checkbox natywny, tekst zgody w `small`.
-- Nagłówek strony: logo lockup po lewej (wysokość 36px desktop, 28px mobile, pole ochronne co najmniej 16px), nawigacja w `label` w ink po prawej, telefon na końcu. Pod nagłówkiem linia lekka. Nie sticky. Na mobile linki chowane pod słowem MENU w `label`, bez ikony.
+- Pole formularza: tło `--surface`, brak obramowania, dolna linia 1px `--line`, padding 14px 16px, tekst `body`. Etykieta pola w `label` nad polem. Focus: dolna linia 2px `--ink`. Błąd: komunikat w `small` w `--ink` pod polem, bez koloru czerwonego (czerwień nie sygnalizuje błędów). Dwa krótkie pola mogą stać w jednym rzędzie, na mobile jedno pod drugim. Lista wyboru bez natywnego wyglądu (Safari podmienia w niej font na systemowy): Mulish, ta sama wysokość co pozostałe pola, po prawej szary znak tekstowy „›" obrócony w dół. Zgoda jako tekst `small` pod przyciskiem (wysłanie formularza oznacza zgodę), bez checkboxa.
+- Nagłówek strony: logo lockup po lewej (wysokość 36px desktop, 28px mobile, pole ochronne co najmniej 16px), po prawej linki w `label` w ink i na końcu CTA główny KONSULTACJA (#kontakt). Bez podtytułu i bez telefonu. Pod nagłówkiem linia lekka. Nie sticky. Na mobile linki i przycisk chowane pod słowem MENU w `label`, bez ikony.
 - Favicon: `kwadrat-logo.svg`.
 
 ### Dostępność
@@ -116,28 +116,30 @@ Kontrast `ink`, `text` i `muted` na `paper` spełnia AA dla podanych rozmiarów.
 ## Marka
 
 - Logo: lockup KWADRAT NIERUCHOMOŚCI w nagłówku (strona to materiał poza dokumentami A4, więc lockup jest właściwą wersją). W stopce brak logo.
-- Nazwa w treści: Kwadrat Nieruchomości, jak na obecnej stronie. Dane spółki w stopce i w sekcji Bezpieczeństwo: GRUPA INWESTYCYJNA KWADRAT Sp. z o.o. Oddział Żoliborz nie występuje nigdzie.
+- Nazwa w treści: Kwadrat Nieruchomości (meta, logo, opisy). W leadzie Opinii, w zgodach pod formularzami i w linku do kwadrat.io: Grupa Inwestycyjna Kwadrat, odmieniana. Dane spółki w stopce: GRUPA INWESTYCYJNA KWADRAT Sp. z o.o. Oddział Żoliborz nie występuje nigdzie.
 - Telefon i e-mail: jak na obecnej stronie (+48 505 085 001, biuro@kwadrat.io). DO POTWIERDZENIA przez Idziego, trzymaj w jednej stałej w `site.ts`.
 
 ## Treść: inwentarz sekcji (kolejność bez zmian)
 
 Całe copy jest już w `docs/copy.md`, przeniesione z obecnej strony i oczyszczone z myślników. Przenieś je 1:1 do `src/content/site.ts`. Nie pobieraj HTML obecnej strony. Poniżej układ każdej sekcji, kotwice w nawiasach.
 
-1. Nagłówek. Logo, obok niego (tylko desktop) `label` HISZPANIA · ANDALUZJA · MÁLAGA, nawigacja: Oferty, Lokalizacje, Dlaczego Hiszpania, Dlaczego Andaluzja, Proces zakupu, Bezpieczeństwo, Poradnik, Opinie, FAQ. Telefon.
+Stan po przeglądzie Idziego z 3.10.2026: aktualne, zatwierdzone copy jest w `src/content/site.ts`, a `docs/copy.md` zostaje jako zapis stanu starej strony. Inwentarz poniżej uwzględnia zmiany z tego przeglądu.
+
+1. Nagłówek. Logo, nawigacja: Dlaczego Hiszpania, Proces zakupu, Opinie, FAQ, na końcu CTA główny KONSULTACJA (#kontakt). Bez podtytułu i bez telefonu. Menu wskazuje tylko sekcje, które są na stronie.
 2. Hero (#start). `label` POLSKA OBSŁUGA NA MIEJSCU, h1 z oryginału, `lead` z oryginału, CTA główny UMÓW BEZPŁATNĄ KONSULTACJĘ (#kontakt), CTA drugi JAK WYGLĄDA ZAKUP (#proces). Pod spodem rząd trzech kafelków bez etykiet: liczba `kpi` (PL, 360°, 1 plan), uwaga `small` (obsługa po polsku, wsparcia przy zakupie, od rozmowy do kluczy). Nie dopisuj etykiet, oryginał ich nie ma. Pod kafelkami zdjęcie hero 3:2 na szerokość kontenera, pod nim podpis `small`: „Twój adres na południu. Málaga · Costa del Sol · Andaluzja".
-3. Poradnik (#poradnik). Układ 6+6. Lewa: `label` BEZPŁATNY PORADNIK, h2, akapit, lista atutów z czterema punktami, `small` „PDF · dostęp natychmiast po zapisie". Prawa: okładka poradnika w naturalnych proporcjach, pod nią formularz Imię, Nazwisko, E-mail, CTA główny POBIERZ BEZPŁATNY PORADNIK, zgoda.
-4. Po co kupujesz. `label` DOPASOWANA ŚCIEŻKA, h2, `lead`. Trzy kafelki tekstowe 4+4+4: `label` 01, 02, 03, h3, akapit, CTA drugi POROZMAWIAJMY (#kontakt).
-5. Dlaczego Hiszpania (#dlaczego-hiszpania). `label` PERSPEKTYWA POLSKIEGO INWESTORA, h2, `lead`, trzy kafelki tekstowe 4+4+4. Podsekcja: `label` GEOPOLITYKA I RYZYKA, h3, akapit, lista uwag (szare kwadraciki) z czterema ryzykami: tytuł pogrubiony w ink, po nim opis w `body`.
-6. Dlaczego Andaluzja (#dlaczego-andaluzja). `label` WYBÓR REGIONU, h2, `lead`, cztery kafelki tekstowe w układzie 6+6 (dwa rzędy). Podsekcja: `label` ANDALUZJA VS. COSTA BLANCA, h3, akapit, cztery porównania jako kafelki tekstowe 6+6.
-7. Lokalizacje (#lokalizacje). `label` LOKALNA SPECJALIZACJA, h2, `lead`. Nad tabelą `label` ANDALUZJA. Tabela danych z pięcioma wierszami: miasto (lewa kolumna, pogrubione, ink) i zdanie z oryginału (prawa). Bez zdjęć.
+3. Poradnik (#poradnik). Układ 6+6. Lewa: `label` BEZPŁATNY PORADNIK, h2, akapit, lista atutów z czterema punktami, `small` „PDF · dostęp natychmiast po zapisie". Prawa: formularz od góry kolumny: Imię i Nazwisko w jednym rzędzie, E-mail, CTA główny POBIERZ BEZPŁATNY PORADNIK, zgoda. Bez zdjęcia.
+4. Po co kupujesz. `label` DOPASOWANA ŚCIEŻKA, h2, `lead`. Trzy kafelki tekstowe 4+4+4: `label` 01, 02, 03, h3, akapit. Pod rzędem jeden CTA główny UMÓW BEZPŁATNĄ KONSULTACJĘ (#kontakt).
+5. Dlaczego Hiszpania (#dlaczego-hiszpania). `label` PERSPEKTYWA POLSKIEGO INWESTORA, h2, `lead`, trzy kafelki tekstowe 4+4+4. Podsekcja: `label` GEOPOLITYKA I RYZYKA, h3, akapit, lista uwag (szare kwadraciki) z trzema ryzykami (woda, najem krótkoterminowy, kurs): tytuł pogrubiony w ink, po nim opis w `body`.
+6. Dlaczego Andaluzja (#dlaczego-andaluzja). `label` WYBÓR REGIONU, h2, `lead`, cztery kafelki tekstowe w układzie 6+6 (sezonowość popytu, Málaga jako miasto, lotnisko, zabudowa), pod nimi `small` ze źródłem liczby mieszkańców. Bez podsekcji. O Costa Blanca tylko zdania, które da się obronić, albo ze źródłem.
+7. Lokalizacje (#lokalizacje). `label` LOKALNA SPECJALIZACJA, h2, `lead`. Układ 6+6: tabela danych z `label` ANDALUZJA nad nią i pięcioma wierszami (miasto pogrubione w ink, Lagos jako „Lagos (prowincja Málaga)") oraz zdjęcie 4:3, na mobile nad tabelą.
 8. Proces (#proces). `label` JASNY PROCES, h2, `lead`. Rząd czterech kafelków 3+3+3+3: numer w `kpi-mid` (1, 2, 3, 4), h3, zdanie.
-9. Oferty (#oferty). `label` PRZYKŁADOWE KIERUNKI, h2, `small` o orientacyjności cen. Trzy oferty 4+4+4: zdjęcie 4:3, `label` lokalizacja, h3 tytuł, `small` parametry (2 sypialnie · 78 m² · widok na miasto), cena `num2`. Bez ramek, bez przycisków przy ofertach.
-10. Obsługa 360°. `label` OBSŁUGA 360°, h2. Sześć punktów jako dwie listy atutów po trzy w układzie 6+6 (limit pięciu na listę).
-11. Bezpieczeństwo (#bezpieczenstwo). `label` BEZPIECZEŃSTWO FORMALNE, h2, akapit. Tabela danych: Spółka, NIP, KRS z wartościami z oryginału.
-12. Opinie (#opinie). `label` OPINIE KLIENTÓW, h2, akapit. Jeden kafelek: `label` OCENA GOOGLE, liczba 4,9 w `--kwadrat-red` (jedyna czerwona liczba na stronie) z dopiskiem „/ 5" w num2 ink, uwaga `small` z liczbą opinii. Dwie opinie jako bloki callout: cytat w `body` w cudzysłowach „ ", pod nim autor i czas w `small`. CTA drugi ZOBACZ WSZYSTKIE OPINIE (link z oryginału). Chmurę tagów usuń. Bez gwiazdek, bez logo Google.
-13. FAQ (#faq). `label` NAJCZĘSTSZE PYTANIA, h2. Cztery pytania jako natywne `<details>`: `<summary>` w stylu h3, odpowiedź w `body`, linia włosowa między pozycjami, bez ikon plus i minus.
-14. Kontakt (#kontakt). Układ 6+6. Lewa: `label` BEZPŁATNA KONSULTACJA, h2, akapit, `label` ZADZWOŃ DO NAS, telefon w `num2` jako link `tel:`, CTA drugi POZNAJ KWADRAT NIERUCHOMOŚCI (kwadrat.io). Prawa: formularz Imię i nazwisko, E-mail, Co Cię interesuje (select z trzema opcjami z oryginału), Wiadomość, CTA główny WYŚLIJ ZAPYTANIE, zgoda.
-15. Stopka. Linia lekka nad. W `small`: pełne dane rejestrowe spółki z oryginału, www.kwadrat.io, biuro@kwadrat.io, link Polityka prywatności.
+9. Oferty (#oferty). Poza menu, dopóki przykładowe kierunki nie zostaną zastąpione prawdziwymi ofertami (zdjęcie 4:3, miejsce, parametry, cena z oferty, link w polu `href`). `label` PRZYKŁADOWE KIERUNKI, h2, `small` o orientacyjności cen. Trzy oferty 4+4+4: zdjęcie 4:3, `label` lokalizacja, h3 tytuł, `small` parametry (2 sypialnie · 78 m² · widok na miasto), cena `num2`. Bez ramek, bez przycisków przy ofertach.
+10. Obsługa 360°. `label` OBSŁUGA 360°, h2. Układ 6+6: jedna lista atutów z pięcioma punktami i zdjęcie 4:3, na mobile nad listą.
+11. Bezpieczeństwo: sekcja usunięta (obiecywała koszty, których nie pokazywała, a dane spółki dublowały stopkę). Wraca z tabelą kosztów zakupu (Pozycja, Kto pobiera, Orientacyjnie), gdy wartości potwierdzi hiszpański prawnik albo doradca podatkowy.
+12. Opinie (#opinie). `label` OPINIE KLIENTÓW, h2, akapit. Jeden kafelek: `label` OCENA GOOGLE, liczba 4,9 w `--kwadrat-red` (jedyna czerwona liczba na stronie) z dopiskiem „/ 5" w num2 ink, uwaga `small` z liczbą opinii. Dwie opinie jako bloki callout: cytat w `body` w cudzysłowach „ ", pod nim autor i czas w `small`. Lead z rokiem założenia z dokumentu firmy, przy liczbie opinii data odczytu. Cytaty skrócone do jednego zdania, pod nimi `small` „Opinie dotyczą obsługi w Polsce.". CTA drugi ZOBACZ WSZYSTKIE OPINIE (link z oryginału). Chmurę tagów usuń. Bez gwiazdek, bez logo Google.
+13. FAQ (#faq). `label` NAJCZĘSTSZE PYTANIA, h2. Cztery pytania jako natywne `<details>`: `<summary>` w stylu h3, odpowiedź w `body`, linia włosowa między pozycjami, po prawej szary znak tekstowy „+" (otwarte: „−"), nie ikona. Pierwsze pytanie otwarte od startu.
+14. Kontakt (#kontakt). Układ 6+6, obie kolumny kończą się na tej samej wysokości. Lewa: `label` BEZPŁATNA KONSULTACJA, h2, akapit, `label` ZADZWOŃ DO NAS, telefon w `num2` jako link `tel:`, CTA drugi POZNAJ GRUPĘ INWESTYCYJNĄ KWADRAT (kwadrat.io), na dole zdjęcie 4:3 (Piotr i Ania). Prawa: formularz Imię i nazwisko, E-mail, Telefon (opcjonalnie), Co Cię interesuje (select: Inwestycja pod wynajem, Dom na wypoczynek, Mieszkanie na stałe, Jeszcze nie wiem), Wiadomość, CTA główny WYŚLIJ ZAPYTANIE, zgoda. Na mobile kolejność bez zmian: tekst, zdjęcie, formularz.
+15. Stopka. Linia lekka nad. W `small`: pełne dane rejestrowe spółki z oryginału, zdanie „Treści na stronie mają charakter informacyjny i nie stanowią porady prawnej, podatkowej ani inwestycyjnej.", www.kwadrat.io, biuro@kwadrat.io, link Polityka prywatności.
 
 ## Copy: zasady przenoszenia
 
@@ -148,7 +150,7 @@ Całe copy jest już w `docs/copy.md`, przeniesione z obecnej strony i oczyszczo
 
 ## Zdjęcia
 
-- Docelowe zdjęcia i PDF poradnika dostarcza Idzi do `public/img/` i `public/poradnik.pdf`.
+- Docelowe zdjęcia i PDF poradnika dostarcza Idzi. Źródła zdjęć leżą w `zdjecia/` pod nazwą miejsca na stronie, warianty do `public/img/` robi `npm run zdjecia` (kadr i punkt kadru w `scripts/zdjecia.mjs`). PDF do `public/poradnik.pdf`.
 - Do podglądu pobierz zdjęcia z listy na końcu `docs/copy.md` do `public/img/` i dodaj w PR listę z adnotacją „tymczasowe, do akceptacji". Jeśli pobranie się nie uda (brak sieci) albo zdjęcie jest wyraźnie stockowe lub generowane, wstaw placeholder `--surface` „Zdjęcie 3:2" i zgłoś to w PR.
 - Okładka poradnika z obecnej strony powstała poza tym systemem: oznacz ją w PR jako do wymiany.
 - Nigdy nie linkuj zdjęć z cudzego hostingu.
@@ -159,7 +161,7 @@ Dwa formularze: poradnik i kontakt. Dostawca domyślny: Web3Forms (DO POTWIERDZE
 
 - Honeypot przeciw spamowi, bez CAPTCHA.
 - Po wysłaniu poradnika: komunikat w `body` i link do `public/poradnik.pdf`. Do czasu dostarczenia pliku: jednostronicowy placeholder PDF wygenerowany w repo.
-- Pod każdym formularzem zgoda z oryginału plus zdanie z linkiem do `/polityka-prywatnosci`.
+- Pod każdym formularzem zgoda (treść w `site.ts`, do potwierdzenia z prawnikiem) plus zdanie z linkiem do `/polityka-prywatnosci`.
 - Strona `/polityka-prywatnosci`: szablon w stylu systemu z nagłówkiem i stopką, treść to wyłącznie „Treść w przygotowaniu." Nie pisz tekstu prawnego. Treść dostarczy Idzi.
 
 ## SEO i meta
@@ -173,7 +175,7 @@ Dwa formularze: poradnik i kontakt. Dostawca domyślny: Web3Forms (DO POTWIERDZE
 
 - Tailwind, Bootstrap, biblioteki komponentów, ikon, animacji, slidery, karuzele, parallax, animacje wejścia.
 - Tryb ciemny. Tło jest jedno: `--paper`.
-- Zaokrąglenia, cienie, ramki wokół bloków, karty z tłem, gradienty, ikony, emoji, gwiazdki.
+- Zaokrąglenia, cienie, ramki wokół bloków, karty z tłem, gradienty, ikony, emoji, gwiazdki. Znaki tekstowe z Mulish w FAQ („+", „−") i w liście wyboru („›") nie są ikonami i są dozwolone.
 - Czerwony jako tło czegokolwiek, kolor hovera, kolor błędu, kolor linku.
 - Krój inny niż Mulish, waga inna niż 400, 600, 700, kursywa.
 - Sticky CTA, pop-upy, własny baner cookies (jeśli potrzebny, osobne zadanie).

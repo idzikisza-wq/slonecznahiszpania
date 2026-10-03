@@ -1,9 +1,8 @@
 ---
-// 3. Poradnik (#poradnik): 6+6. Lewa: opis i lista atutów. Prawa: okładka i formularz.
-// Na mobile okładka ląduje nad tekstem.
+// 3. Poradnik (#poradnik): 6+6. Lewa: opis i lista atutów. Prawa: formularz od góry kolumny,
+// Imię i Nazwisko w jednym rzędzie.
 import SectionHead from './ui/SectionHead.astro';
 import List from './ui/List.astro';
-import Photo from './ui/Photo.astro';
 import Form from './ui/Form.astro';
 import Field from './ui/Field.astro';
 import { site } from '../content/site';
@@ -13,65 +12,30 @@ const { form } = guide;
 const formId = 'poradnik-formularz';
 ---
 
-<section class="section container guide" id="poradnik">
-  <div class="guide-text">
-    <SectionHead label={guide.label} title={guide.title} text={guide.text} />
-    <div class="mt-m">
-      <List items={guide.list} variant="plus" />
+<section class="section container" id="poradnik">
+  <div class="grid">
+    <div class="col-6">
+      <SectionHead label={guide.label} title={guide.title} text={guide.text} />
+      <div class="mt-m">
+        <List items={guide.list} variant="plus" />
+      </div>
+      <p class="small mt-m">{guide.note}</p>
     </div>
-    <p class="small mt-m">{guide.note}</p>
-  </div>
 
-  <div class="guide-cover">
-    <Photo image={guide.image} sizes="(min-width: 760px) 288px, calc(50vw - 36px)" />
-  </div>
-
-  <div class="guide-form">
-    <Form id={formId} subject={form.subject} submit={form.submit} consent={form.consent}>
-      <Field form={formId} name="imie" label={form.firstName} required autocomplete="given-name" />
-      <Field form={formId} name="nazwisko" label={form.lastName} required autocomplete="family-name" />
-      <Field form={formId} name="email" label={form.email} type="email" required autocomplete="email" />
-      <Fragment slot="success">
-        <p>{form.success}</p>
-        <p class="mt-s">
-          <a class="cta-2" href={form.pdf} download>{form.download}</a>
-        </p>
-      </Fragment>
-    </Form>
+    <div class="col-6">
+      <Form id={formId} subject={form.subject} submit={form.submit} consent={form.consent}>
+        <div class="field-row">
+          <Field form={formId} name="imie" label={form.firstName} required autocomplete="given-name" />
+          <Field form={formId} name="nazwisko" label={form.lastName} required autocomplete="family-name" />
+        </div>
+        <Field form={formId} name="email" label={form.email} type="email" required autocomplete="email" />
+        <Fragment slot="success">
+          <p>{form.success}</p>
+          <p class="mt-s">
+            <a class="cta-2" href={form.pdf} download>{form.download}</a>
+          </p>
+        </Fragment>
+      </Form>
+    </div>
   </div>
 </section>
-
-<style>
-  .guide {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-template-areas:
-      'text text text text text text cover cover cover cover cover cover'
-      'text text text text text text form form form form form form';
-    grid-template-rows: auto 1fr;
-    column-gap: var(--gutter);
-    row-gap: var(--space-l);
-  }
-
-  .guide-text {
-    grid-area: text;
-  }
-
-  .guide-cover {
-    grid-area: cover;
-    /* okładka na 3 z 6 kolumn prawej połowy */
-    width: calc(50% - var(--gutter) / 2);
-  }
-
-  .guide-form {
-    grid-area: form;
-  }
-
-  @media (max-width: 759.98px) {
-    .guide {
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-areas: 'cover' 'text' 'form';
-      grid-template-rows: none;
-    }
-  }
-</style>

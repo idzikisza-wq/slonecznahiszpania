@@ -1,5 +1,5 @@
 ---
-// Kafelki tekstowe: linia mocna nad, opcjonalnie label albo numer kpi-mid, h3, akapit, CTA drugi.
+// Kafelki tekstowe: linia mocna nad, opcjonalnie label albo numer kpi-mid, h3, akapit.
 // Każdy rząd to osobna siatka z subgridem, części kafelków wyrównane w poziomie.
 interface Tile {
   label?: string;
@@ -11,16 +11,15 @@ interface Tile {
 interface Props {
   items: Tile[];
   span: 3 | 4 | 6;
-  cta?: { label: string; href: string };
 }
 
-const { items, span, cta } = Astro.props;
+const { items, span } = Astro.props;
 const perRow = 12 / span;
 const rowsOfTiles = Array.from({ length: Math.ceil(items.length / perRow) }, (_, i) =>
   items.slice(i * perRow, (i + 1) * perRow),
 );
 const first = items[0];
-const parts = (first.label ? 1 : 0) + (first.number ? 1 : 0) + 2 + (cta ? 1 : 0);
+const parts = (first.label ? 1 : 0) + (first.number ? 1 : 0) + 2;
 ---
 
 {
@@ -32,11 +31,6 @@ const parts = (first.label ? 1 : 0) + (first.number ? 1 : 0) + 2 + (cta ? 1 : 0)
           {item.number && <p class="kpi-mid">{item.number}</p>}
           <h3>{item.title}</h3>
           <p>{item.text}</p>
-          {cta && (
-            <a class="cta-2 tile-cta" href={cta.href}>
-              {cta.label}
-            </a>
-          )}
         </li>
       ))}
     </ul>

@@ -53,18 +53,22 @@ Miejsca na stronie i oczekiwane proporcje:
 
 | Plik źródłowy w `zdjecia/` | Miejsce | Kadr |
 | --- | --- | --- |
-| `hero.jpg` | hero, pod kafelkami | 3:2 (skrypt przycina, zostawia dół kadru) |
-| `oferta-malaga.jpg` | oferta Málaga Centro | 4:3 (przycięcie do środka) |
+| `hero.jpg` | hero, pod kafelkami | 3:2 |
+| `lokalizacje.jpg` | Lokalizacje, obok tabeli | 4:3 |
+| `oferta-malaga.jpg` | oferta Málaga Centro | 4:3 |
 | `oferta-mijas.jpg` | oferta Mijas | 4:3 |
 | `oferta-marbella.jpg` | oferta Marbella | 4:3 |
-| `poradnik-okladka.jpg` | okładka przy formularzu poradnika | naturalne proporcje pliku |
+| `obsluga.jpg` | Obsługa 360°, obok listy | 4:3 |
+| `kontakt.jpg` | Kontakt, pod telefonem | 4:3 |
 
-1. Wrzuć plik do `zdjecia/` pod nazwą z tabeli (jpg, jpeg, png albo webp). Najlepiej co najmniej 1600 px szerokości.
-2. Uruchom `npm run zdjecia`. Skrypt kadruje, zapisuje WebP i JPG w szerokościach 800 i 1600 px do `public/img/` i usuwa metadane (EXIF, GPS). Mniejsze źródło zapisze w jego własnej szerokości i wypisze ostrzeżenie.
-3. Jeśli zmieniły się proporcje okładki, popraw `ratio` przy `guideCover` w `src/content/site.ts`. Tam też są teksty alternatywne (`alt`) wszystkich zdjęć.
+1. Wrzuć plik do `zdjecia/` pod nazwą z tabeli (jpg, jpeg, png albo webp). Najlepiej co najmniej 1600 px szerokości po kadrze. Zdjęcia z iPhone'a w HEIC najpierw wyeksportuj jako JPG.
+2. Uruchom `npm run zdjecia`. Skrypt kadruje, zapisuje WebP i JPG w szerokościach 800 i 1600 px do `public/img/` i usuwa metadane (EXIF, GPS). Mniejsze źródło zapisze także w jego pełnej szerokości i wypisze ostrzeżenie.
+3. Jeśli kadr tnie coś ważnego, przesuń punkt kadru (`focus` przy danym miejscu w `scripts/zdjecia.mjs`, od 0 do 1) i uruchom skrypt ponownie. Teksty alternatywne (`alt`) zdjęć są w `src/content/site.ts`.
 4. Zrób commit plików z `zdjecia/` i `public/img/`.
 
-Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Folder `zdjecia/do-decyzji/` jest pomijany przez skrypt i nie trafia na stronę.
+Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę.
+
+Oferty to dziś przykładowe kierunki i sekcja jest poza menu. Prawdziwą ofertę wpisujesz w `site.ts` (miejsce, tytuł, parametry, cena, `href` z linkiem do oferty) i dodajesz jej zdjęcie jak wyżej.
 
 ## Podmiana PDF poradnika
 

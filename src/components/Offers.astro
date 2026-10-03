@@ -1,6 +1,7 @@
 ---
 // 9. Oferty (#oferty): trzy oferty 4+4+4. Zdjęcie 4:3, lokalizacja, tytuł, parametry, cena.
-// Bez ramek i przycisków.
+// Bez ramek i przycisków. Z polem href tytuł staje się linkiem do oferty. Sekcja jest poza menu,
+// dopóki przykładowe kierunki nie zostaną zastąpione prawdziwymi ofertami.
 import SectionHead from './ui/SectionHead.astro';
 import Photo from './ui/Photo.astro';
 import { site } from '../content/site';
@@ -19,7 +20,7 @@ const { offers } = site;
             sizes="(min-width: 760px) min(384px, calc((100vw - 200px) / 3)), calc(100vw - 48px)"
           />
           <p class="label tile-after-photo">{offer.location}</p>
-          <h3>{offer.title}</h3>
+          <h3>{offer.href ? <a class="offer-link" href={offer.href}>{offer.title}</a> : offer.title}</h3>
           <p class="small">{offer.details.join(' · ')}</p>
           <p class="num2 tile-price nowrap">{offer.price}</p>
         </li>
@@ -27,3 +28,13 @@ const { offers } = site;
     }
   </ul>
 </section>
+
+<style>
+  .offer-link {
+    text-decoration: none;
+  }
+
+  .offer-link:hover {
+    color: var(--muted);
+  }
+</style>

@@ -287,6 +287,11 @@ p {
   .grid > * {
     grid-column: 1 / -1;
   }
+
+  /* Zdjęcie przy tekście ląduje nad tekstem */
+  .grid > .media-first {
+    order: -1;
+  }
 }
 
 /* Sekcje */
@@ -343,12 +348,6 @@ p {
 
 .tile > * + * {
   margin-top: var(--space-xs);
-}
-
-.tile > .tile-cta {
-  margin-top: var(--space-s);
-  align-self: start;
-  justify-self: start;
 }
 
 .tile > .tile-after-photo {
@@ -547,8 +546,26 @@ figcaption {
 
 /* Formularze */
 
-.field + .field {
+.field + .field,
+.field-row + .field {
   margin-top: var(--space-m);
+}
+
+/* Dwa krótkie pola w jednym rzędzie (6+6 w kolumnie), na mobile jedno pod drugim */
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-m) var(--gutter);
+}
+
+.field-row > .field + .field {
+  margin-top: 0;
+}
+
+@media (max-width: 759.98px) {
+  .field-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .field-label {
@@ -579,6 +596,33 @@ figcaption {
 textarea.input {
   min-height: 160px;
   resize: vertical;
+}
+
+/* Lista wyboru bez natywnego wyglądu: ten sam font, wysokość i linia co pozostałe pola.
+   Po prawej znak tekstowy „›" z Mulish obrócony w dół, nie ikona. */
+.select {
+  position: relative;
+}
+
+.select .input {
+  -webkit-appearance: none;
+  appearance: none;
+  height: calc(1.65em + 29px);
+  padding-right: 48px;
+  cursor: pointer;
+}
+
+.select::after {
+  content: "›";
+  content: "›" / "";
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  color: var(--muted);
+  font-size: 24px;
+  line-height: 1;
+  pointer-events: none;
+  transform: translateY(-50%) rotate(90deg);
 }
 
 @media (max-width: 759.98px) {

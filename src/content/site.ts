@@ -1,4 +1,6 @@
-// Całe copy strony w jednym miejscu. Źródło: docs/copy.md, przeniesione 1:1.
+// Całe copy strony w jednym miejscu. To jest aktualne, zatwierdzone copy.
+// Punkt wyjścia: docs/copy.md (copy starej strony). Zmiany po przeglądzie Idziego
+// z 3.10.2026 są wprowadzone tutaj, docs/copy.md zostaje jako zapis stanu starej strony.
 // Etykiety zapisujemy zdaniowo: wersaliki robi CSS (klasa .label).
 // Twarde spacje (przed „·", po jednoliterowych spójnikach, w liczbach)
 // dokłada automatycznie funkcja typo() na końcu pliku. Pisz zwykłe spacje.
@@ -30,28 +32,24 @@ const COMPANY = {
 
 // Zdjęcia: źródła w zdjecia/, warianty w public/img/{name}-{szerokość}.webp i .jpg
 // (generuje npm run zdjecia). ratio musi zgadzać się z kadrem w scripts/zdjecia.mjs.
-// Brak plików = szare pole z podpisem.
+// Brak plików = szare pole z podpisem. Alt opisuje to, co widać na zdjęciu.
 const IMAGES = {
   hero: {
     name: 'hero',
     ratio: [3, 2],
-    // DO POTWIERDZENIA: alt z copy.md opisywał stare zdjęcie (apartament), nowe to zachód słońca
     alt: 'Zachód słońca nad Morzem Śródziemnym i nadmorska promenada z palmami',
     placeholder: 'Zdjęcie 3:2',
   },
-  guideCover: {
-    name: 'poradnik-okladka',
-    ratio: [3, 4],
-    // DO POTWIERDZENIA: alt z copy.md: „Okładka bezpłatnego poradnika: Bezpieczne inwestowanie
-    // w nieruchomości w Hiszpanii". Nowe zdjęcie to nie okładka z tytułem, więc alt opisuje zdjęcie.
-    alt: 'Kobieta i mężczyzna na deptaku w centrum Málagi',
-    placeholder: 'Zdjęcie 3:4',
+  locations: {
+    name: 'lokalizacje',
+    ratio: [4, 3],
+    // DO POTWIERDZENIA: jaka to miejscowość (Frigiliana?), wtedy można ją dopisać do altu
+    alt: 'Białe miasteczko na zboczu gór w Andaluzji',
+    placeholder: 'Zdjęcie 4:3',
   },
   offerMalaga: {
     name: 'oferta-malaga',
     ratio: [4, 3],
-    // Alt z copy.md: „Apartament z tarasem, Málaga Centro". Zdjęcie to selfie przed budynkiem
-    // (decyzja Idziego), więc alt opisuje to, co na nim widać.
     alt: 'Trzy osoby przed białym apartamentowcem z basenem i palmami',
     placeholder: 'Zdjęcie 4:3',
   },
@@ -64,7 +62,19 @@ const IMAGES = {
   offerMarbella: {
     name: 'oferta-marbella',
     ratio: [4, 3],
-    alt: 'Penthouse z panoramą, Marbella',
+    alt: 'Biały apartamentowiec z dużymi tarasami i palmami',
+    placeholder: 'Zdjęcie 4:3',
+  },
+  service: {
+    name: 'obsluga',
+    ratio: [4, 3],
+    alt: 'Widok z tarasu na ogród z palmami i biały apartamentowiec',
+    placeholder: 'Zdjęcie 4:3',
+  },
+  contact: {
+    name: 'kontakt',
+    ratio: [4, 3],
+    alt: 'Piotr i Ania na deptaku w centrum Málagi',
     placeholder: 'Zdjęcie 4:3',
   },
 };
@@ -83,21 +93,16 @@ const raw = {
 
   header: {
     logoAlt: 'Kwadrat Nieruchomości',
-    tagline: 'Hiszpania · Andaluzja · Málaga',
     menu: 'Menu',
     navLabel: 'Nawigacja główna',
     skipLink: 'Przejdź do treści',
     nav: [
-      { label: 'Oferty', href: '/#oferty' },
-      { label: 'Lokalizacje', href: '/#lokalizacje' },
       { label: 'Dlaczego Hiszpania', href: '/#dlaczego-hiszpania' },
-      { label: 'Dlaczego Andaluzja', href: '/#dlaczego-andaluzja' },
       { label: 'Proces zakupu', href: '/#proces' },
-      { label: 'Bezpieczeństwo', href: '/#bezpieczenstwo' },
-      { label: 'Poradnik', href: '/#poradnik' },
       { label: 'Opinie', href: '/#opinie' },
       { label: 'FAQ', href: '/#faq' },
     ],
+    cta: { label: 'Konsultacja', href: '/#kontakt' },
   },
 
   hero: {
@@ -126,15 +131,13 @@ const raw = {
       'Najczęstsze ryzyka i jak je weryfikujemy przed zakupem',
     ],
     note: 'PDF · dostęp natychmiast po zapisie',
-    image: IMAGES.guideCover,
     form: {
       firstName: 'Imię',
       lastName: 'Nazwisko',
       email: 'E-mail',
       submit: 'Pobierz bezpłatny poradnik',
-      consent:
-        'Zapisując się, zgadzasz się na kontakt od Kwadrat Nieruchomości w sprawie Twojego zapytania. Nie wysyłamy newsletterów.',
-      // NOWE, DO AKCEPTACJI: komunikat po zapisie
+      // DO POTWIERDZENIA z prawnikiem: treść zgody
+      consent: 'Wysyłając formularz, zgadzasz się na przesłanie poradnika i kontakt w tej sprawie.',
       success: 'Dziękujemy. Poradnik jest gotowy do pobrania.',
       download: 'Pobierz poradnik (PDF)',
       pdf: '/poradnik.pdf',
@@ -163,7 +166,7 @@ const raw = {
         text: 'Nieruchomości do wygodnego życia przez cały rok, z dobrym dojazdem, szkołami i codzienną infrastrukturą.',
       },
     ],
-    cta: { label: 'Porozmawiajmy', href: '#kontakt' },
+    cta: { label: 'Umów bezpłatną konsultację', href: '#kontakt' },
   },
 
   whySpain: {
@@ -173,15 +176,15 @@ const raw = {
     items: [
       {
         title: 'Majątek w euro, poza polskim rynkiem',
-        text: 'Nieruchomość w strefie euro i w UE to dywersyfikacja: zabezpieczenie przed ryzykiem walutowym i koncentracją całego majątku w jednym kraju.',
+        text: 'Nieruchomość w strefie euro i w UE to dywersyfikacja: część majątku poza polskim rynkiem. Wiąże się z ryzykiem kursu, które omawiamy poniżej.',
       },
       {
         title: 'Południe Europy, daleko od frontu',
-        text: 'Hiszpania leży na zachodnim krańcu NATO i UE. Konflikt we wschodniej Europie nie przekłada się na codzienne życie ani na rynek nieruchomości na Costa del Sol.',
+        text: 'Hiszpania leży na zachodnim krańcu UE i NATO, w strefie euro. Costa del Sol jest daleko od konfliktu we wschodniej Europie.',
       },
       {
         title: 'Najem, który działa cały rok',
-        text: 'Málaga i wybrzeże Axarquía przyciągają turystów, emerytów i pracujących zdalnie w każdej porze roku: przychody z wynajmu nie kończą się z sezonem.',
+        text: 'Málaga i wybrzeże Axarquía mają popyt także poza latem: turyści, emeryci, osoby pracujące zdalnie. Skalę popytu sprawdzamy dla konkretnej oferty.',
       },
     ],
     risks: {
@@ -189,10 +192,6 @@ const raw = {
       title: 'Ryzyka nazywamy wprost',
       text: 'Każde z poniższych zagrożeń sprawdzamy w ramach weryfikacji oferty. Zanim podejmiesz decyzję, znasz odpowiedź.',
       items: [
-        {
-          title: 'Presja migracyjna na południu UE',
-          text: 'Realna, ale skoncentrowana na enklawach Ceuta i Melilla oraz na trasach przez Morze Alborán, nie na rynkach mieszkaniowych Costa del Sol.',
-        },
         {
           title: 'Susza i dostęp do wody',
           text: 'Andaluzja odczuwa zmiany klimatu. Sprawdzamy źródło zaopatrzenia w wodę i plany gminy: te czynniki realnie wpływają na wartość nieruchomości.',
@@ -209,50 +208,34 @@ const raw = {
     },
   },
 
+  // Jedna sekcja zamiast dwóch. Zdania o Costa Blanca zmiękczone do tego, co da się obronić.
+  // NOWE, DO AKCEPTACJI: teksty bloków 1, 2 i 4 oraz linijka ze źródłem
   whyAndalusia: {
     label: 'Wybór regionu',
     title: 'Dlaczego Andaluzja, a nie Costa Blanca',
     lead: 'Oba wybrzeża sprzedają słońce: różni je to, co dzieje się poza sezonem.',
     items: [
       {
-        title: 'Sezon najmu nie kończy się we wrześniu',
-        text: 'Costa Blanca żyje ruchem wakacyjnym: po sezonie popyt wyraźnie zamiera. Costa del Sol i Axarquía mają najem całoroczny: turyści poza sezonem, emeryci, studenci i pracujący zdalnie w Máladze. To przekłada się na stabilniejszy przychód z wynajmu.',
+        title: 'Sezonowość popytu',
+        text: 'Na obu wybrzeżach szczyt najmu przypada na lato, a w miejscowościach z przewagą domów wakacyjnych ruch po sezonie wyraźnie spada. Obłożenie poza sezonem sprawdzamy dla konkretnej miejscowości.',
       },
       {
         title: 'Málaga to miasto, nie kurort',
-        text: 'Alicante to głównie przystań dla ruchu wakacyjnego. Málaga jest czwartym co do wielkości miastem Hiszpanii, centrum technologicznym, z portem, uczelniami i galeriami. Miasto utrzymuje rynek nieruchomości niezależnie od turystyki.',
+        text: 'Málaga jest szóstym co do wielkości miastem Hiszpanii, z ok. 586 tys. mieszkańców w 2024 roku. To centrum technologiczne z portem, uczelniami i galeriami. Popyt na mieszkania tworzą tu nie tylko turyści.',
       },
       {
         title: 'Lotnisko z bezpośrednimi lotami z Polski',
-        text: 'Málaga (AGP) obsługuje znacznie więcej połączeń niż Alicante, w tym bezpośrednie loty z Warszawy, Krakowa i innych polskich miast. Tani i krótki dojazd sprawia, że częściej korzystasz z własnej nieruchomości.',
+        text: 'Lotnisko w Máladze (AGP) ma bezpośrednie loty z polskich miast. Aktualne trasy sprawdzisz na stronie lotniska.',
       },
       {
-        title: 'Mniejsza podaż, wyższy standard przestrzeni',
-        text: 'Costa Blanca to dziesiątki lat masowej zabudowy: blokowiska apartamentów blisko siebie i wysoka konkurencja przy wynajmie. Na Costa del Sol i w Axarquía przeważa kameralna, andaluzyjska zabudowa i niższa gęstość.',
+        title: 'Zabudowa i konkurencja przy najmie',
+        text: 'Na obu wybrzeżach są gęste osiedla apartamentów i spokojne okolice z niską zabudową. Różnice bywają duże nawet w jednej miejscowości, dlatego gęstość zabudowy i konkurencję przy najmie sprawdzamy dla konkretnej oferty.',
       },
     ],
-    compare: {
-      label: 'Andaluzja vs. Costa Blanca',
-      title: 'W liczbach i na co dzień',
-      text: 'Porównanie, które przeprowadzamy z każdym klientem, który rozważa oba wybrzeża.',
-      items: [
-        {
-          title: 'Całoroczne życie vs. sezonowość',
-          text: 'Na Costa del Sol restauracje, szkoły i usługi pracują cały rok. Na wielu miejscowościach Costa Blanca po październiku zamykają się na sezon, i trudniej wynająć albo sprzedać poza nim.',
-        },
-        {
-          title: 'Dywersyfikacja popytu',
-          text: 'Málaga łączy turystów, studentów, pracowników technologicznych i stałych mieszkańców. Costa Blanca opiera się głównie na turystyce i emerytach zagranicznych, jednym źródle popytu.',
-        },
-        {
-          title: 'Axarquía: przystępne ceny, autentyczny klimat',
-          text: 'Torre del Mar, Caleta de Vélez, Lagos czy Nerja oferują ceny niższe niż Marbella czy popularne kurorty Costa Blanca, przy autentycznej, andaluzyjskiej atmosferze.',
-        },
-        {
-          title: 'Wartość przy odsprzedaży',
-          text: 'Rynek wokół Málagi rośnie na fali migracji pracowników i inwestycji w miasto. Na przesyconym rynku Costa Blanca odsprzedaż bywa dłuższa i pod presją cenową.',
-        },
-      ],
+    source: {
+      lead: 'Liczba mieszkańców:',
+      label: 'Ayuntamiento de Málaga, Basic city facts',
+      href: 'https://openforbusiness.malaga.eu/en/basic-city-facts/',
     },
   },
 
@@ -265,15 +248,16 @@ const raw = {
       { key: 'Málaga', value: 'Kultura, port i rynek działający przez cały rok.' },
       { key: 'Torre del Mar', value: 'Długa promenada, plaże i przystępne ceny.' },
       { key: 'Caleta de Vélez', value: 'Port rybacki, marina i kameralna zabudowa.' },
-      { key: 'Lagos', value: 'Cisza, andaluzyjski klimat i widoki na wzgórza.' },
+      { key: 'Lagos (prowincja Málaga)', value: 'Cisza, andaluzyjski klimat i widoki na wzgórza.' },
       { key: 'Nerja', value: 'Balcón de Europa, zatoki i dojrzały rynek najmu.' },
     ],
+    image: IMAGES.locations,
   },
 
   process: {
     label: 'Jasny proces',
     title: 'Od pierwszej rozmowy do kluczy',
-    lead: 'Każdy etap ma właściciela, termin i jasny następny krok.',
+    lead: 'Cztery etapy. Po każdym wiesz, co dalej.',
     steps: [
       { number: '1', title: 'Rozmowa i plan', text: 'Poznajemy Twój cel, budżet i oczekiwania wobec lokalizacji.' },
       { number: '2', title: 'Selekcja ofert', text: 'Przeszukujemy rynek i przedstawiamy krótką, dopasowaną listę.' },
@@ -282,6 +266,8 @@ const raw = {
     ],
   },
 
+  // Do zastąpienia prawdziwymi ofertami: zdjęcie 4:3, miejsce, parametry, cena z oferty
+  // i link (pole href, wtedy tytuł staje się linkiem). Do tego czasu sekcja jest poza menu.
   offers: {
     label: 'Przykładowe kierunki',
     title: 'Nieruchomości warte rozmowy',
@@ -293,6 +279,7 @@ const raw = {
         details: ['2 sypialnie', '78 m²', 'widok na miasto'],
         price: '389 000 €',
         image: IMAGES.offerMalaga,
+        href: undefined as string | undefined,
       },
       {
         location: 'Mijas',
@@ -300,6 +287,7 @@ const raw = {
         details: ['3 sypialnie', '164 m²', 'prywatny basen'],
         price: '695 000 €',
         image: IMAGES.offerMijas,
+        href: undefined as string | undefined,
       },
       {
         location: 'Marbella',
@@ -307,6 +295,7 @@ const raw = {
         details: ['3 sypialnie', '112 m²', 'duży taras'],
         price: '825 000 €',
         image: IMAGES.offerMarbella,
+        href: undefined as string | undefined,
       },
     ],
   },
@@ -314,54 +303,43 @@ const raw = {
   service: {
     label: 'Obsługa 360°',
     title: 'W Hiszpanii kupujesz. My pilnujemy reszty.',
-    lists: [
-      [
-        'Wyszukanie i selekcja ofert',
-        'Weryfikacja dokumentów i obciążeń',
-        'Koordynacja prawnika i notariusza',
-      ],
-      [
-        'NIE, rachunek bankowy i pełnomocnictwa',
-        'Wsparcie w finansowaniu',
-        'Odbiór i opieka po zakupie',
-      ],
+    list: [
+      'Wyszukanie i selekcja ofert',
+      'Weryfikacja dokumentów i obciążeń z prawnikiem i notariuszem',
+      'NIE, rachunek bankowy i pełnomocnictwa',
+      // DO POTWIERDZENIA: punkt zostaje tylko, jeśli to realna usługa
+      'Wsparcie w finansowaniu',
+      'Odbiór i opieka po zakupie',
     ],
-  },
-
-  safety: {
-    label: 'Bezpieczeństwo formalne',
-    title: 'Bez skrótów. Bez ukrytych kosztów.',
-    text: 'Przed decyzją otrzymujesz jasny obraz stanu prawnego, harmonogramu i wszystkich kosztów zakupu. Dokumenty omawiamy po polsku.',
-    rows: [
-      { key: 'Spółka', value: COMPANY.legalName },
-      { key: 'NIP', value: COMPANY.nip },
-      { key: 'KRS', value: COMPANY.krs },
-    ],
+    image: IMAGES.service,
   },
 
   reviews: {
     label: 'Opinie klientów',
     title: 'Zaufanie potwierdzone w Google',
-    text: 'Kwadrat Nieruchomości obsługuje klientów w Polsce od lat. Te same standardy przenosimy do Hiszpanii.',
+    // DO UZUPEŁNIENIA: „od lat" zamienić na rok założenia z dokumentu firmy
+    text: 'Grupa Inwestycyjna Kwadrat obsługuje klientów w Polsce od lat. Te same standardy przenosimy do Hiszpanii.',
     rating: {
       label: 'Ocena Google',
       value: '4,9',
       scale: '/ 5',
+      // DO UZUPEŁNIENIA: data odczytu liczby opinii
       note: 'Na podstawie 120 opinii w wizytówce Google',
     },
-    // Cudzysłowy „ ” dokłada szablon. Wykrzyknik w opinii 1 zostaje: to cytat klienta.
+    // Każdy cytat skrócony do jednego zdania z oryginalnej opinii. Cudzysłowy „ ” dokłada szablon.
     quotes: [
       {
-        text: 'Chciałabym wyrazić szczerą wdzięczność pani Marzenie za wysoki profesjonalizm, odpowiedzialność i troskliwe podejście do klienta. Na każdym etapie transakcji czułam jej pełne zaangażowanie, kompetencję i chęć pomocy. Gorąco polecam!',
+        text: 'Chciałabym wyrazić szczerą wdzięczność pani Marzenie za wysoki profesjonalizm, odpowiedzialność i troskliwe podejście do klienta.',
         author: 'Anna Nik',
         meta: '3 miesiące temu · opinia Google',
       },
       {
-        text: 'Polecam współpracę, usługi na wysokim poziomie. Pracowałem z panem Arturem Szparagą i jestem bardzo zadowolony.',
+        text: 'Polecam współpracę, usługi na wysokim poziomie.',
         author: 'Kanan Mammadov',
         meta: '4 lata temu · opinia Google',
       },
     ],
+    quotesNote: 'Opinie dotyczą obsługi w Polsce.',
     cta: {
       label: 'Zobacz wszystkie opinie',
       href: 'https://www.google.com/maps/search/Kwadrat+Nieruchomo%C5%9Bci+Otwock',
@@ -400,25 +378,26 @@ const raw = {
     title: 'Zacznijmy od Twojego planu',
     text: 'Napisz, czego szukasz i jaki budżet rozważasz. Wrócimy z pytaniami, które pozwolą dobrze rozpocząć poszukiwania.',
     phoneLabel: 'Zadzwoń do nas',
-    cta: { label: 'Poznaj Kwadrat Nieruchomości', href: COMPANY.website },
+    cta: { label: 'Poznaj Grupę Inwestycyjną Kwadrat', href: COMPANY.website },
+    image: IMAGES.contact,
     form: {
       name: 'Imię i nazwisko',
       email: 'E-mail',
+      phone: 'Telefon',
       interest: 'Co Cię interesuje?',
       interestPlaceholder: 'Wybierz cel zakupu',
-      interestOptions: ['Inwestycja pod wynajem', 'Dom na wypoczynek', 'Przeprowadzka na stałe'],
+      interestOptions: ['Inwestycja pod wynajem', 'Dom na wypoczynek', 'Mieszkanie na stałe', 'Jeszcze nie wiem'],
       message: 'Wiadomość',
       submit: 'Wyślij zapytanie',
-      // DO POTWIERDZENIA: docs/copy.md podaje zgodę tylko przy poradniku, używamy jej 1:1 także tutaj
+      // DO POTWIERDZENIA z prawnikiem: treść zgody i zdanie o newsletterach
       consent:
-        'Zapisując się, zgadzasz się na kontakt od Kwadrat Nieruchomości w sprawie Twojego zapytania. Nie wysyłamy newsletterów.',
-      // NOWE, DO AKCEPTACJI: komunikat po wysłaniu
+        'Wysyłając formularz, zgadzasz się na kontakt od Grupy Inwestycyjnej Kwadrat w sprawie Twojego zapytania. Nie wysyłamy newsletterów.',
       success: 'Dziękujemy. Zapytanie zostało wysłane.',
       subject: 'Zapytanie ze strony slonecznahiszpania.pl',
     },
   },
 
-  // NOWE, DO AKCEPTACJI: komunikaty wspólne dla obu formularzy
+  // Komunikaty wspólne dla obu formularzy
   forms: {
     privacyLead: 'Szczegóły przetwarzania danych:',
     privacyLink: 'Polityka prywatności',
@@ -434,6 +413,8 @@ const raw = {
       `NIP: ${COMPANY.nip} · REGON: ${COMPANY.regon} · KRS: ${COMPANY.krs} · kapitał zakładowy: ${COMPANY.capital}`,
       COMPANY.court,
     ],
+    disclaimer:
+      'Treści na stronie mają charakter informacyjny i nie stanowią porady prawnej, podatkowej ani inwestycyjnej.',
     privacy: { label: 'Polityka prywatności', href: '/polityka-prywatnosci' },
   },
 

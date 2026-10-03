@@ -1,5 +1,5 @@
 ---
-// Stopka: linia lekka nad, dane rejestrowe spółki w small. Bez logo.
+// Stopka: linia lekka nad, dane rejestrowe spółki i zastrzeżenie w small. Bez logo.
 import { site } from '../content/site';
 
 const { footer, company, contact } = site;
@@ -13,6 +13,7 @@ const SEP = '\u00a0· ';
         <p class="small">{line}</p>
       ))
     }
+    <p class="small mt-s">{footer.disclaimer}</p>
     <p class="small footer-links">
       <a href={company.website}>{company.websiteLabel}</a>{SEP}<a href={`mailto:${contact.email}`}>{contact.email}</a>{
         SEP

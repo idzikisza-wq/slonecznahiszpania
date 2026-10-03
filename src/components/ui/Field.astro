@@ -1,11 +1,12 @@
 ---
 // Pole formularza: etykieta label nad polem, tło surface, dolna linia.
-// Komunikat błędu (small, ink) wstawia skrypt formularza pod polem.
+// Lista wyboru bez natywnego wyglądu (Safari podmienia w nim font na systemowy),
+// po prawej znak tekstowy w Mulish. Komunikat błędu (small, ink) wstawia skrypt formularza.
 interface Props {
   form: string;
   name: string;
   label: string;
-  type?: 'text' | 'email' | 'textarea' | 'select';
+  type?: 'text' | 'email' | 'tel' | 'textarea' | 'select';
   required?: boolean;
   autocomplete?: string;
   placeholderOption?: string;
@@ -23,14 +24,16 @@ const id = `${form}-${name}`;
     type === 'textarea' ? (
       <textarea class="input" id={id} name={name} rows="5" required={required} />
     ) : type === 'select' ? (
-      <select class="input" id={id} name={name} required={required}>
-        <option value="" selected disabled={required}>
-          {placeholderOption}
-        </option>
-        {options.map((option) => (
-          <option value={option}>{option}</option>
-        ))}
-      </select>
+      <div class="select">
+        <select class="input" id={id} name={name} required={required}>
+          <option value="" selected disabled={required}>
+            {placeholderOption}
+          </option>
+          {options.map((option) => (
+            <option value={option}>{option}</option>
+          ))}
+        </select>
+      </div>
     ) : (
       <input class="input" id={id} name={name} type={type} required={required} autocomplete={autocomplete} />
     )

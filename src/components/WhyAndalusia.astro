@@ -1,11 +1,12 @@
 ---
-// 6. Dlaczego Andaluzja (#dlaczego-andaluzja): cztery kafelki 6+6, podsekcja z porównaniem.
+// 6. Dlaczego Andaluzja (#dlaczego-andaluzja): jedna sekcja, cztery kafelki tekstowe 6+6
+// (sezonowość, Málaga jako miasto, lotnisko, zabudowa), pod nimi źródło liczby mieszkańców.
 import SectionHead from './ui/SectionHead.astro';
 import TextTiles from './ui/TextTiles.astro';
 import { site } from '../content/site';
 
 const { whyAndalusia } = site;
-const { compare } = whyAndalusia;
+const { source } = whyAndalusia;
 ---
 
 <section class="section container" id="dlaczego-andaluzja">
@@ -13,11 +14,18 @@ const { compare } = whyAndalusia;
   <div class="mt-l">
     <TextTiles items={whyAndalusia.items} span={6} />
   </div>
-
-  <div class="subsection">
-    <SectionHead label={compare.label} title={compare.title} text={compare.text} level="h3" />
-    <div class="mt-l">
-      <TextTiles items={compare.items} span={6} />
-    </div>
-  </div>
+  <p class="small mt-m">
+    {source.lead} <a class="source-link" href={source.href}>{source.label}</a>.
+  </p>
 </section>
+
+<style>
+  .source-link {
+    color: inherit;
+    text-underline-offset: 3px;
+  }
+
+  .source-link:hover {
+    color: var(--ink);
+  }
+</style>

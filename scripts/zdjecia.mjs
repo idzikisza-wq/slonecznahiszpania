@@ -3,8 +3,9 @@
 //
 // Plik źródłowy nazywa się jak miejsce na stronie (hero.jpg, oferta-mijas.jpg...).
 // Skrypt kadruje do proporcji miejsca, zapisuje WebP i JPG w szerokościach 800 i 1600
-// (albo w szerokości źródła, jeśli jest mniejsze) i usuwa metadane (EXIF, GPS).
-// Folder zdjecia/do-decyzji/ jest pomijany.
+// (mniejsze źródło także w jego pełnej szerokości) i usuwa metadane (EXIF, GPS).
+// Warianty miejsc, których już nie ma na liście, są usuwane z public/img.
+// Podfoldery w zdjecia/ (np. do-decyzji/) są pomijane.
 // sharp instaluje się razem z Astro (opcjonalna zależność), osobna instalacja niepotrzebna.
 
 import { readdir, unlink } from 'node:fs/promises';
@@ -15,19 +16,28 @@ const SRC = 'zdjecia';
 const OUT = path.join('public', 'img');
 const WIDTHS = [800, 1600];
 
-// ratio null = naturalne proporcje pliku. position: która część zostaje przy kadrowaniu.
+// ratio null = naturalne proporcje pliku.
+// focus [x, y]: gdzie leży kadr w nadmiarze zdjęcia, od 0 (lewo, góra) do 1 (prawo, dół).
 const SLOTS = {
-  hero: { ratio: [3, 2], position: 'bottom' },
-  'oferta-malaga': { ratio: [4, 3], position: 'centre' },
-  'oferta-mijas': { ratio: [4, 3], position: 'centre' },
-  'oferta-marbella': { ratio: [4, 3], position: 'centre' },
-  'poradnik-okladka': { ratio: null, position: 'centre' },
+  hero: { ratio: [3, 2], focus: [0.5, 1] },
+  lokalizacje: { ratio: [4, 3], focus: [0.5, 0.56] },
+  'oferta-malaga': { ratio: [4, 3], focus: [0.5, 0.5] },
+  'oferta-mijas': { ratio: [4, 3], focus: [0.5, 0.5] },
+  'oferta-marbella': { ratio: [4, 3], focus: [0.5, 0.69] },
+  obsluga: { ratio: [4, 3], focus: [0.5, 0.28] },
+  kontakt: { ratio: [4, 3], focus: [0.5, 0.89] },
 };
 
 const sources = await readdir(SRC, { withFileTypes: true });
 const outputs = await readdir(OUT).catch(() => []);
+const isSlotFile = (file, slot) => new RegExp(`^${slot}-\\d+\\.(jpg|webp)$`).test(file);
 
-for (const [slot, { ratio, position }] of Object.entries(SLOTS)) {
+for (const old of outputs.filter((f) => !Object.keys(SLOTS).some((slot) => isSlotFile(f, slot)))) {
+  await unlink(path.join(OUT, old));
+  console.log(`${old}: usunięty (miejsca nie ma już na stronie)`);
+}
+
+for (const [slot, { ratio, focus = [0.5, 0.5] }] of Object.entries(SLOTS)) {
   const source = sources.find((f) => f.isFile() && /\.(jpe?g|png|webp)$/i.test(f.name) && path.parse(f.name).name === slot);
   if (!source) {
     console.log(`${slot}: brak pliku w ${SRC}/, na stronie zostaje szare pole`);
@@ -47,19 +57,22 @@ for (const [slot, { ratio, position }] of Object.entries(SLOTS)) {
     else cropH = Math.round(w / target);
   }
 
+  const left = Math.round((w - cropW) * focus[0]);
+  const top = Math.round((h - cropH) * focus[1]);
+
   const widths = WIDTHS.filter((x) => x <= cropW);
-  if (widths.length === 0) widths.push(cropW);
   if (cropW < Math.max(...WIDTHS)) {
+    widths.push(cropW);
     console.warn(`${slot}: źródło ma ${cropW} px szerokości po kadrze, za mało na ${Math.max(...WIDTHS)} px`);
   }
 
-  for (const old of outputs.filter((f) => f.startsWith(`${slot}-`))) {
+  for (const old of outputs.filter((f) => isSlotFile(f, slot))) {
     await unlink(path.join(OUT, old));
   }
 
   for (const width of widths) {
     const height = Math.round((width * cropH) / cropW);
-    const base = sharp(input).rotate().resize(width, height, { fit: 'cover', position });
+    const base = sharp(input).rotate().extract({ left, top, width: cropW, height: cropH }).resize(width, height);
     await base.clone().webp({ quality: 78 }).toFile(path.join(OUT, `${slot}-${width}.webp`));
     await base.clone().jpeg({ quality: 80, progressive: true, mozjpeg: true }).toFile(path.join(OUT, `${slot}-${width}.jpg`));
     console.log(`${slot}: ${width}×${height} webp + jpg`);

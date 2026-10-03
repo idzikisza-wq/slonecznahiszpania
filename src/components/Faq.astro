@@ -1,5 +1,6 @@
 ---
 // 13. FAQ (#faq): natywne <details>, summary w stylu h3, linia włosowa między pozycjami.
+// Po prawej szary znak tekstowy „+" (otwarte: „−"), pierwsze pytanie otwarte od startu.
 import SectionHead from './ui/SectionHead.astro';
 import { site } from '../content/site';
 
@@ -10,8 +11,8 @@ const { faq } = site;
   <SectionHead label={faq.label} title={faq.title} />
   <div class="faq mt-l">
     {
-      faq.items.map((item) => (
-        <details>
+      faq.items.map((item, index) => (
+        <details open={index === 0}>
           <summary>
             <h3>{item.question}</h3>
           </summary>
@@ -28,7 +29,10 @@ const { faq } = site;
   }
 
   .faq summary {
-    display: block;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-s);
     padding-block: var(--space-s);
     list-style: none;
     cursor: pointer;
@@ -36,6 +40,22 @@ const { faq } = site;
 
   .faq summary::-webkit-details-marker {
     display: none;
+  }
+
+  /* Znak tekstowy, nie ikona. Druga deklaracja ukrywa znak przed czytnikami ekranu. */
+  .faq summary::after {
+    content: "+";
+    content: "+" / "";
+    flex: none;
+    color: var(--muted);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .faq details[open] > summary::after {
+    content: "\2212";
+    content: "\2212" / "";
   }
 
   .faq details > p {
