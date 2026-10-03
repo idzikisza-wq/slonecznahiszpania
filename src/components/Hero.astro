@@ -1,6 +1,5 @@
 ---
-// 2. Hero (#start): co, dla kogo, następny krok. Pod spodem kafelki i zdjęcie 3:2.
-import KpiRow from './ui/KpiRow.astro';
+// 2. Hero (#start): co, dla kogo, następny krok. Pod spodem zdjęcie 3:2.
 import Photo from './ui/Photo.astro';
 import { site } from '../content/site';
 
@@ -18,10 +17,6 @@ const { hero } = site;
         <a class="cta-2" href={hero.ctaSecondary.href}>{hero.ctaSecondary.label}</a>
       </div>
     </div>
-  </div>
-
-  <div class="mt-l">
-    <KpiRow items={hero.kpis} />
   </div>
 
   <figure class="mt-l">

@@ -111,11 +111,6 @@ const raw = {
     lead: 'Znajdziemy dla Ciebie apartament, dom lub inwestycję w Máladze i na Costa del Sol. Po polsku, z lokalnym wsparciem i pełną kontrolą formalności.',
     ctaPrimary: { label: 'Umów bezpłatną konsultację', href: '#kontakt' },
     ctaSecondary: { label: 'Jak wygląda zakup', href: '#proces' },
-    kpis: [
-      { value: 'PL', note: 'obsługa po polsku' },
-      { value: '360°', note: 'wsparcia przy zakupie' },
-      { value: '1 plan', note: 'od rozmowy do kluczy' },
-    ],
     image: IMAGES.hero,
     caption: 'Twój adres na południu. Málaga · Costa del Sol · Andaluzja',
   },
