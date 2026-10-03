@@ -1,6 +1,7 @@
 /* Style bazowe systemu Kwadrat na web.
    Kolory wyłącznie przez tokeny z tokens.css. Czerwień tylko w markers.css.
-   Jedyny breakpoint: 760px (max-width: 759.98px), plus 480px dla rzędu czterech kafelków. */
+   Progi: 760px (max-width: 759.98px, telefon) i 1100px (max-width: 1099.98px, tablet),
+   plus 480px dla rzędu czterech kafelków. */
 
 /* Reset */
 
@@ -294,6 +295,14 @@ p {
   }
 }
 
+/* Tablet (760 do 1100px): 8+4 i 4+4+4 w jednej kolumnie, 6+6 bez zmian */
+@media (min-width: 760px) and (max-width: 1099.98px) {
+  .grid > .col-4,
+  .grid > .col-8 {
+    grid-column: 1 / -1;
+  }
+}
+
 /* Sekcje */
 
 .section {
@@ -370,7 +379,8 @@ p {
   white-space: nowrap;
 }
 
-@media (max-width: 759.98px) {
+/* Poniżej 1100px kafelki po trzy stoją jeden pod drugim */
+@media (max-width: 1099.98px) {
   .tiles {
     display: flex;
     flex-direction: column;
@@ -387,12 +397,16 @@ p {
   }
 }
 
-/* Rząd czterech kafelków: 2 × 2 od 480px do 760px, niżej jedna kolumna */
-@media (min-width: 480px) and (max-width: 759.98px) {
+/* Rząd czterech kafelków: 2 × 2 od 480px do 1100px, niżej jedna kolumna */
+@media (min-width: 480px) and (max-width: 1099.98px) {
   .tiles--4 {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-m) var(--gutter);
+  }
+
+  .tiles--4 > .tile {
+    grid-column: auto;
   }
 }
 

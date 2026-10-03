@@ -1,6 +1,6 @@
 ---
 // Nagłówek: logo lockup, menu w label, na końcu telefon jako zwykły tekst (bez przycisku i ikony).
-// Nie sticky. Na mobile linki chowane pod słowem MENU, telefon zostaje widoczny.
+// Nie sticky. Poniżej 1100px (tablet i telefon) linki chowane pod słowem MENU, telefon zostaje widoczny.
 import { site, SHOW_OFFERS } from '../content/site';
 
 const { header, contact } = site;
@@ -114,17 +114,12 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     cursor: pointer;
   }
 
-  @media (max-width: 759.98px) {
+  /* Menu mieści się w jednym rzędzie dopiero od około 1040px, więc niżej chowa się pod MENU */
+  @media (max-width: 1099.98px) {
     .header-inner {
-      grid-template-columns: auto 1fr auto auto;
       grid-template-areas:
         'brand . phone toggle'
         'nav nav nav nav';
-      column-gap: var(--space-s);
-    }
-
-    .brand img {
-      height: 28px;
     }
 
     :global(.js) .menu-toggle {
@@ -142,6 +137,16 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     .site-nav ul {
       flex-direction: column;
       padding-top: var(--space-s);
+    }
+  }
+
+  @media (max-width: 759.98px) {
+    .header-inner {
+      column-gap: var(--space-s);
+    }
+
+    .brand img {
+      height: 28px;
     }
   }
 </style>

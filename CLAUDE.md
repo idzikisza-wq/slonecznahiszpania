@@ -97,7 +97,7 @@ Cyfry tabelaryczne wszędzie (`font-variant-numeric: tabular-nums`). Pogrubienie
 
 ### Siatka
 
-Kontener `--container`, margines `--side`. 12 kolumn, gutter `--gutter`. Dozwolone podziały: 12, 6+6, 4+4+4, 8+4, plus 3+3+3+3 wyłącznie dla rzędu czterech kafelków. Jeden breakpoint: 760px. Poniżej wszystko w jednej kolumnie (rząd czterech kafelków: 2 × 2 do 480px, niżej 1 kolumna). Zdjęcie przy tekście ląduje nad tekstem.
+Kontener `--container`, margines `--side`. 12 kolumn, gutter `--gutter`. Dozwolone podziały: 12, 6+6, 4+4+4, 8+4, plus 3+3+3+3 wyłącznie dla rzędu czterech kafelków. Dwa progi: 760px i 1100px (drugi dodany decyzją Idziego 3.10.2026). Poniżej 760px wszystko w jednej kolumnie (rząd czterech kafelków: 2 × 2 do 480px, niżej 1 kolumna). Od 760 do 1100px (tablet): podziały 8+4 i 4+4+4 w jednej kolumnie, 6+6 bez zmian, rząd czterech kafelków 2 × 2, w Poradniku opis na całą szerokość, a okładka i formularz 6+6. Od 1100px pełny układ: dopiero w nim menu i etykiety kafelków mieszczą się w jednej linii. Zdjęcie przy tekście ląduje nad tekstem.
 
 ### Komponenty
 
@@ -113,7 +113,7 @@ Kontener `--container`, margines `--side`. 12 kolumn, gutter `--gutter`. Dozwolo
 - CTA główny: prostokąt z tłem `--ink`, tekst `label` w `--paper`, padding 16px 28px, bez zaokrąglenia, bez cienia. Hover: tło `--text`. Focus: outline 2px `--ink` z offsetem 3px. To jedyne ciemne pole na stronie.
 - CTA drugi: tekst `label` w `--ink` z linią 1px `--ink` pod spodem. Hover: kolor `--muted`.
 - Pole formularza: tło `--surface`, brak obramowania, dolna linia 1px `--line`, padding 14px 16px, tekst `body`. Etykieta pola w `label` nad polem. Focus: dolna linia 2px `--ink`. Błąd: komunikat w `small` w `--ink` pod polem, bez koloru czerwonego (czerwień nie sygnalizuje błędów). Dwa krótkie pola mogą stać w jednym rzędzie, na mobile jedno pod drugim. Lista wyboru bez natywnego wyglądu (Safari podmienia w niej font na systemowy): Mulish, ta sama wysokość co pozostałe pola, po prawej szary znak tekstowy „›" obrócony w dół. Zgoda jako tekst `small` pod przyciskiem (wysłanie formularza oznacza zgodę), bez checkboxa.
-- Nagłówek strony: logo lockup po lewej (wysokość 36px desktop, 28px mobile, pole ochronne co najmniej 16px), po prawej menu w `label` w ink, na końcu telefon jako zwykły tekst (link `tel:`, bez przycisku i ikony). Bez podtytułu. Pod nagłówkiem linia lekka. Nie sticky. Na mobile linki chowane pod słowem MENU w `label`, bez ikony, telefon widoczny obok.
+- Nagłówek strony: logo lockup po lewej (wysokość 36px desktop, 28px mobile, pole ochronne co najmniej 16px), po prawej menu w `label` w ink, na końcu telefon jako zwykły tekst (link `tel:`, bez przycisku i ikony). Bez podtytułu. Pod nagłówkiem linia lekka. Nie sticky. Poniżej 1100px (tablet i telefon) linki chowane pod słowem MENU w `label`, bez ikony, telefon widoczny obok.
 - Favicon: `kwadrat-logo.svg`.
 
 ### Dostępność

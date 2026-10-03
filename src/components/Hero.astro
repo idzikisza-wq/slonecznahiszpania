@@ -65,14 +65,17 @@ const photoNote = typoText(PHOTO_NOTE);
     align-items: end;
   }
 
-  @media (max-width: 759.98px) {
-    .hero {
-      margin-top: var(--space-l);
-    }
-
+  /* Poniżej 1100px nagłówek i opis, przyciski i nota stoją jeden pod drugim */
+  @media (max-width: 1099.98px) {
     .hero-head,
     .hero-actions {
       row-gap: var(--space-m);
+    }
+  }
+
+  @media (max-width: 759.98px) {
+    .hero {
+      margin-top: var(--space-l);
     }
   }
 </style>

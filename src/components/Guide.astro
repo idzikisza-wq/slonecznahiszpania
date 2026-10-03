@@ -1,6 +1,7 @@
 ---
 // Poradnik (#poradnik): 4+4+4. Opis z listą atutów, okładka w naturalnych proporcjach
-// (bez ramki i cienia), formularz od góry kolumny. Na mobile kolejność bez zmian.
+// (bez ramki i cienia), formularz od góry kolumny. Na tablecie opis na całą szerokość,
+// a okładka i formularz 6+6. Na telefonie kolejność bez zmian.
 import SectionHead from './ui/SectionHead.astro';
 import List from './ui/List.astro';
 import Photo from './ui/Photo.astro';
@@ -23,11 +24,14 @@ const formId = 'poradnik-formularz';
       <p class="small mt-m">{guide.note}</p>
     </div>
 
-    <div class="col-4">
-      <Photo image={guide.image} sizes="(min-width: 760px) min(384px, calc((100vw - 200px) / 3)), calc(100vw - 48px)" />
+    <div class="col-4 guide-side">
+      <Photo
+        image={guide.image}
+        sizes="(min-width: 1100px) min(384px, calc((100vw - 200px) / 3)), (min-width: 760px) calc(50vw - 88px), calc(100vw - 48px)"
+      />
     </div>
 
-    <div class="col-4">
+    <div class="col-4 guide-side">
       <Form id={formId} subject={form.subject} submit={form.submit} consent={form.consent}>
         <div class="field-row">
           <Field
@@ -66,3 +70,12 @@ const formId = 'poradnik-formularz';
     </div>
   </div>
 </section>
+
+<style>
+  /* Tablet: okładka i formularz obok siebie pod opisem */
+  @media (min-width: 760px) and (max-width: 1099.98px) {
+    .grid > .guide-side {
+      grid-column: span 6;
+    }
+  }
+</style>
