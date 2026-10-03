@@ -9,10 +9,9 @@
 
 import { typo } from './typo';
 
-// Przykładowe nieruchomości (DANE): sekcja ukryta, bo ceny nie mają potwierdzonego źródła,
-// a lead sekcji mówi, że nie publikujemy fikcyjnych przykładów.
+// Przykładowe nieruchomości: oferty i ceny potwierdził Idzi (3.10.2026), sekcja jest widoczna.
 // Gdy false, sekcja i pozycja „Oferty" w menu znikają ze strony.
-export const SHOW_OFFERS = false;
+export const SHOW_OFFERS = true;
 
 // Zdjęcia poglądowe (DANE): podpis pod zdjęciami w hero. Pusty tekst ukrywa podpis.
 export const PHOTO_NOTE = 'Zdjęcie poglądowe';
@@ -42,6 +41,7 @@ const COMPANY = {
 // Zdjęcia: źródła w zdjecia/, warianty w public/img/{name}-{szerokość}.webp i .jpg
 // (generuje npm run zdjecia). ratio to naturalne proporcje pliku, bez kadrowania.
 // Brak plików = szare pole z podpisem.
+// Źródło zdjęć w hero i w ofertach: deweloper (potwierdził Idzi 3.10.2026).
 const IMAGES = {
   heroSol: {
     name: 'hero-costa-del-sol',
@@ -362,8 +362,8 @@ const raw = {
     ],
   },
 
-  // Sekcja za przełącznikiem SHOW_OFFERS. Ceny czekają na potwierdzenie źródła (DANE).
-  // Prawdziwa oferta: miejsce, tytuł, parametry, cena z oferty i link w polu href.
+  // Sekcja za przełącznikiem SHOW_OFFERS. Oferty i ceny potwierdził Idzi (3.10.2026).
+  // Oferta: miejsce, tytuł, parametry, cena z oferty i opcjonalny link w polu href.
   offers: {
     label: 'Przykładowe nieruchomości',
     title: 'Przykłady z Costa del Sol',
@@ -419,9 +419,9 @@ const raw = {
       value: '4,9',
       scale: '/ 5',
       note: '120 opinii w wizytówce Google',
-      // TODO (Idzi): nazwa wizytówki Google i data odczytu liczby opinii. Nie wpisywać z głowy.
-      // Puste pola nie pojawiają się na stronie.
-      profileName: '',
+      // Nazwa wizytówki od Idziego (3.10.2026).
+      // TODO (Idzi): data odczytu liczby opinii. Nie wpisywać z głowy. Puste pole nie pojawia się na stronie.
+      profileName: 'Kwadrat Otwock',
       readDate: '',
     },
     // Cudzysłowy „ ” dokłada szablon. Wykrzyknik w opinii 1 zostaje: to cytat klienta.
@@ -487,8 +487,10 @@ const raw = {
       message: 'Wiadomość',
       messagePlaceholder: 'Budżet, cel, termin...',
       submit: 'Wyślij zapytanie',
-      // Nowa strona nie ma zgody pod tym formularzem. Pusty tekst = brak zgody na stronie.
-      consent: '',
+      // Nowa strona nie ma tu zgody. Idzi zdecydował, że ma być (3.10.2026): tekst z poprzedniej
+      // wersji strony. DO POTWIERDZENIA z prawnikiem: treść zgody i zdanie „Nie wysyłamy newsletterów".
+      consent:
+        'Wysyłając formularz, zgadzasz się na kontakt od Grupy Inwestycyjnej Kwadrat w sprawie Twojego zapytania. Nie wysyłamy newsletterów.',
       success: 'Dziękujemy. Zapytanie zostało wysłane.',
       subject: 'Zapytanie ze strony slonecznahiszpania.pl',
     },

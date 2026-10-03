@@ -56,9 +56,9 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 | `hero-costa-del-sol.jpg` | hero, kierunek 01 | naturalne (dziś 1200 × 912) |
 | `hero-costa-blanca.jpg` | hero, kierunek 02 | naturalne (dziś 1200 × 912) |
 | `poradnik-cover.webp` | okładka przy formularzu poradnika | naturalne |
-| `oferta-malaga.jpg` | oferta Málaga Centro (sekcja ukryta) | naturalne (dziś 1008 × 752) |
-| `oferta-mijas.jpg` | oferta Mijas (sekcja ukryta) | naturalne |
-| `oferta-marbella.jpg` | oferta Marbella (sekcja ukryta) | naturalne |
+| `oferta-malaga.jpg` | oferta Málaga Centro | naturalne (dziś 1008 × 752) |
+| `oferta-mijas.jpg` | oferta Mijas | naturalne |
+| `oferta-marbella.jpg` | oferta Marbella | naturalne |
 
 1. Wrzuć plik do `zdjecia/` pod nazwą z tabeli (jpg, jpeg, png albo webp). Najlepiej co najmniej 1600 px szerokości. Zdjęcia z iPhone'a w HEIC najpierw wyeksportuj jako JPG.
 2. Uruchom `npm run zdjecia`. Skrypt zapisuje WebP i JPG w szerokościach 800 i 1600 px do `public/img/` (mniejsze źródło także w jego pełnej szerokości) i usuwa metadane (EXIF, GPS). Kadr do innych proporcji ustawiasz polem `ratio` i punktem `focus` przy danym miejscu w `scripts/zdjecia.mjs`.
@@ -71,7 +71,7 @@ Podpis „Zdjęcie poglądowe" pod zdjęciami w hero to stała `PHOTO_NOTE` w `s
 
 ## Oferty
 
-Sekcja przykładowych nieruchomości jest ukryta przełącznikiem `SHOW_OFFERS = false` w `src/content/site.ts` (ceny bez potwierdzonego źródła). Po wpisaniu prawdziwych ofert (miejsce, tytuł, parametry, cena, `href` z linkiem do oferty) ustaw `SHOW_OFFERS = true`: sekcja i pozycja „Oferty" w menu wrócą na stronę.
+Sekcja przykładowych nieruchomości jest widoczna (`SHOW_OFFERS = true` w `src/content/site.ts`): oferty i ceny potwierdził Idzi 3.10.2026. Oferty zmieniasz w `site.ts` (miejsce, tytuł, parametry, cena, opcjonalnie `href` z linkiem do oferty). `SHOW_OFFERS = false` chowa sekcję razem z pozycją „Oferty" w menu.
 
 ## Podmiana PDF poradnika
 
