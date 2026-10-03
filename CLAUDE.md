@@ -139,9 +139,9 @@ Usunięte po przebudowie z 3.10.2026: rząd PL / 360° / 1 plan, sekcja „Bez u
 7. Dlaczego Hiszpania (#dlaczego-hiszpania). `label` PERSPEKTYWA POLSKIEGO INWESTORA, h2, `lead`, trzy kafelki tekstowe 4+4+4, pod nimi callout z h3 „Ryzyka nazywamy wprost" i akapitem.
 8. Od Malagi po Alicante (#lokalizacje). `label` DWA OBSZARY POSZUKIWAŃ, h2, `lead`. Dwie tabele danych 6+6: Costa del Sol i Axarquía, Costa Blanca, po cztery miejscowości pogrubione w ink.
 9. Proces (#proces). `label` JASNY PROCES, h2, `lead`, rząd czterech kafelków 3+3+3+3 z numerem w `kpi-mid`.
-10. Przykładowe nieruchomości (#oferty). Widoczne: oferty i ceny potwierdził Idzi 3.10.2026. Przełącznik `SHOW_OFFERS` w `site.ts` chowa sekcję razem z pozycją Oferty w menu. Nagłówek „Przykłady z Costa del Sol". Trzy oferty 4+4+4: zdjęcie w naturalnych proporcjach, `label` lokalizacja, h3, `small` parametry, cena `num2`, opcjonalny link w polu `href`.
+10. Przykładowe nieruchomości (#oferty). Widoczne: oferty i ceny potwierdził Idzi 3.10.2026. Przełącznik `SHOW_OFFERS` w `site.ts` chowa sekcję razem z pozycją Oferty w menu. Nagłówek „Przykłady z Costa del Sol". Trzy oferty 4+4+4: zdjęcie w naturalnych proporcjach, pod nim `small` „Wizualizacja" (stała `OFFER_PHOTO_NOTE` w `site.ts`), `label` lokalizacja, h3, `small` parametry, cena `num2`, opcjonalny link w polu `href`.
 11. Obsługa 360° (#bezpieczenstwo). Sekcja między liniami. 6+6: `label`, h2, akapit; lista atutów z pięcioma punktami.
-12. Opinie (#opinie). `label` OPINIE KLIENTÓW, h2, akapit. 4+4+4: kafelek z `label` OCENA GOOGLE, liczbą 4,9 w `--kwadrat-red` (jedyna czerwona liczba na stronie) z „/ 5" w num2 ink, uwagą `small` „120 opinii w wizytówce Google" z nazwą wizytówki (Kwadrat Otwock, od Idziego) i polem na datę odczytu w `site.ts` (TODO), CTA drugi ZOBACZ WSZYSTKIE; dwie opinie jako callout. Bez gwiazdek, bez logo Google.
+12. Opinie (#opinie). `label` OPINIE KLIENTÓW, h2, akapit. 4+4+4: kafelek z `label` OCENA GOOGLE, liczbą 4,9 w `--kwadrat-red` (jedyna czerwona liczba na stronie) z „/ 5" w num2 ink, uwagą `small` „120 opinii w wizytówce Google" z nazwą wizytówki i datą odczytu od Idziego (Kwadrat Otwock, stan na 1.10.2026), CTA drugi ZOBACZ WSZYSTKIE; dwie opinie jako callout. Bez gwiazdek, bez logo Google.
 13. FAQ (#faq). `label` NAJCZĘSTSZE PYTANIA, h2. Cztery pytania jako natywne `<details>`, po prawej szary znak tekstowy „+" (otwarte: „−"), pierwsze otwarte od startu.
 14. Konsultacja (#kontakt). 6+6. Lewa: `label` BEZPŁATNA KONSULTACJA, h2, akapit, `label` ZADZWOŃ DO NAS, telefon w `num2` jako link `tel:`. Prawa: formularz Imię i nazwisko, E-mail, Rozważany region (select, placeholder „Wybierz lub zostaw otwarte": Costa del Sol, Costa Blanca, Chcę porównać regiony, Inny region Hiszpanii), Wiadomość, CTA główny WYŚLIJ ZAPYTANIE, zgoda. Placeholdery pól z nowej strony.
 15. Stopka. Linia lekka nad. W `small`: pełne dane rejestrowe spółki, zdanie „Treści na stronie mają charakter informacyjny i nie stanowią porady prawnej, podatkowej ani inwestycyjnej.", www.kwadrat.io, biuro@kwadrat.io, link Polityka prywatności.
@@ -159,6 +159,7 @@ Usunięte po przebudowie z 3.10.2026: rząd PL / 360° / 1 plan, sekcja „Bez u
 - Źródła zdjęć leżą w `zdjecia/` pod nazwą miejsca na stronie, warianty do `public/img/` robi `npm run zdjecia` (proporcje i punkt kadru w `scripts/zdjecia.mjs`). PDF poradnika do `public/poradnik.pdf`.
 - Zdjęcia pochodzą z nowej strony: `hero-costa-del-sol.jpg`, `hero-costa-blanca.jpg` (1200 × 912), `poradnik-cover.webp` (1354 × 1920), `oferta-malaga.jpg`, `oferta-mijas.jpg`, `oferta-marbella.jpg` (1008 × 752). Wszystkie w naturalnych proporcjach, bez kadrowania.
 - Zdjęcia tarasów w hero to zdjęcia poglądowe: podpis „Zdjęcie poglądowe" (stała `PHOTO_NOTE`), alt bez nazw konkretnych miejsc. Źródło zdjęć w hero i w ofertach: deweloper (potwierdził Idzi 3.10.2026).
+- Zdjęcia ofert to wizualizacje dewelopera: podpis „Wizualizacja" (stała `OFFER_PHOTO_NOTE`). Idzi podmieni je na docelowe.
 - Okładka poradnika powstała poza tym systemem: do wymiany.
 - Nigdy nie linkuj zdjęć z cudzego hostingu.
 
@@ -173,7 +174,7 @@ Dwa formularze: poradnik i kontakt. Dostawca domyślny: Web3Forms (DO POTWIERDZE
 
 ## SEO i meta
 
-- Title: „Kwadrat Nieruchomości | Costa del Sol i Costa Blanca". Description i og:tagi z `<head>` nowej strony, bez myślników. og:image: plik z nowej strony leży na `pub-…r2.dev` (do pobrania do repo), do tego czasu zdjęcie Costa del Sol z hero (`meta.ogImage` w `site.ts`).
+- Title: „Kwadrat Nieruchomości | Costa del Sol i Costa Blanca". Description i og:tagi z `<head>` nowej strony, bez myślników. og:image: plik z `<head>` nowej strony pobrany do `public/og-image.png` (zrzut hero wersji z Lovable, 1920 × 1080), ustawiany w `meta.ogImage` w `site.ts`.
 - Kotwice sekcji jak w inwentarzu.
 - Schema.org: RealEstateAgent (dane spółki, telefon, adres) i FAQPage z czterema pytaniami.
 - Lighthouse: Performance, Accessibility, Best Practices, SEO po 95 lub więcej. Font to jedyny zewnętrzny zasób.

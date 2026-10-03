@@ -1,12 +1,15 @@
 ---
 // Przykładowe nieruchomości (#oferty): trzy oferty 4+4+4. Zdjęcie w naturalnych proporcjach,
-// lokalizacja, tytuł, parametry, cena. Bez ramek i przycisków. Z polem href tytuł staje się
-// linkiem do oferty. Sekcję i pozycję „Oferty" w menu włącza przełącznik SHOW_OFFERS w site.ts.
+// pod nim podpis „Wizualizacja" (stała OFFER_PHOTO_NOTE), lokalizacja, tytuł, parametry, cena.
+// Bez ramek i przycisków. Z polem href tytuł staje się linkiem do oferty.
+// Sekcję i pozycję „Oferty" w menu włącza przełącznik SHOW_OFFERS w site.ts.
 import SectionHead from './ui/SectionHead.astro';
 import Photo from './ui/Photo.astro';
-import { site } from '../content/site';
+import { site, OFFER_PHOTO_NOTE } from '../content/site';
+import { typoText } from '../content/typo';
 
 const { offers } = site;
+const photoNote = typoText(OFFER_PHOTO_NOTE);
 ---
 
 <section class="section container" id="oferty">
@@ -15,10 +18,13 @@ const { offers } = site;
     {
       offers.items.map((offer) => (
         <li class="tile tile--plain" style="--span: 4; --rows: 5">
-          <Photo
-            image={offer.image}
-            sizes="(min-width: 760px) min(384px, calc((100vw - 200px) / 3)), calc(100vw - 48px)"
-          />
+          <figure>
+            <Photo
+              image={offer.image}
+              sizes="(min-width: 760px) min(384px, calc((100vw - 200px) / 3)), calc(100vw - 48px)"
+            />
+            {photoNote && <figcaption class="small">{photoNote}</figcaption>}
+          </figure>
           <p class="label tile-after-photo">{offer.location}</p>
           <h3>{offer.href ? <a class="offer-link" href={offer.href}>{offer.title}</a> : offer.title}</h3>
           <p class="small">{offer.details.join(' · ')}</p>

@@ -16,6 +16,10 @@ export const SHOW_OFFERS = true;
 // Zdjęcia poglądowe (DANE): podpis pod zdjęciami w hero. Pusty tekst ukrywa podpis.
 export const PHOTO_NOTE = 'Zdjęcie poglądowe';
 
+// Zdjęcia ofert to wizualizacje dewelopera (Idzi, 3.10.2026): podpis pod każdym zdjęciem oferty.
+// Pusty tekst ukrywa podpis, np. po podmianie na zdjęcia nieruchomości.
+export const OFFER_PHOTO_NOTE = 'Wizualizacja';
+
 // DO POTWIERDZENIA (Idzi): telefon i e-mail. Jedyne miejsce w repo.
 const CONTACT = {
   phone: '+48 505 085 001',
@@ -92,9 +96,10 @@ const raw = {
     ogTitle: 'Kwadrat Nieruchomości | Hiszpania',
     ogDescription:
       'Costa del Sol czy Costa Blanca? Pomagamy wybrać region dopasowany do Twojego celu, budżetu i stylu życia.',
-    // TODO: og:image nowej strony leży na pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev, domena zablokowana
-    // w tym środowisku. Do czasu pobrania pliku do public/ używamy zdjęcia z hero.
-    ogImage: '/img/hero-costa-del-sol-1200.jpg',
+    // og:image z <head> nowej strony, pobrany z r2.dev 3.10.2026 do public/: zrzut hero
+    // wersji z Lovable, 1920 × 1080. Alt złożony z nazwy marki i h1.
+    ogImage: '/og-image.png',
+    ogImageAlt: 'Kwadrat Nieruchomości: Dwa wybrzeża. Dwie dobre odpowiedzi.',
     author: 'Kwadrat Nieruchomości',
   },
 
@@ -419,10 +424,10 @@ const raw = {
       value: '4,9',
       scale: '/ 5',
       note: '120 opinii w wizytówce Google',
-      // Nazwa wizytówki od Idziego (3.10.2026).
-      // TODO (Idzi): data odczytu liczby opinii. Nie wpisywać z głowy. Puste pole nie pojawia się na stronie.
+      // Nazwa wizytówki i data odczytu liczby opinii od Idziego (3.10.2026).
+      // Puste pole nie pojawia się na stronie.
       profileName: 'Kwadrat Otwock',
-      readDate: '',
+      readDate: '1.10.2026',
     },
     // Cudzysłowy „ ” dokłada szablon. Wykrzyknik w opinii 1 zostaje: to cytat klienta.
     quotes: [
@@ -448,7 +453,7 @@ const raw = {
     title: 'Zanim zaczniesz szukać',
     items: [
       {
-        // TODO: do potwierdzenia przez hiszpańskiego prawnika
+        // Odpowiedź potwierdzona przez hiszpańskiego prawnika (informacja od Idziego, 3.10.2026).
         question: 'Czy Polak może kupić nieruchomość w Hiszpanii?',
         answer:
           'Tak. Obywatel Polski może kupić nieruchomość na takich samych zasadach jak obywatel Hiszpanii. Do transakcji potrzebny jest numer NIE.',

@@ -54,7 +54,7 @@ const fontCss = 'https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;70
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
     {ogImage && <meta property="og:image" content={ogImage} />}
-    {ogImage && <meta property="og:image:alt" content={plainText(site.hero.directions[0].image.alt)} />}
+    {ogImage && <meta property="og:image:alt" content={plainText(site.meta.ogImageAlt)} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={ogDescription} />

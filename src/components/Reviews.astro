@@ -18,7 +18,7 @@ const { rating } = reviews;
           <span class="kpi--accent">{rating.value}</span>{' '}<span class="num2">{rating.scale}</span>
         </p>
         <p class="small">
-          {rating.note}{rating.profileName && ` „${rating.profileName}”`}{rating.readDate && `, stan na ${rating.readDate}`}
+          {rating.note}{rating.profileName && ` „${rating.profileName}”`}{rating.readDate && <>{', '}<span class="nowrap">{`stan na ${rating.readDate}`}</span></>}
         </p>
         <p class="mt-m">
           <a class="cta-2" href={reviews.cta.href}>{reviews.cta.label}</a>
