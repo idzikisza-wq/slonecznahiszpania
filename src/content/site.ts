@@ -423,7 +423,6 @@ const raw = {
     privacyHref: '/polityka-prywatnosci',
     errorRequired: 'To pole jest wymagane.',
     errorEmail: 'Wpisz poprawny adres e-mail.',
-    errorConsent: 'Zaznacz zgodę, aby wysłać formularz.',
     errorSend: `Nie udało się wysłać formularza. Spróbuj ponownie albo zadzwoń: ${CONTACT.phone}.`,
   },
 
