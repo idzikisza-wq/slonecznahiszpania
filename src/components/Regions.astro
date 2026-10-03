@@ -1,0 +1,16 @@
+---
+// Regiony (#regiony): sześć regionów w trzech kolumnach i dwóch rzędach, linia mocna nad każdym,
+// numeracja 01 do 06, pod nią miejscowości w label, nazwa regionu w h3 i opis.
+import SectionHead from './ui/SectionHead.astro';
+import TextTiles from './ui/TextTiles.astro';
+import { site } from '../content/site';
+
+const { regions } = site;
+---
+
+<section class="section container" id="regiony">
+  <SectionHead label={regions.label} title={regions.title} lead={regions.lead} />
+  <div class="mt-l">
+    <TextTiles items={regions.items} span={4} />
+  </div>
+</section>

@@ -1,8 +1,8 @@
 ---
-// 5. Dlaczego Hiszpania (#dlaczego-hiszpania): trzy kafelki tekstowe, podsekcja z ryzykami.
+// Dlaczego Hiszpania (#dlaczego-hiszpania): trzy kafelki tekstowe 4+4+4,
+// pod nimi callout „Ryzyka nazywamy wprost" (lewa krawędź, bez tła i bez ikony).
 import SectionHead from './ui/SectionHead.astro';
 import TextTiles from './ui/TextTiles.astro';
-import List from './ui/List.astro';
 import { site } from '../content/site';
 
 const { whySpain } = site;
@@ -14,11 +14,8 @@ const { risks } = whySpain;
   <div class="mt-l">
     <TextTiles items={whySpain.items} span={4} />
   </div>
-
-  <div class="subsection">
-    <SectionHead label={risks.label} title={risks.title} text={risks.text} level="h3" />
-    <div class="mt-l">
-      <List items={risks.items} variant="minus" />
-    </div>
+  <div class="callout mt-l">
+    <h3>{risks.title}</h3>
+    <p class="mt-xs">{risks.text}</p>
   </div>
 </section>

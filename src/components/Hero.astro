@@ -1,32 +1,54 @@
 ---
-// 2. Hero (#start): co, dla kogo, następny krok. Pod spodem zdjęcie 3:2.
+// Hero (#start): co, dla kogo, następny krok. Pod przyciskami dwa kierunki 6+6:
+// zdjęcie w naturalnych proporcjach, podpis „Zdjęcie poglądowe", etykieta, tytuł, opis, link.
+// Bez ramek, cieni i tekstu na zdjęciach.
 import Photo from './ui/Photo.astro';
-import { site } from '../content/site';
+import { site, PHOTO_NOTE } from '../content/site';
+import { typoText } from '../content/typo';
 
 const { hero } = site;
+const photoNote = typoText(PHOTO_NOTE);
 ---
 
 <section class="section hero container" id="start">
-  <div class="grid">
-    <div class="col-8">
-      <p class="label">{hero.label}</p>
-      <h1 class="mt-xs">{hero.title}</h1>
-      <p class="lead mt-s">{hero.lead}</p>
-      <div class="actions mt-m">
-        <a class="cta" href={hero.ctaPrimary.href}>{hero.ctaPrimary.label}</a>
-        <a class="cta-2" href={hero.ctaSecondary.href}>{hero.ctaSecondary.label}</a>
-      </div>
-    </div>
+  <p class="label">{hero.label}</p>
+  <div class="grid hero-head mt-xs">
+    <h1 class="col-8">
+      {hero.title.map((line) => <span class="hero-line">{line}</span>)}
+    </h1>
+    <p class="lead col-4">{hero.lead}</p>
   </div>
 
-  <figure class="mt-l">
-    <Photo
-      image={hero.image}
-      sizes="(min-width: 760px) min(1200px, calc(100vw - 152px)), calc(100vw - 48px)"
-      eager
-    />
-    <figcaption class="small">{hero.caption}</figcaption>
-  </figure>
+  <div class="grid hero-actions mt-l">
+    <div class="col-8 actions">
+      <a class="cta" href={hero.ctaPrimary.href}>{hero.ctaPrimary.label}</a>
+      <a class="cta-2" href={hero.ctaSecondary.href}>{hero.ctaSecondary.label}</a>
+    </div>
+    <p class="small col-4">{hero.note}</p>
+  </div>
+
+  <div class="grid mt-xl">
+    {
+      hero.directions.map((item) => (
+        <article class="col-6 direction">
+          <figure>
+            <Photo
+              image={item.image}
+              sizes="(min-width: 760px) min(588px, calc(50vw - 88px)), calc(100vw - 48px)"
+              eager
+            />
+            {photoNote && <figcaption class="small">{photoNote}</figcaption>}
+          </figure>
+          <p class="label mt-m">{item.label}</p>
+          <h2 class="h3 mt-xs">{item.title}</h2>
+          <p class="mt-xs">{item.text}</p>
+          <p class="mt-s">
+            <a class="cta-2" href={item.link.href}>{item.link.label}</a>
+          </p>
+        </article>
+      ))
+    }
+  </div>
 </section>
 
 <style>
@@ -34,9 +56,23 @@ const { hero } = site;
     margin-top: var(--space-xl);
   }
 
+  .hero-line {
+    display: block;
+  }
+
+  .hero-head,
+  .hero-actions {
+    align-items: end;
+  }
+
   @media (max-width: 759.98px) {
     .hero {
       margin-top: var(--space-l);
+    }
+
+    .hero-head,
+    .hero-actions {
+      row-gap: var(--space-m);
     }
   }
 </style>

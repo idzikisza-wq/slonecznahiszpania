@@ -1,5 +1,5 @@
 ---
-// Formularz: pola ze slotu, honeypot, CTA główny, pod nim zgoda i zdanie o polityce prywatności.
+// Formularz: pola ze slotu, honeypot, CTA główny, pod nim zgoda (jeśli jest) i zdanie o polityce prywatności.
 // Z kluczem PUBLIC_WEB3FORMS_KEY wysyła do Web3Forms (działa też bez JS),
 // bez klucza tryb demo: komunikat sukcesu i payload w konsoli.
 import { site } from '../../content/site';
@@ -42,8 +42,8 @@ const key = import.meta.env.PUBLIC_WEB3FORMS_KEY;
 
   <button class="cta form-submit" type="submit">{submit}</button>
   <p class="small form-status" data-status role="alert" hidden></p>
-  <p class="small form-note">{consent}</p>
-  <p class="small mt-xs">
+  {consent && <p class="small form-note">{consent}</p>}
+  <p class:list={['small', consent ? 'mt-xs' : 'form-note']}>
     {forms.privacyLead} <a href={forms.privacyHref}>{forms.privacyLink}</a>.
   </p>
 </form>

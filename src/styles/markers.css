@@ -1,14 +1,15 @@
 /* Jedyny plik poza tokens.css, w którym wolno użyć --kwadrat-red.
    Tylko: kwadracik przed h2, kwadraciki list atutów i ocena 4,9 w Opiniach. */
 
-/* Kwadracik przed h2: 10px, odstęp 12px, środek pierwszej linii */
-h2 {
+/* Kwadracik przed h2 sekcji: 10px, odstęp 12px, środek pierwszej linii.
+   h2 w stylu h3 (tytuły kierunków w hero) jest bez kwadracika. */
+h2:not(.h3) {
   display: flex;
   align-items: flex-start;
   gap: 12px;
 }
 
-h2::before {
+h2:not(.h3)::before {
   content: "";
   flex: none;
   width: var(--marker-section);

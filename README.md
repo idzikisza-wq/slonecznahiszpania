@@ -1,8 +1,8 @@
 # slonecznahiszpania.pl
 
-Landing Kwadrat Nieruchomości (zakup nieruchomości w Andaluzji) w systemie wizualnym Kwadrat Documents. Statyczna strona w Astro, czysty CSS, zero zależności poza Astro i fontem Mulish z Google Fonts.
+Landing Kwadrat Nieruchomości: porównanie Costa del Sol, Costa Blanca i innych regionów Hiszpanii, w systemie wizualnym Kwadrat Documents. Statyczna strona w Astro, czysty CSS, zero zależności poza Astro i fontem Mulish z Google Fonts.
 
-Zasady projektu, tokeny i inwentarz sekcji: [CLAUDE.md](CLAUDE.md). Całe copy: [docs/copy.md](docs/copy.md) przeniesione do `src/content/site.ts`.
+Zasady projektu, tokeny i inwentarz sekcji: [CLAUDE.md](CLAUDE.md). Całe aktualne copy jest w `src/content/site.ts` (źródło: nowa wersja www.slonecznahiszpania.pl, wyrenderowana 3.10.2026). [docs/copy.md](docs/copy.md) to zapis najstarszej wersji strony.
 
 ## Uruchomienie lokalne
 
@@ -49,25 +49,29 @@ Każde zdanie na stronie siedzi w `src/content/site.ts`. Zmieniasz tekst tam, ma
 
 ## Podmiana zdjęć
 
-Miejsca na stronie i oczekiwane proporcje:
+Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 
-| Plik źródłowy w `zdjecia/` | Miejsce | Kadr |
+| Plik źródłowy w `zdjecia/` | Miejsce | Proporcje |
 | --- | --- | --- |
-| `hero.jpg` | hero, pod kafelkami | 3:2 |
-| `lokalizacje.jpg` | Lokalizacje, obok tabeli | 4:3 |
-| `oferta-malaga.jpg` | oferta Málaga Centro | 4:3 |
-| `oferta-mijas.jpg` | oferta Mijas | 4:3 |
-| `oferta-marbella.jpg` | oferta Marbella | 4:3 |
-| `obsluga.jpg` | Obsługa 360°, obok listy | 4:3 |
+| `hero-costa-del-sol.jpg` | hero, kierunek 01 | naturalne (dziś 1200 × 912) |
+| `hero-costa-blanca.jpg` | hero, kierunek 02 | naturalne (dziś 1200 × 912) |
+| `poradnik-cover.webp` | okładka przy formularzu poradnika | naturalne |
+| `oferta-malaga.jpg` | oferta Málaga Centro (sekcja ukryta) | naturalne (dziś 1008 × 752) |
+| `oferta-mijas.jpg` | oferta Mijas (sekcja ukryta) | naturalne |
+| `oferta-marbella.jpg` | oferta Marbella (sekcja ukryta) | naturalne |
 
-1. Wrzuć plik do `zdjecia/` pod nazwą z tabeli (jpg, jpeg, png albo webp). Najlepiej co najmniej 1600 px szerokości po kadrze. Zdjęcia z iPhone'a w HEIC najpierw wyeksportuj jako JPG.
-2. Uruchom `npm run zdjecia`. Skrypt kadruje, zapisuje WebP i JPG w szerokościach 800 i 1600 px do `public/img/` i usuwa metadane (EXIF, GPS). Mniejsze źródło zapisze także w jego pełnej szerokości i wypisze ostrzeżenie.
-3. Jeśli kadr tnie coś ważnego, przesuń punkt kadru (`focus` przy danym miejscu w `scripts/zdjecia.mjs`, od 0 do 1) i uruchom skrypt ponownie. Teksty alternatywne (`alt`) zdjęć są w `src/content/site.ts`.
+1. Wrzuć plik do `zdjecia/` pod nazwą z tabeli (jpg, jpeg, png albo webp). Najlepiej co najmniej 1600 px szerokości. Zdjęcia z iPhone'a w HEIC najpierw wyeksportuj jako JPG.
+2. Uruchom `npm run zdjecia`. Skrypt zapisuje WebP i JPG w szerokościach 800 i 1600 px do `public/img/` (mniejsze źródło także w jego pełnej szerokości) i usuwa metadane (EXIF, GPS). Kadr do innych proporcji ustawiasz polem `ratio` i punktem `focus` przy danym miejscu w `scripts/zdjecia.mjs`.
+3. Jeśli zmieniły się proporcje, popraw `ratio` przy danym zdjęciu w `src/content/site.ts`. Tam też są teksty alternatywne (`alt`).
 4. Zrób commit plików z `zdjecia/` i `public/img/`.
 
 Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę.
 
-Oferty to dziś przykładowe kierunki i sekcja jest poza menu. Prawdziwą ofertę wpisujesz w `site.ts` (miejsce, tytuł, parametry, cena, `href` z linkiem do oferty) i dodajesz jej zdjęcie jak wyżej.
+Podpis „Zdjęcie poglądowe" pod zdjęciami w hero to stała `PHOTO_NOTE` w `site.ts` (pusty tekst go ukrywa).
+
+## Oferty
+
+Sekcja przykładowych nieruchomości jest ukryta przełącznikiem `SHOW_OFFERS = false` w `src/content/site.ts` (ceny bez potwierdzonego źródła). Po wpisaniu prawdziwych ofert (miejsce, tytuł, parametry, cena, `href` z linkiem do oferty) ustaw `SHOW_OFFERS = true`: sekcja i pozycja „Oferty" w menu wrócą na stronę.
 
 ## Podmiana PDF poradnika
 

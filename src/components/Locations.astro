@@ -1,9 +1,8 @@
 ---
-// 7. Lokalizacje (#lokalizacje): 6+6, tabela danych (miasto pogrubione w ink) i zdjęcie 4:3.
-// Na mobile zdjęcie ląduje nad tabelą.
+// Lokalizacje (#lokalizacje): dwa obszary obok siebie, 6+6. Każdy to tabela danych
+// z etykietą nad nią (linia mocna pod etykietą), miejscowość pogrubiona w ink.
 import SectionHead from './ui/SectionHead.astro';
 import DataTable from './ui/DataTable.astro';
-import Photo from './ui/Photo.astro';
 import { site } from '../content/site';
 
 const { locations } = site;
@@ -12,11 +11,12 @@ const { locations } = site;
 <section class="section container" id="lokalizacje">
   <SectionHead label={locations.label} title={locations.title} lead={locations.lead} />
   <div class="grid mt-l">
-    <div class="col-6">
-      <DataTable rows={locations.rows} caption={locations.tableLabel} strongKeys />
-    </div>
-    <div class="col-6 media-first">
-      <Photo image={locations.image} sizes="(min-width: 760px) min(588px, calc(50vw - 88px)), calc(100vw - 48px)" />
-    </div>
+    {
+      locations.groups.map((group) => (
+        <div class="col-6">
+          <DataTable rows={group.rows} caption={group.label} strongKeys />
+        </div>
+      ))
+    }
   </div>
 </section>

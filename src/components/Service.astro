@@ -1,22 +1,20 @@
 ---
-// 10. Obsługa 360°: jedna lista atutów (najwyżej pięć punktów) i zdjęcie 4:3, 6+6.
-// Na mobile zdjęcie ląduje nad listą.
+// Obsługa 360° (#bezpieczenstwo): 6+6. Lewa: etykieta, nagłówek, akapit. Prawa: lista atutów
+// (najwyżej pięć punktów). Sekcja oddzielona cienką linią (dawny pas na ciemnym tle).
 import SectionHead from './ui/SectionHead.astro';
 import List from './ui/List.astro';
-import Photo from './ui/Photo.astro';
 import { site } from '../content/site';
 
 const { service } = site;
 ---
 
-<section class="section container">
-  <SectionHead label={service.label} title={service.title} />
-  <div class="grid mt-l">
+<section class="section section--ruled container" id="bezpieczenstwo">
+  <div class="grid">
+    <div class="col-6">
+      <SectionHead label={service.label} title={service.title} text={service.text} />
+    </div>
     <div class="col-6">
       <List items={service.list} variant="plus" />
-    </div>
-    <div class="col-6 media-first">
-      <Photo image={service.image} sizes="(min-width: 760px) min(588px, calc(50vw - 88px)), calc(100vw - 48px)" />
     </div>
   </div>
 </section>

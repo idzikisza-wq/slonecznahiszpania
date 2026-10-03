@@ -1,5 +1,5 @@
 ---
-// 4. Po co kupujesz: trzy kafelki tekstowe 4+4+4, pod rzędem jeden CTA główny.
+// Po co kupujesz (#cele): trzy kafelki tekstowe 4+4+4, pod rzędem jeden CTA główny.
 import SectionHead from './ui/SectionHead.astro';
 import TextTiles from './ui/TextTiles.astro';
 import { site } from '../content/site';
@@ -7,7 +7,7 @@ import { site } from '../content/site';
 const { purpose } = site;
 ---
 
-<section class="section container">
+<section class="section container" id="cele">
   <SectionHead label={purpose.label} title={purpose.title} lead={purpose.lead} />
   <div class="mt-l">
     <TextTiles items={purpose.items} span={4} />

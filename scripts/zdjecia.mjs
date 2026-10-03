@@ -19,12 +19,12 @@ const WIDTHS = [800, 1600];
 // ratio null = naturalne proporcje pliku.
 // focus [x, y]: gdzie leży kadr w nadmiarze zdjęcia, od 0 (lewo, góra) do 1 (prawo, dół).
 const SLOTS = {
-  hero: { ratio: [3, 2], focus: [0.5, 1] },
-  lokalizacje: { ratio: [4, 3], focus: [0.5, 0.56] },
-  'oferta-malaga': { ratio: [4, 3], focus: [0.5, 0.5] },
-  'oferta-mijas': { ratio: [4, 3], focus: [0.5, 0.5] },
-  'oferta-marbella': { ratio: [4, 3], focus: [0.5, 0.69] },
-  obsluga: { ratio: [4, 3], focus: [0.5, 0.28] },
+  'hero-costa-del-sol': { ratio: null },
+  'hero-costa-blanca': { ratio: null },
+  'poradnik-cover': { ratio: null },
+  'oferta-malaga': { ratio: null },
+  'oferta-mijas': { ratio: null },
+  'oferta-marbella': { ratio: null },
 };
 
 const sources = await readdir(SRC, { withFileTypes: true });
@@ -76,7 +76,11 @@ for (const [slot, { ratio, focus = [0.5, 0.5] }] of Object.entries(SLOTS)) {
     const height = Math.round((width * cropH) / cropW);
     const base = sharp(input).rotate().extract({ left, top, width: cropW, height: cropH }).resize(width, height);
     await base.clone().webp({ quality: 78 }).toFile(path.join(OUT, `${slot}-${width}.webp`));
-    await base.clone().jpeg({ quality: 80, progressive: true, mozjpeg: true }).toFile(path.join(OUT, `${slot}-${width}.jpg`));
+    await base
+      .clone()
+      .flatten({ background: { r: 255, g: 255, b: 255 } })
+      .jpeg({ quality: 80, progressive: true, mozjpeg: true })
+      .toFile(path.join(OUT, `${slot}-${width}.jpg`));
     console.log(`${slot}: ${width}×${height} webp + jpg`);
   }
 }

@@ -1,9 +1,9 @@
 ---
-// Nagłówek: logo lockup, cztery linki w label, na końcu CTA główny „Konsultacja".
-// Nie sticky. Na mobile linki i przycisk chowane pod słowem MENU, bez ikony.
+// Nagłówek: logo lockup, menu w label, na końcu telefon jako zwykły tekst (bez przycisku i ikony).
+// Nie sticky. Na mobile linki chowane pod słowem MENU, telefon zostaje widoczny.
 import { site, SHOW_OFFERS } from '../content/site';
 
-const { header } = site;
+const { header, contact } = site;
 const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty');
 ---
 
@@ -14,9 +14,6 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     <a class="brand" href="/">
       <img src="/brand/kwadrat-logo-lockup.svg" alt={header.logoAlt} width="134" height="36" />
     </a>
-    <button class="nav-link menu-toggle" type="button" aria-expanded="false" aria-controls="nawigacja">
-      {header.menu}
-    </button>
     <nav class="site-nav" id="nawigacja" aria-label={header.navLabel}>
       <ul>
         {
@@ -29,8 +26,11 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
           ))
         }
       </ul>
-      <a class="cta header-cta" href={header.cta.href}>{header.cta.label}</a>
     </nav>
+    <a class="nav-link header-phone" href={contact.phoneHref}>{contact.phone}</a>
+    <button class="nav-link menu-toggle" type="button" aria-expanded="false" aria-controls="nawigacja">
+      {header.menu}
+    </button>
   </div>
 </header>
 
@@ -54,14 +54,17 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     border-bottom: var(--rule) solid var(--line);
   }
 
-  /* Bez dodatkowego breakpointu: przy wąskim ekranie nawigacja sama spada pod logo */
   .header-inner {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-areas: 'brand nav phone toggle';
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-s) var(--space-m);
+    column-gap: var(--space-m);
     padding-block: var(--space-s);
+  }
+
+  .brand {
+    grid-area: brand;
   }
 
   .brand img {
@@ -70,19 +73,21 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
   }
 
   .site-nav {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-end;
-    gap: var(--space-s) var(--space-m);
-    margin-left: auto;
+    grid-area: nav;
+    justify-self: end;
   }
 
   .site-nav ul {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-end;
     column-gap: var(--gutter);
     row-gap: var(--space-xs);
+  }
+
+  .header-phone {
+    grid-area: phone;
+    white-space: nowrap;
   }
 
   .nav-link {
@@ -100,6 +105,7 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
   }
 
   .menu-toggle {
+    grid-area: toggle;
     display: none;
     padding: var(--space-xs) 0;
     border: 0;
@@ -109,6 +115,14 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
   }
 
   @media (max-width: 759.98px) {
+    .header-inner {
+      grid-template-columns: auto 1fr auto auto;
+      grid-template-areas:
+        'brand . phone toggle'
+        'nav nav nav nav';
+      column-gap: var(--space-s);
+    }
+
     .brand img {
       height: 28px;
     }
@@ -118,12 +132,7 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     }
 
     .site-nav {
-      flex-basis: 100%;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-s);
-      margin-left: 0;
-      padding-bottom: var(--space-s);
+      justify-self: stretch;
     }
 
     :global(.js) .site-nav:not(.is-open) {
@@ -132,6 +141,7 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
 
     .site-nav ul {
       flex-direction: column;
+      padding-top: var(--space-s);
     }
   }
 </style>

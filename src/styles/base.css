@@ -309,6 +309,14 @@ p {
   margin-top: var(--space-xl);
 }
 
+/* Dawne ciemne pasy (Porównanie, Obsługa 360°): tło paper, sekcja między dwiema cienkimi liniami */
+.section--ruled,
+.section--ruled + .section {
+  margin-top: calc(var(--section) / 2);
+  padding-top: calc(var(--section) / 2);
+  border-top: var(--rule) solid var(--line);
+}
+
 .head > .label {
   margin-bottom: var(--space-xs);
 }
@@ -358,8 +366,7 @@ p {
   margin-top: var(--space-s);
 }
 
-.tile .kpi,
-.tile .label {
+.tile .kpi {
   white-space: nowrap;
 }
 
@@ -585,6 +592,11 @@ figcaption {
   color: var(--text);
   font-size: 17px;
   line-height: 1.65;
+}
+
+.input::placeholder {
+  color: var(--muted);
+  opacity: 1;
 }
 
 .input:focus {

@@ -1,6 +1,6 @@
 ---
-// Pole formularza: etykieta label nad polem, tło surface, dolna linia.
-// Lista wyboru bez natywnego wyglądu (Safari podmienia w nim font na systemowy),
+// Pole formularza: etykieta label nad polem, tło surface, dolna linia, placeholder w muted.
+// Lista wyboru bez natywnego wyglądu (Safari podmienia w niej font na systemowy),
 // po prawej znak tekstowy w Mulish. Komunikat błędu (small, ink) wstawia skrypt formularza.
 interface Props {
   form: string;
@@ -9,12 +9,22 @@ interface Props {
   type?: 'text' | 'email' | 'tel' | 'textarea' | 'select';
   required?: boolean;
   autocomplete?: string;
+  placeholder?: string;
   placeholderOption?: string;
   options?: string[];
 }
 
-const { form, name, label, type = 'text', required = false, autocomplete, placeholderOption, options = [] } =
-  Astro.props;
+const {
+  form,
+  name,
+  label,
+  type = 'text',
+  required = false,
+  autocomplete,
+  placeholder,
+  placeholderOption,
+  options = [],
+} = Astro.props;
 const id = `${form}-${name}`;
 ---
 
@@ -22,7 +32,7 @@ const id = `${form}-${name}`;
   <label class="field-label" for={id}>{label}</label>
   {
     type === 'textarea' ? (
-      <textarea class="input" id={id} name={name} rows="5" required={required} />
+      <textarea class="input" id={id} name={name} rows="5" required={required} placeholder={placeholder} />
     ) : type === 'select' ? (
       <div class="select">
         <select class="input" id={id} name={name} required={required}>
@@ -35,7 +45,15 @@ const id = `${form}-${name}`;
         </select>
       </div>
     ) : (
-      <input class="input" id={id} name={name} type={type} required={required} autocomplete={autocomplete} />
+      <input
+        class="input"
+        id={id}
+        name={name}
+        type={type}
+        required={required}
+        autocomplete={autocomplete}
+        placeholder={placeholder}
+      />
     )
   }
   <p class="small field-error" id={`${id}-error`} hidden></p>

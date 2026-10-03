@@ -27,8 +27,8 @@ const schema = props.schema ?? [];
 const pathname = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/');
 const canonical = new URL(pathname, Astro.site).href;
 
-// og:image: zdjęcie hero, jeśli jest w public/img
-const ogImageFile = `img/${site.hero.image.name}-1600.jpg`;
+// og:image z konfiguracji (site.meta.ogImage), jeśli plik jest w public/
+const ogImageFile = site.meta.ogImage.replace(/^\//, '');
 const ogImage = fs.existsSync(path.join(process.cwd(), 'public', ogImageFile))
   ? new URL(`/${ogImageFile}`, Astro.site).href
   : undefined;
@@ -43,6 +43,7 @@ const fontCss = 'https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;70
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={plainText(site.meta.author)} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/brand/kwadrat-logo.svg" />
 
@@ -53,8 +54,11 @@ const fontCss = 'https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;70
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
     {ogImage && <meta property="og:image" content={ogImage} />}
-    {ogImage && <meta property="og:image:alt" content={plainText(site.hero.image.alt)} />}
+    {ogImage && <meta property="og:image:alt" content={plainText(site.hero.directions[0].image.alt)} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
 
     <!-- Mulish 400, 600, 700. API css2 podaje podzbiory latin i latin-ext przez unicode-range.
          Arkusz ładowany bez blokowania renderu (display=swap), bez JS zwykły link w noscript. -->

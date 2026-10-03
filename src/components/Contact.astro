@@ -1,5 +1,5 @@
 ---
-// 14. Kontakt (#kontakt): 6+6. Lewa: opis, telefon, link. Prawa: formularz.
+// Konsultacja (#kontakt): 6+6. Lewa: opis i telefon. Prawa: formularz.
 import SectionHead from './ui/SectionHead.astro';
 import Form from './ui/Form.astro';
 import Field from './ui/Field.astro';
@@ -18,14 +18,26 @@ const formId = 'kontakt-formularz';
       <p class="mt-xs">
         <a class="num2 phone nowrap" href={contact.phoneHref}>{contact.phone}</a>
       </p>
-      <p class="mt-m">
-        <a class="cta-2" href={section.cta.href}>{section.cta.label}</a>
-      </p>
     </div>
     <div class="col-6">
       <Form id={formId} subject={form.subject} submit={form.submit} consent={form.consent}>
-        <Field form={formId} name="name" label={form.name} required autocomplete="name" />
-        <Field form={formId} name="email" label={form.email} type="email" required autocomplete="email" />
+        <Field
+          form={formId}
+          name="name"
+          label={form.name}
+          placeholder={form.namePlaceholder}
+          required
+          autocomplete="name"
+        />
+        <Field
+          form={formId}
+          name="email"
+          label={form.email}
+          placeholder={form.emailPlaceholder}
+          type="email"
+          required
+          autocomplete="email"
+        />
         <Field
           form={formId}
           name="region"
@@ -34,7 +46,13 @@ const formId = 'kontakt-formularz';
           placeholderOption={form.regionPlaceholder}
           options={form.regionOptions}
         />
-        <Field form={formId} name="wiadomosc" label={form.message} type="textarea" />
+        <Field
+          form={formId}
+          name="wiadomosc"
+          label={form.message}
+          placeholder={form.messagePlaceholder}
+          type="textarea"
+        />
         <p slot="success">{form.success}</p>
       </Form>
     </div>

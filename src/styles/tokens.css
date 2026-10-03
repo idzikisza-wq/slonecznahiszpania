@@ -3,7 +3,7 @@
 
 :root {
   --kwadrat-red: #e30613; /* logo, kwadraciki, jedna liczba. Nigdy tło, nigdy dłuższy tekst */
-  --red-tint:    #fdedee; /* tło wiersza-kotwicy w tabeli; na tej stronie nieużywany */
+  --red-tint:    #fdedee; /* tło wiersza-kotwicy w tabeli (Porównanie: wiersz „Dla kogo”) */
   --ink:         #1a1a1a; /* tytuły, nagłówki, duże liczby, pogrubienia, linia mocna */
   --text:        #333333; /* tekst podstawowy, listy, tabele */
   --muted:       #6f6f6f; /* etykiety, podpisy, uwagi, stopka */

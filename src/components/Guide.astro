@@ -1,8 +1,9 @@
 ---
-// 3. Poradnik (#poradnik): 6+6. Lewa: opis i lista atutów. Prawa: formularz od góry kolumny,
-// Imię i Nazwisko w jednym rzędzie.
+// Poradnik (#poradnik): 4+4+4. Opis z listą atutów, okładka w naturalnych proporcjach
+// (bez ramki i cienia), formularz od góry kolumny. Na mobile kolejność bez zmian.
 import SectionHead from './ui/SectionHead.astro';
 import List from './ui/List.astro';
+import Photo from './ui/Photo.astro';
 import Form from './ui/Form.astro';
 import Field from './ui/Field.astro';
 import { site } from '../content/site';
@@ -14,7 +15,7 @@ const formId = 'poradnik-formularz';
 
 <section class="section container" id="poradnik">
   <div class="grid">
-    <div class="col-6">
+    <div class="col-4">
       <SectionHead label={guide.label} title={guide.title} text={guide.text} />
       <div class="mt-m">
         <List items={guide.list} variant="plus" />
@@ -22,13 +23,39 @@ const formId = 'poradnik-formularz';
       <p class="small mt-m">{guide.note}</p>
     </div>
 
-    <div class="col-6">
+    <div class="col-4">
+      <Photo image={guide.image} sizes="(min-width: 760px) min(384px, calc((100vw - 200px) / 3)), calc(100vw - 48px)" />
+    </div>
+
+    <div class="col-4">
       <Form id={formId} subject={form.subject} submit={form.submit} consent={form.consent}>
         <div class="field-row">
-          <Field form={formId} name="imie" label={form.firstName} required autocomplete="given-name" />
-          <Field form={formId} name="nazwisko" label={form.lastName} required autocomplete="family-name" />
+          <Field
+            form={formId}
+            name="imie"
+            label={form.firstName}
+            placeholder={form.firstNamePlaceholder}
+            required
+            autocomplete="given-name"
+          />
+          <Field
+            form={formId}
+            name="nazwisko"
+            label={form.lastName}
+            placeholder={form.lastNamePlaceholder}
+            required
+            autocomplete="family-name"
+          />
         </div>
-        <Field form={formId} name="email" label={form.email} type="email" required autocomplete="email" />
+        <Field
+          form={formId}
+          name="email"
+          label={form.email}
+          placeholder={form.emailPlaceholder}
+          type="email"
+          required
+          autocomplete="email"
+        />
         <Fragment slot="success">
           <p>{form.success}</p>
           <p class="mt-s">
