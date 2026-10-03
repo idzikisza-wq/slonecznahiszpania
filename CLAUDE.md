@@ -65,6 +65,8 @@ Font: Mulish 400, 600, 700 z Google Fonts (z podzbiorem latin-ext, bo copy ma po
 
 ## Sześć reguł systemu (z Kwadrat Documents, przeniesione na web)
 
+Pełny opis systemu (pod A4) jest w `08_DOKUMENTY_KWADRAT.md` w katalogu głównym repo. Jego „Checklista przed wysyłką” to checklista końcowa strony. Wartości pod web (rozmiary, odstępy, linie 1px) bierzemy z tego pliku.
+
 1. Dużo bieli. Około 88% powierzchni to `--paper`. Sekcja ma najwyżej cztery bloki treści (blok: rząd kafelków, lista, zdjęcie, formularz, tabela). Podsekcja z własnym h3 liczy się jako osobna sekcja. Jak coś się nie mieści: tnij albo dziel, nie zmniejszaj fontu ani odstępów.
 2. Jeden akcent. `--kwadrat-red` występuje tylko w: logo, kwadraciku przed każdym h2, kwadracikach list atutów i jednej liczbie na całej stronie (ocena 4,9 w Opiniach). Nigdy jako tło przycisku, sekcji, pola. Nigdy jako kolor tekstu dłuższego niż jedna liczba. Nigdy w hoverze.
 3. Cienkie linie zamiast ramek. Linia mocna: 1px `--ink` nad kafelkiem i pod nagłówkiem tabeli. Linia lekka: 1px `--line` pod nagłówkiem strony, nad stopką, krawędź callouta. Linia włosowa: 1px `--line-soft` między wierszami tabeli i pozycjami FAQ. Zero obramowań wokół bloków, cieni, zaokrągleń, gradientów, ikon.
@@ -122,7 +124,7 @@ Kontrast `ink`, `text` i `muted` na `paper` spełnia AA dla podanych rozmiarów.
 
 - Logo: lockup KWADRAT NIERUCHOMOŚCI w nagłówku (strona to materiał poza dokumentami A4, więc lockup jest właściwą wersją). W stopce brak logo.
 - Nazwa w treści: Kwadrat Nieruchomości (meta, logo, opisy). W leadzie Opinii i w zgodzie pod formularzem kontaktowym: Grupa Inwestycyjna Kwadrat, odmieniana. Dane spółki w stopce: GRUPA INWESTYCYJNA KWADRAT Sp. z o.o. Oddział Żoliborz nie występuje nigdzie.
-- Telefon i e-mail: jak na obecnej stronie (+48 505 085 001, biuro@kwadrat.io). DO POTWIERDZENIA przez Idziego, trzymaj w jednej stałej w `site.ts`.
+- Telefon i e-mail: jak na nowej stronie (+48 505 085 001, biuro@kwadrat.io), potwierdzone przez Idziego 3.10.2026. Trzymaj je w jednej stałej w `site.ts`.
 
 ## Treść: inwentarz sekcji (kolejność bez zmian)
 
@@ -141,7 +143,7 @@ Usunięte po przebudowie z 3.10.2026: rząd PL / 360° / 1 plan, sekcja „Bez u
 9. Proces (#proces). `label` JASNY PROCES, h2, `lead`, rząd czterech kafelków 3+3+3+3 z numerem w `kpi-mid`.
 10. Przykładowe nieruchomości (#oferty). Widoczne: oferty i ceny potwierdził Idzi 3.10.2026. Przełącznik `SHOW_OFFERS` w `site.ts` chowa sekcję razem z pozycją Oferty w menu. Nagłówek „Przykłady z Costa del Sol". Trzy oferty 4+4+4: zdjęcie w naturalnych proporcjach, pod nim `small` „Wizualizacja" (stała `OFFER_PHOTO_NOTE` w `site.ts`), `label` lokalizacja, h3, `small` parametry, cena `num2`, opcjonalny link w polu `href`.
 11. Obsługa 360° (#bezpieczenstwo). Sekcja między liniami. 6+6: `label`, h2, akapit; lista atutów z pięcioma punktami.
-12. Opinie (#opinie). `label` OPINIE KLIENTÓW, h2, akapit. 4+4+4: kafelek z `label` OCENA GOOGLE, liczbą 4,9 w `--kwadrat-red` (jedyna czerwona liczba na stronie) z „/ 5" w num2 ink, uwagą `small` „120 opinii w wizytówce Google" z nazwą wizytówki i datą odczytu od Idziego (Kwadrat Otwock, stan na 1.10.2026), CTA drugi ZOBACZ WSZYSTKIE; dwie opinie jako callout. Bez gwiazdek, bez logo Google.
+12. Opinie (#opinie). `label` OPINIE KLIENTÓW, h2, akapit. 4+4+4: kafelek z `label` OCENA GOOGLE, liczbą 4,9 w `--kwadrat-red` (jedyna czerwona liczba na stronie) z „/ 5" w num2 ink, uwagą `small` „120 opinii w wizytówce Google" w jednej linii, pod nią `small` z nazwą wizytówki i datą odczytu od Idziego (Kwadrat Otwock, stan na 01.10.2026), CTA drugi ZOBACZ WSZYSTKIE; dwie opinie jako callout. Bez gwiazdek, bez logo Google.
 13. FAQ (#faq). `label` NAJCZĘSTSZE PYTANIA, h2. Cztery pytania jako natywne `<details>`, po prawej szary znak tekstowy „+" (otwarte: „−"), pierwsze otwarte od startu.
 14. Konsultacja (#kontakt). 6+6. Lewa: `label` BEZPŁATNA KONSULTACJA, h2, akapit, `label` ZADZWOŃ DO NAS, telefon w `num2` jako link `tel:`. Prawa: formularz Imię i nazwisko, E-mail, Rozważany region (select, placeholder „Wybierz lub zostaw otwarte": Costa del Sol, Costa Blanca, Chcę porównać regiony, Inny region Hiszpanii), Wiadomość, CTA główny WYŚLIJ ZAPYTANIE, zgoda. Placeholdery pól z nowej strony.
 15. Stopka. Linia lekka nad. W `small`: pełne dane rejestrowe spółki, zdanie „Treści na stronie mają charakter informacyjny i nie stanowią porady prawnej, podatkowej ani inwestycyjnej.", www.kwadrat.io, biuro@kwadrat.io, link Polityka prywatności.
@@ -165,16 +167,16 @@ Usunięte po przebudowie z 3.10.2026: rząd PL / 360° / 1 plan, sekcja „Bez u
 
 ## Formularze
 
-Dwa formularze: poradnik i kontakt. Dostawca domyślny: Web3Forms (DO POTWIERDZENIA), wysyłka na biuro@kwadrat.io. Klucz w zmiennej `PUBLIC_WEB3FORMS_KEY`, nigdy w repo, `.env` w `.gitignore`. Bez klucza formularz działa w trybie demo: komunikat sukcesu i log payloadu w konsoli.
+Dwa formularze: poradnik i kontakt. Dostawca: Web3Forms (potwierdził Idzi 3.10.2026), wysyłka na biuro@kwadrat.io. Klucz w zmiennej `PUBLIC_WEB3FORMS_KEY`, nigdy w repo, `.env` w `.gitignore`. Bez klucza formularz działa w trybie demo: komunikat sukcesu i log payloadu w konsoli.
 
 - Honeypot przeciw spamowi, bez CAPTCHA.
 - Po wysłaniu poradnika: komunikat w `body` i link do `public/poradnik.pdf`. Do czasu dostarczenia pliku: jednostronicowy placeholder PDF wygenerowany w repo.
-- Zgoda pod formularzem poradnika z nowej strony (treść w `site.ts`, do potwierdzenia z prawnikiem). Pod formularzem kontaktowym zgoda z poprzedniej wersji strony: nowa strona jej nie ma, ale Idzi zdecydował 3.10.2026, że ma być (też do potwierdzenia z prawnikiem). Pod każdym formularzem zdanie z linkiem do `/polityka-prywatnosci`.
+- Zgoda pod formularzem poradnika z nowej strony (treść w `site.ts`, potwierdzona). Pod formularzem kontaktowym zgoda z poprzedniej wersji strony: nowa strona jej nie ma, ale Idzi zdecydował 3.10.2026, że ma być (treść potwierdzona). Pod każdym formularzem zdanie z linkiem do `/polityka-prywatnosci`.
 - Strona `/polityka-prywatnosci`: szablon w stylu systemu z nagłówkiem i stopką, treść to wyłącznie „Treść w przygotowaniu." Nie pisz tekstu prawnego. Treść dostarczy Idzi.
 
 ## SEO i meta
 
-- Title: „Kwadrat Nieruchomości | Costa del Sol i Costa Blanca". Description i og:tagi z `<head>` nowej strony, bez myślników. og:image: plik z `<head>` nowej strony pobrany do `public/og-image.png` (zrzut hero wersji z Lovable, 1920 × 1080), ustawiany w `meta.ogImage` w `site.ts`.
+- Title: „Kwadrat Nieruchomości | Costa del Sol i Costa Blanca". Description i og:tagi z `<head>` nowej strony, bez myślników. og:image: `public/og-image.jpg`, zrzut górnej części tej strony w systemie Kwadrat (okno 1600 × 840 zmniejszone do 1200 × 630). Idzi wybrał go 3.10.2026 zamiast zrzutu wersji z Lovable. Ustawiany w `meta.ogImage` w `site.ts`. Po zmianie hero zrób nowy zrzut.
 - Kotwice sekcji jak w inwentarzu.
 - Schema.org: RealEstateAgent (dane spółki, telefon, adres) i FAQPage z czterema pytaniami.
 - Lighthouse: Performance, Accessibility, Best Practices, SEO po 95 lub więcej. Font to jedyny zewnętrzny zasób.

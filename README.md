@@ -69,7 +69,7 @@ Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 
 
 Podpis „Zdjęcie poglądowe" pod zdjęciami w hero to stała `PHOTO_NOTE` w `site.ts`, a podpis „Wizualizacja" pod zdjęciami ofert to stała `OFFER_PHOTO_NOTE`. Pusty tekst ukrywa podpis, np. po podmianie wizualizacji na zdjęcia.
 
-Obraz do udostępniania linku (og:image) to `public/og-image.png`, ustawiany w `meta.ogImage` w `site.ts`. Najlepszy format to 1200 × 630 px.
+Obraz do udostępniania linku (og:image) to `public/og-image.jpg`, ustawiany w `meta.ogImage` w `site.ts`. To zrzut górnej części strony w oknie 1600 × 840 px (Playwright), zmniejszony do 1200 × 630 px i zapisany jako JPG. Po zmianie hero zrób nowy zrzut w tym samym formacie i podmień plik.
 
 ## Oferty
 
@@ -85,7 +85,7 @@ Treść strony `/polityka-prywatnosci` jest w `src/pages/polityka-prywatnosci.as
 
 ## Formularze (Web3Forms)
 
-Oba formularze (poradnik i kontakt) wysyłają zgłoszenia przez [Web3Forms](https://web3forms.com) na adres przypisany do klucza. Dostawca jest DO POTWIERDZENIA.
+Oba formularze (poradnik i kontakt) wysyłają zgłoszenia przez [Web3Forms](https://web3forms.com) na adres przypisany do klucza.
 
 1. Na web3forms.com utwórz klucz (Access Key) dla adresu biuro@kwadrat.io. Klucz przychodzi mailem.
 2. Lokalnie: skopiuj `.env.example` do `.env` i wpisz `PUBLIC_WEB3FORMS_KEY=twój-klucz`. Plik `.env` jest w `.gitignore`, nigdy nie trafia do repo.

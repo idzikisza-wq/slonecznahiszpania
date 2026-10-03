@@ -20,7 +20,7 @@ export const PHOTO_NOTE = 'Zdjęcie poglądowe';
 // Pusty tekst ukrywa podpis, np. po podmianie na zdjęcia nieruchomości.
 export const OFFER_PHOTO_NOTE = 'Wizualizacja';
 
-// DO POTWIERDZENIA (Idzi): telefon i e-mail. Jedyne miejsce w repo.
+// Telefon i e-mail jak na nowej stronie (potwierdził Idzi 3.10.2026). Jedyne miejsce w repo.
 const CONTACT = {
   phone: '+48 505 085 001',
   phoneHref: 'tel:+48505085001',
@@ -96,9 +96,10 @@ const raw = {
     ogTitle: 'Kwadrat Nieruchomości | Hiszpania',
     ogDescription:
       'Costa del Sol czy Costa Blanca? Pomagamy wybrać region dopasowany do Twojego celu, budżetu i stylu życia.',
-    // og:image z <head> nowej strony, pobrany z r2.dev 3.10.2026 do public/: zrzut hero
-    // wersji z Lovable, 1920 × 1080. Alt złożony z nazwy marki i h1.
-    ogImage: '/og-image.png',
+    // og:image: zrzut górnej części tej strony w systemie Kwadrat (okno 1600 × 840 zmniejszone
+    // do 1200 × 630). Idzi wybrał go 3.10.2026 zamiast zrzutu wersji z Lovable.
+    // Alt złożony z nazwy marki i h1.
+    ogImage: '/og-image.jpg',
     ogImageAlt: 'Kwadrat Nieruchomości: Dwa wybrzeża. Dwie dobre odpowiedzi.',
     author: 'Kwadrat Nieruchomości',
   },
@@ -256,7 +257,7 @@ const raw = {
       email: 'E-mail',
       emailPlaceholder: 'jan@adres.pl',
       submit: 'Pobierz bezpłatny poradnik',
-      // DO POTWIERDZENIA z prawnikiem: treść zgody i zdanie o newsletterach
+      // Treść zgody potwierdzona (Idzi, 3.10.2026).
       consent: 'Zapisując się, zgadzasz się na kontakt w sprawie zapytania. Nie wysyłamy newsletterów.',
       success: 'Dziękujemy. Poradnik jest gotowy do pobrania.',
       download: 'Pobierz poradnik (PDF)',
@@ -427,7 +428,7 @@ const raw = {
       // Nazwa wizytówki i data odczytu liczby opinii od Idziego (3.10.2026).
       // Puste pole nie pojawia się na stronie.
       profileName: 'Kwadrat Otwock',
-      readDate: '1.10.2026',
+      readDate: '01.10.2026',
     },
     // Cudzysłowy „ ” dokłada szablon. Wykrzyknik w opinii 1 zostaje: to cytat klienta.
     quotes: [
@@ -493,7 +494,7 @@ const raw = {
       messagePlaceholder: 'Budżet, cel, termin...',
       submit: 'Wyślij zapytanie',
       // Nowa strona nie ma tu zgody. Idzi zdecydował, że ma być (3.10.2026): tekst z poprzedniej
-      // wersji strony. DO POTWIERDZENIA z prawnikiem: treść zgody i zdanie „Nie wysyłamy newsletterów".
+      // wersji strony, treść potwierdzona.
       consent:
         'Wysyłając formularz, zgadzasz się na kontakt od Grupy Inwestycyjnej Kwadrat w sprawie Twojego zapytania. Nie wysyłamy newsletterów.',
       success: 'Dziękujemy. Zapytanie zostało wysłane.',
