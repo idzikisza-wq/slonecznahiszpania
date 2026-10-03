@@ -1,0 +1,40 @@
+/* Tokeny systemu Kwadrat Documents, przeniesione 1:1 z CLAUDE.md.
+   Jedyne miejsce w repo, gdzie wolno zapisać kolor jako hex. */
+
+:root {
+  --kwadrat-red: #e30613; /* logo, kwadraciki, jedna liczba. Nigdy tło, nigdy dłuższy tekst */
+  --red-tint:    #fdedee; /* tło wiersza-kotwicy w tabeli; na tej stronie nieużywany */
+  --ink:         #1a1a1a; /* tytuły, nagłówki, duże liczby, pogrubienia, linia mocna */
+  --text:        #333333; /* tekst podstawowy, listy, tabele */
+  --muted:       #6f6f6f; /* etykiety, podpisy, uwagi, stopka */
+  --line:        #d9d9d9; /* linie podziału, stopka, krawędź callouta, kwadracik minusów */
+  --line-soft:   #ececec; /* linie między wierszami tabel i FAQ */
+  --surface:     #f5f5f5; /* jedyne szare tło: placeholder zdjęcia, pola formularza */
+  --paper:       #ffffff; /* tło strony */
+
+  --font-sans: "Mulish", "Helvetica Neue", Arial, sans-serif;
+
+  --rule: 1px;            /* każda linia na ekranie */
+  --marker-section: 10px; /* czerwony kwadracik przed h2 */
+  --marker-list: 7px;     /* kwadracik w listach */
+
+  --space-xs: 8px;
+  --space-s: 16px;
+  --space-m: 32px;
+  --space-l: 48px;
+  --space-xl: 80px;
+  --section: 120px;       /* odstęp między sekcjami; 72px poniżej 760px */
+
+  --container: 1200px;
+  --side: 76px;           /* margines boczny; 24px poniżej 760px */
+  --gutter: 24px;
+  --measure: 68ch;        /* maksymalna szerokość akapitu */
+}
+
+/* Jedyny breakpoint: 760px */
+@media (max-width: 759.98px) {
+  :root {
+    --section: 72px;
+    --side: 24px;
+  }
+}

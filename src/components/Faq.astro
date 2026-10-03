@@ -1,0 +1,44 @@
+---
+// 13. FAQ (#faq): natywne <details>, summary w stylu h3, linia włosowa między pozycjami.
+import SectionHead from './ui/SectionHead.astro';
+import { site } from '../content/site';
+
+const { faq } = site;
+---
+
+<section class="section container" id="faq">
+  <SectionHead label={faq.label} title={faq.title} />
+  <div class="faq mt-l">
+    {
+      faq.items.map((item) => (
+        <details>
+          <summary>
+            <h3>{item.question}</h3>
+          </summary>
+          <p>{item.answer}</p>
+        </details>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .faq details + details {
+    border-top: var(--rule) solid var(--line-soft);
+  }
+
+  .faq summary {
+    display: block;
+    padding-block: var(--space-s);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq details > p {
+    padding-bottom: var(--space-s);
+  }
+</style>

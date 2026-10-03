@@ -1,0 +1,58 @@
+---
+// Formularz: pola ze slotu, honeypot, CTA główny, pod nim zgoda i zdanie o polityce prywatności.
+// Z kluczem PUBLIC_WEB3FORMS_KEY wysyła do Web3Forms (działa też bez JS),
+// bez klucza tryb demo: komunikat sukcesu i payload w konsoli.
+import { site } from '../../content/site';
+
+interface Props {
+  id: string;
+  subject: string;
+  submit: string;
+  consent: string;
+}
+
+const { id, subject, submit, consent } = Astro.props;
+const { forms } = site;
+const key = import.meta.env.PUBLIC_WEB3FORMS_KEY;
+---
+
+<form
+  class="form"
+  id={id}
+  method="post"
+  action={key ? 'https://api.web3forms.com/submit' : undefined}
+  data-form
+  data-error-required={forms.errorRequired}
+  data-error-email={forms.errorEmail}
+  data-error-send={forms.errorSend}
+>
+  {key && <input type="hidden" name="access_key" value={key} />}
+  <input type="hidden" name="subject" value={subject} />
+  <input type="hidden" name="from_name" value="slonecznahiszpania.pl" />
+  <input type="hidden" name="formularz" value={id} />
+
+  <slot />
+
+  <div class="hp" aria-hidden="true">
+    <label>
+      botcheck
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" />
+    </label>
+  </div>
+
+  <button class="cta form-submit" type="submit">{submit}</button>
+  <p class="small form-status" data-status role="alert" hidden></p>
+  <p class="small form-note">{consent}</p>
+  <p class="small mt-xs">
+    {forms.privacyLead} <a href={forms.privacyHref}>{forms.privacyLink}</a>.
+  </p>
+</form>
+
+<div class="form-success" data-success-for={id} tabindex="-1" hidden>
+  <slot name="success" />
+</div>
+
+<script>
+  import { initForms } from '../../scripts/forms';
+  initForms();
+</script>

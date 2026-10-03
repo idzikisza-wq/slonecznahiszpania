@@ -1,0 +1,23 @@
+---
+// 6. Dlaczego Andaluzja (#dlaczego-andaluzja): cztery kafelki 6+6, podsekcja z porównaniem.
+import SectionHead from './ui/SectionHead.astro';
+import TextTiles from './ui/TextTiles.astro';
+import { site } from '../content/site';
+
+const { whyAndalusia } = site;
+const { compare } = whyAndalusia;
+---
+
+<section class="section container" id="dlaczego-andaluzja">
+  <SectionHead label={whyAndalusia.label} title={whyAndalusia.title} lead={whyAndalusia.lead} />
+  <div class="mt-l">
+    <TextTiles items={whyAndalusia.items} span={6} />
+  </div>
+
+  <div class="subsection">
+    <SectionHead label={compare.label} title={compare.title} text={compare.text} level="h3" />
+    <div class="mt-l">
+      <TextTiles items={compare.items} span={6} />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+---
+// Pole formularza: etykieta label nad polem, tło surface, dolna linia.
+// Komunikat błędu (small, ink) wstawia skrypt formularza pod polem.
+interface Props {
+  form: string;
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'textarea' | 'select';
+  required?: boolean;
+  autocomplete?: string;
+  placeholderOption?: string;
+  options?: string[];
+}
+
+const { form, name, label, type = 'text', required = false, autocomplete, placeholderOption, options = [] } =
+  Astro.props;
+const id = `${form}-${name}`;
+---
+
+<div class="field">
+  <label class="field-label" for={id}>{label}</label>
+  {
+    type === 'textarea' ? (
+      <textarea class="input" id={id} name={name} rows="5" required={required} />
+    ) : type === 'select' ? (
+      <select class="input" id={id} name={name} required={required}>
+        <option value="" selected disabled={required}>
+          {placeholderOption}
+        </option>
+        {options.map((option) => (
+          <option value={option}>{option}</option>
+        ))}
+      </select>
+    ) : (
+      <input class="input" id={id} name={name} type={type} required={required} autocomplete={autocomplete} />
+    )
+  }
+  <p class="small field-error" id={`${id}-error`} hidden></p>
+</div>

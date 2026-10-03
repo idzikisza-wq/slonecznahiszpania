@@ -1,0 +1,78 @@
+---
+// Szkielet strony: meta, font Mulish z Google Fonts, style systemu, nagłówek i stopka.
+import fs from 'node:fs';
+import path from 'node:path';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../content/site';
+import { plainText } from '../content/typo';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/markers.css';
+
+interface Props {
+  title: string;
+  description: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  schema?: object[];
+}
+
+const props = Astro.props;
+const title = plainText(props.title);
+const description = plainText(props.description);
+const ogTitle = plainText(props.ogTitle ?? props.title);
+const ogDescription = plainText(props.ogDescription ?? props.description);
+const schema = props.schema ?? [];
+const pathname = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/');
+const canonical = new URL(pathname, Astro.site).href;
+
+// og:image: zdjęcie hero, jeśli jest w public/img
+const ogImageFile = `img/${site.hero.image.name}-1600.jpg`;
+const ogImage = fs.existsSync(path.join(process.cwd(), 'public', ogImageFile))
+  ? new URL(`/${ogImageFile}`, Astro.site).href
+  : undefined;
+
+const fontCss = 'https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap';
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/brand/kwadrat-logo.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content={plainText(site.company.brand)} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta property="og:image:alt" content={plainText(site.hero.image.alt)} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+
+    <!-- Mulish 400, 600, 700. API css2 podaje podzbiory latin i latin-ext przez unicode-range.
+         Arkusz ładowany bez blokowania renderu (display=swap), bez JS zwykły link w noscript. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href={fontCss} />
+    <link rel="stylesheet" href={fontCss} media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href={fontCss} /></noscript>
+
+    <script is:inline>document.documentElement.classList.add('js');</script>
+
+    {schema.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+  </head>
+  <body>
+    <Header />
+    <main id="tresc">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

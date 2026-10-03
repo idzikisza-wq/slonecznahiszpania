@@ -1,0 +1,170 @@
+---
+// Nagłówek: logo lockup, etykieta regionu (desktop), telefon, nawigacja w label.
+// Nie sticky. Na mobile linki chowane pod słowem MENU, bez ikony.
+import { site } from '../content/site';
+
+const { header, contact } = site;
+---
+
+<a class="skip-link nav-link" href="#tresc">{header.skipLink}</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/">
+      <img src="/brand/kwadrat-logo-lockup.svg" alt={header.logoAlt} width="134" height="36" />
+    </a>
+    <p class="label header-tagline">{header.tagline}</p>
+    <a class="nav-link header-phone" href={contact.phoneHref}>{contact.phone}</a>
+    <button class="nav-link menu-toggle" type="button" aria-expanded="false" aria-controls="nawigacja">
+      {header.menu}
+    </button>
+    <nav class="site-nav" id="nawigacja" aria-label={header.navLabel}>
+      <ul>
+        {
+          header.nav.map((item) => (
+            <li>
+              <a class="nav-link" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: var(--side);
+    top: var(--space-xs);
+    z-index: 1;
+    padding: var(--space-xs) var(--space-s);
+    background: var(--paper);
+    color: var(--ink);
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  .site-header {
+    border-bottom: var(--rule) solid var(--line);
+  }
+
+  .header-inner {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    grid-template-areas:
+      'brand tagline . phone'
+      'nav nav nav nav';
+    align-items: center;
+    column-gap: var(--space-m);
+    row-gap: var(--space-s);
+    padding-block: var(--space-m) var(--space-s);
+  }
+
+  .brand {
+    grid-area: brand;
+  }
+
+  .brand img {
+    width: auto;
+    height: 36px;
+  }
+
+  .header-tagline {
+    grid-area: tagline;
+  }
+
+  .header-phone {
+    grid-area: phone;
+    white-space: nowrap;
+  }
+
+  .site-nav {
+    grid-area: nav;
+  }
+
+  .site-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    column-gap: var(--gutter);
+    row-gap: var(--space-xs);
+  }
+
+  .nav-link {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  a.nav-link:hover {
+    color: var(--muted);
+  }
+
+  .site-nav .nav-link {
+    display: inline-block;
+    padding-block: var(--space-xs);
+  }
+
+  .menu-toggle {
+    grid-area: toggle;
+    display: none;
+    padding: var(--space-xs) 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  @media (max-width: 759.98px) {
+    .header-inner {
+      grid-template-columns: auto 1fr auto auto;
+      grid-template-areas:
+        'brand . phone toggle'
+        'nav nav nav nav';
+      column-gap: var(--space-s);
+      row-gap: 0;
+      padding-block: var(--space-s);
+    }
+
+    .brand img {
+      height: 28px;
+    }
+
+    .header-tagline {
+      display: none;
+    }
+
+    :global(.js) .menu-toggle {
+      display: block;
+    }
+
+    :global(.js) .site-nav:not(.is-open) {
+      display: none;
+    }
+
+    .site-nav ul {
+      flex-direction: column;
+      padding-top: var(--space-s);
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.getElementById('nawigacja');
+
+  const setOpen = (open: boolean) => {
+    toggle?.setAttribute('aria-expanded', String(open));
+    nav?.classList.toggle('is-open', open);
+  };
+
+  toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  nav?.addEventListener('click', (event) => {
+    if ((event.target as Element).closest('a')) setOpen(false);
+  });
+</script>

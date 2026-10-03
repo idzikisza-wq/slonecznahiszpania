@@ -1,0 +1,32 @@
+---
+// Lista z kwadracikami. plus: atuty (czerwony), minus: uwagi i ryzyka (kolor linii).
+// Najwyżej pięć punktów na listę.
+interface Item {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  items: (string | Item)[];
+  variant: 'plus' | 'minus';
+}
+
+const { items, variant } = Astro.props;
+if (items.length > 5) throw new Error('Lista ma więcej niż pięć punktów (reguła systemu Kwadrat).');
+const detailed = items.some((item) => typeof item !== 'string');
+---
+
+<ul class:list={['list', `list--${variant}`, { 'list--spaced': detailed }]}>
+  {
+    items.map((item) =>
+      typeof item === 'string' ? (
+        <li>{item}</li>
+      ) : (
+        <li>
+          <strong class="list-title">{item.title}</strong>
+          {item.text}
+        </li>
+      ),
+    )
+  }
+</ul>

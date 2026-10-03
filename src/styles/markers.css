@@ -1,0 +1,33 @@
+/* Jedyny plik poza tokens.css, w którym wolno użyć --kwadrat-red.
+   Tylko: kwadracik przed h2, kwadraciki list atutów i ocena 4,9 w Opiniach. */
+
+/* Kwadracik przed h2: 10px, odstęp 12px, środek pierwszej linii */
+h2 {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+h2::before {
+  content: "";
+  flex: none;
+  width: var(--marker-section);
+  height: var(--marker-section);
+  margin-top: calc((1lh - var(--marker-section)) / 2);
+  background: var(--kwadrat-red);
+}
+
+/* Lista atutów: czerwony kwadracik */
+.list--plus > li::before {
+  background: var(--kwadrat-red);
+}
+
+/* Lista uwag i ryzyk: kwadracik w kolorze linii */
+.list--minus > li::before {
+  background: var(--line);
+}
+
+/* Jedyna czerwona liczba na stronie: ocena Google 4,9 */
+.kpi--accent {
+  color: var(--kwadrat-red);
+}

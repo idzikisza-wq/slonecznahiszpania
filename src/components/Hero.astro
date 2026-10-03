@@ -1,0 +1,47 @@
+---
+// 2. Hero (#start): co, dla kogo, następny krok. Pod spodem kafelki i zdjęcie 3:2.
+import KpiRow from './ui/KpiRow.astro';
+import Photo from './ui/Photo.astro';
+import { site } from '../content/site';
+
+const { hero } = site;
+---
+
+<section class="section hero container" id="start">
+  <div class="grid">
+    <div class="col-8">
+      <p class="label">{hero.label}</p>
+      <h1 class="mt-xs">{hero.title}</h1>
+      <p class="lead mt-s">{hero.lead}</p>
+      <div class="actions mt-m">
+        <a class="cta" href={hero.ctaPrimary.href}>{hero.ctaPrimary.label}</a>
+        <a class="cta-2" href={hero.ctaSecondary.href}>{hero.ctaSecondary.label}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-l">
+    <KpiRow items={hero.kpis} />
+  </div>
+
+  <figure class="mt-l">
+    <Photo
+      image={hero.image}
+      sizes="(min-width: 760px) min(1200px, calc(100vw - 152px)), calc(100vw - 48px)"
+      eager
+    />
+    <figcaption class="small">{hero.caption}</figcaption>
+  </figure>
+</section>
+
+<style>
+  .hero {
+    margin-top: var(--space-xl);
+  }
+
+  @media (max-width: 759.98px) {
+    .hero {
+      margin-top: var(--space-l);
+    }
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+// Stopka: linia lekka nad, dane rejestrowe spółki w small. Bez logo.
+import { site } from '../content/site';
+
+const { footer, company, contact } = site;
+const SEP = '\u00a0· ';
+---
+
+<footer class="site-footer">
+  <div class="container">
+    {
+      footer.lines.map((line) => (
+        <p class="small">{line}</p>
+      ))
+    }
+    <p class="small footer-links">
+      <a href={company.website}>{company.websiteLabel}</a>{SEP}<a href={`mailto:${contact.email}`}>{contact.email}</a>{
+        SEP
+      }<a href={footer.privacy.href}>{footer.privacy.label}</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: var(--rule) solid var(--line);
+    padding-block: var(--space-l);
+  }
+
+  .site-footer p {
+    max-width: none;
+  }
+
+  .footer-links {
+    margin-top: var(--space-s);
+  }
+
+  .footer-links a {
+    color: inherit;
+    text-underline-offset: 3px;
+  }
+
+  .footer-links a:hover {
+    color: var(--ink);
+  }
+</style>

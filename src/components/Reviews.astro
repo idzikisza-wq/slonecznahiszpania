@@ -1,0 +1,41 @@
+---
+// 12. Opinie (#opinie): kafelek z oceną 4,9 (jedyna czerwona liczba), dwie opinie jako callout.
+// Bez gwiazdek, bez logo Google, bez chmury tagów.
+import SectionHead from './ui/SectionHead.astro';
+import { site } from '../content/site';
+
+const { reviews } = site;
+const { rating } = reviews;
+---
+
+<section class="section container" id="opinie">
+  <SectionHead label={reviews.label} title={reviews.title} text={reviews.text} />
+  <div class="grid mt-l">
+    <div class="col-4">
+      <div class="tile" style="--span: 4; --rows: 3">
+        <p class="label">{rating.label}</p>
+        <p class="kpi nowrap">
+          <span class="kpi--accent">{rating.value}</span>{' '}<span class="num2">{rating.scale}</span>
+        </p>
+        <p class="small">{rating.note}</p>
+      </div>
+    </div>
+    <div class="col-8">
+      {
+        reviews.quotes.map((quote, index) => (
+          <figure class:list={['callout', { 'mt-m': index > 0 }]}>
+            <blockquote>
+              <p>„{quote.text}”</p>
+            </blockquote>
+            <figcaption class="small">
+              {quote.author} · {quote.meta}
+            </figcaption>
+          </figure>
+        ))
+      }
+      <p class="mt-m">
+        <a class="cta-2" href={reviews.cta.href}>{reviews.cta.label}</a>
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+---
+// 4. Po co kupujesz: trzy kafelki tekstowe 4+4+4 z CTA drugim.
+import SectionHead from './ui/SectionHead.astro';
+import TextTiles from './ui/TextTiles.astro';
+import { site } from '../content/site';
+
+const { purpose } = site;
+---
+
+<section class="section container">
+  <SectionHead label={purpose.label} title={purpose.title} lead={purpose.lead} />
+  <div class="mt-l">
+    <TextTiles items={purpose.items} span={4} cta={purpose.cta} />
+  </div>
+</section>

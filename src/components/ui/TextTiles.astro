@@ -1,0 +1,44 @@
+---
+// Kafelki tekstowe: linia mocna nad, opcjonalnie label albo numer kpi-mid, h3, akapit, CTA drugi.
+// Każdy rząd to osobna siatka z subgridem, części kafelków wyrównane w poziomie.
+interface Tile {
+  label?: string;
+  number?: string;
+  title: string;
+  text: string;
+}
+
+interface Props {
+  items: Tile[];
+  span: 3 | 4 | 6;
+  cta?: { label: string; href: string };
+}
+
+const { items, span, cta } = Astro.props;
+const perRow = 12 / span;
+const rowsOfTiles = Array.from({ length: Math.ceil(items.length / perRow) }, (_, i) =>
+  items.slice(i * perRow, (i + 1) * perRow),
+);
+const first = items[0];
+const parts = (first.label ? 1 : 0) + (first.number ? 1 : 0) + 2 + (cta ? 1 : 0);
+---
+
+{
+  rowsOfTiles.map((row) => (
+    <ul class:list={['tiles', { 'tiles--4': perRow === 4 }]}>
+      {row.map((item) => (
+        <li class="tile" style={`--span: ${span}; --rows: ${parts}`}>
+          {item.label && <p class="label">{item.label}</p>}
+          {item.number && <p class="kpi-mid">{item.number}</p>}
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+          {cta && (
+            <a class="cta-2 tile-cta" href={cta.href}>
+              {cta.label}
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+  ))
+}

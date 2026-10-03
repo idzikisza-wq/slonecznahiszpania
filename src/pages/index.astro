@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Guide from '../components/Guide.astro';
+import Purpose from '../components/Purpose.astro';
+import WhySpain from '../components/WhySpain.astro';
+import WhyAndalusia from '../components/WhyAndalusia.astro';
+import Locations from '../components/Locations.astro';
+import Process from '../components/Process.astro';
+import Offers from '../components/Offers.astro';
+import Service from '../components/Service.astro';
+import Safety from '../components/Safety.astro';
+import Reviews from '../components/Reviews.astro';
+import Faq from '../components/Faq.astro';
+import Contact from '../components/Contact.astro';
+import { site } from '../content/site';
+import { plainText as plain } from '../content/typo';
+
+const { meta, company, contact, faq } = site;
+const origin = Astro.site!.origin;
+
+const realEstateAgent = {
+  '@context': 'https://schema.org',
+  '@type': 'RealEstateAgent',
+  name: plain(company.brand),
+  legalName: plain(company.legalName),
+  url: `${origin}/`,
+  logo: `${origin}/brand/kwadrat-logo-lockup.svg`,
+  telephone: plain(contact.phone),
+  email: contact.email,
+  taxID: company.nip,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: plain(company.street),
+    postalCode: company.postalCode,
+    addressLocality: company.city,
+    addressCountry: 'PL',
+  },
+  areaServed: ['Málaga', 'Costa del Sol', 'Andaluzja'],
+  sameAs: [company.website],
+};
+
+const faqPage = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.items.map((item) => ({
+    '@type': 'Question',
+    name: plain(item.question),
+    acceptedAnswer: { '@type': 'Answer', text: plain(item.answer) },
+  })),
+};
+---
+
+<Base
+  title={meta.title}
+  description={meta.description}
+  ogTitle={meta.ogTitle}
+  ogDescription={meta.ogDescription}
+  schema={[realEstateAgent, faqPage]}
+>
+  <Hero />
+  <Guide />
+  <Purpose />
+  <WhySpain />
+  <WhyAndalusia />
+  <Locations />
+  <Process />
+  <Offers />
+  <Service />
+  <Safety />
+  <Reviews />
+  <Faq />
+  <Contact />
+</Base>

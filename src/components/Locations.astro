@@ -1,0 +1,15 @@
+---
+// 7. Lokalizacje (#lokalizacje): tabela danych, miasto pogrubione w ink. Bez zdjęć.
+import SectionHead from './ui/SectionHead.astro';
+import DataTable from './ui/DataTable.astro';
+import { site } from '../content/site';
+
+const { locations } = site;
+---
+
+<section class="section container" id="lokalizacje">
+  <SectionHead label={locations.label} title={locations.title} lead={locations.lead} />
+  <div class="mt-l">
+    <DataTable rows={locations.rows} caption={locations.tableLabel} strongKeys />
+  </div>
+</section>

@@ -1,0 +1,15 @@
+---
+// 8. Proces (#proces): rząd czterech kafelków 3+3+3+3, numer w kpi-mid.
+import SectionHead from './ui/SectionHead.astro';
+import TextTiles from './ui/TextTiles.astro';
+import { site } from '../content/site';
+
+const { process } = site;
+---
+
+<section class="section container" id="proces">
+  <SectionHead label={process.label} title={process.title} lead={process.lead} />
+  <div class="mt-l">
+    <TextTiles items={process.steps} span={3} />
+  </div>
+</section>

@@ -1,0 +1,21 @@
+---
+// 10. Obsługa 360°: sześć punktów jako dwie listy atutów po trzy, 6+6.
+import SectionHead from './ui/SectionHead.astro';
+import List from './ui/List.astro';
+import { site } from '../content/site';
+
+const { service } = site;
+---
+
+<section class="section container">
+  <SectionHead label={service.label} title={service.title} />
+  <div class="grid mt-l">
+    {
+      service.lists.map((items) => (
+        <div class="col-6">
+          <List items={items} variant="plus" />
+        </div>
+      ))
+    }
+  </div>
+</section>
