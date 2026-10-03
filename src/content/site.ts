@@ -50,7 +50,9 @@ const IMAGES = {
   offerMalaga: {
     name: 'oferta-malaga',
     ratio: [4, 3],
-    alt: 'Apartament z tarasem, Málaga Centro',
+    // Alt z copy.md: „Apartament z tarasem, Málaga Centro". Zdjęcie to selfie przed budynkiem
+    // (decyzja Idziego), więc alt opisuje to, co na nim widać.
+    alt: 'Trzy osoby przed białym apartamentowcem z basenem i palmami',
     placeholder: 'Zdjęcie 4:3',
   },
   offerMijas: {
