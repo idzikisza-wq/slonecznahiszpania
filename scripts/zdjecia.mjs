@@ -25,7 +25,6 @@ const SLOTS = {
   'oferta-mijas': { ratio: [4, 3], focus: [0.5, 0.5] },
   'oferta-marbella': { ratio: [4, 3], focus: [0.5, 0.69] },
   obsluga: { ratio: [4, 3], focus: [0.5, 0.28] },
-  kontakt: { ratio: [4, 3], focus: [0.5, 0.89] },
 };
 
 const sources = await readdir(SRC, { withFileTypes: true });
@@ -40,6 +39,9 @@ for (const old of outputs.filter((f) => !Object.keys(SLOTS).some((slot) => isSlo
 for (const [slot, { ratio, focus = [0.5, 0.5] }] of Object.entries(SLOTS)) {
   const source = sources.find((f) => f.isFile() && /\.(jpe?g|png|webp)$/i.test(f.name) && path.parse(f.name).name === slot);
   if (!source) {
+    for (const old of outputs.filter((f) => isSlotFile(f, slot))) {
+      await unlink(path.join(OUT, old));
+    }
     console.log(`${slot}: brak pliku w ${SRC}/, na stronie zostaje szare pole`);
     continue;
   }

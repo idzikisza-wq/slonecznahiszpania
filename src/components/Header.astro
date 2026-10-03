@@ -1,9 +1,10 @@
 ---
 // Nagłówek: logo lockup, cztery linki w label, na końcu CTA główny „Konsultacja".
 // Nie sticky. Na mobile linki i przycisk chowane pod słowem MENU, bez ikony.
-import { site } from '../content/site';
+import { site, SHOW_OFFERS } from '../content/site';
 
 const { header } = site;
+const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty');
 ---
 
 <a class="skip-link nav-link" href="#tresc">{header.skipLink}</a>
@@ -19,7 +20,7 @@ const { header } = site;
     <nav class="site-nav" id="nawigacja" aria-label={header.navLabel}>
       <ul>
         {
-          header.nav.map((item) => (
+          nav.map((item) => (
             <li>
               <a class="nav-link" href={item.href}>
                 {item.label}

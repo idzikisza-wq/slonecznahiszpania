@@ -59,7 +59,6 @@ Miejsca na stronie i oczekiwane proporcje:
 | `oferta-mijas.jpg` | oferta Mijas | 4:3 |
 | `oferta-marbella.jpg` | oferta Marbella | 4:3 |
 | `obsluga.jpg` | Obsługa 360°, obok listy | 4:3 |
-| `kontakt.jpg` | Kontakt, pod telefonem | 4:3 |
 
 1. Wrzuć plik do `zdjecia/` pod nazwą z tabeli (jpg, jpeg, png albo webp). Najlepiej co najmniej 1600 px szerokości po kadrze. Zdjęcia z iPhone'a w HEIC najpierw wyeksportuj jako JPG.
 2. Uruchom `npm run zdjecia`. Skrypt kadruje, zapisuje WebP i JPG w szerokościach 800 i 1600 px do `public/img/` i usuwa metadane (EXIF, GPS). Mniejsze źródło zapisze także w jego pełnej szerokości i wypisze ostrzeżenie.

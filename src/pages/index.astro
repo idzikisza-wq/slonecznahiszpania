@@ -12,7 +12,7 @@ import Service from '../components/Service.astro';
 import Reviews from '../components/Reviews.astro';
 import Faq from '../components/Faq.astro';
 import Contact from '../components/Contact.astro';
-import { site } from '../content/site';
+import { site, SHOW_OFFERS } from '../content/site';
 import { plainText as plain } from '../content/typo';
 
 const { meta, company, contact, faq } = site;
@@ -64,7 +64,7 @@ const faqPage = {
   <WhyAndalusia />
   <Locations />
   <Process />
-  <Offers />
+  {SHOW_OFFERS && <Offers />}
   <Service />
   <Reviews />
   <Faq />

@@ -1,9 +1,6 @@
 ---
-// 14. Kontakt (#kontakt): 6+6. Lewa: opis, telefon, link, a na dole zdjęcie 4:3 wyrównane
-// do dołu formularza. Prawa: formularz. Na mobile ta sama kolejność: tekst, zdjęcie, formularz
-// (zdjęcie nie wisi nad nagłówkiem sekcji).
+// 14. Kontakt (#kontakt): 6+6. Lewa: opis, telefon, link. Prawa: formularz.
 import SectionHead from './ui/SectionHead.astro';
-import Photo from './ui/Photo.astro';
 import Form from './ui/Form.astro';
 import Field from './ui/Field.astro';
 import { site } from '../content/site';
@@ -14,34 +11,28 @@ const formId = 'kontakt-formularz';
 ---
 
 <section class="section container" id="kontakt">
-  <div class="grid contact">
-    <div class="col-6 contact-info">
-      <div>
-        <SectionHead label={section.label} title={section.title} text={section.text} />
-        <p class="label mt-l">{section.phoneLabel}</p>
-        <p class="mt-xs">
-          <a class="num2 phone nowrap" href={contact.phoneHref}>{contact.phone}</a>
-        </p>
-        <p class="mt-m">
-          <a class="cta-2" href={section.cta.href}>{section.cta.label}</a>
-        </p>
-      </div>
-      <div class="contact-photo">
-        <Photo image={section.image} sizes="(min-width: 760px) min(588px, calc(50vw - 88px)), calc(100vw - 48px)" />
-      </div>
+  <div class="grid">
+    <div class="col-6">
+      <SectionHead label={section.label} title={section.title} text={section.text} />
+      <p class="label mt-l">{section.phoneLabel}</p>
+      <p class="mt-xs">
+        <a class="num2 phone nowrap" href={contact.phoneHref}>{contact.phone}</a>
+      </p>
+      <p class="mt-m">
+        <a class="cta-2" href={section.cta.href}>{section.cta.label}</a>
+      </p>
     </div>
     <div class="col-6">
       <Form id={formId} subject={form.subject} submit={form.submit} consent={form.consent}>
         <Field form={formId} name="name" label={form.name} required autocomplete="name" />
         <Field form={formId} name="email" label={form.email} type="email" required autocomplete="email" />
-        <Field form={formId} name="telefon" label={form.phone} type="tel" autocomplete="tel" />
         <Field
           form={formId}
-          name="cel"
-          label={form.interest}
+          name="region"
+          label={form.region}
           type="select"
-          placeholderOption={form.interestPlaceholder}
-          options={form.interestOptions}
+          placeholderOption={form.regionPlaceholder}
+          options={form.regionOptions}
         />
         <Field form={formId} name="wiadomosc" label={form.message} type="textarea" />
         <p slot="success">{form.success}</p>
@@ -51,14 +42,6 @@ const formId = 'kontakt-formularz';
 </section>
 
 <style>
-  /* Obie kolumny zaczynają się i kończą na tej samej wysokości */
-  .contact-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: var(--space-l);
-  }
-
   .phone {
     text-decoration: none;
   }

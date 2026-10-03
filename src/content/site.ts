@@ -8,6 +8,10 @@
 
 import { typo } from './typo';
 
+// Przykładowe nieruchomości (DANE): sekcja ukryta, bo ceny nie mają potwierdzonego źródła.
+// Gdy false, sekcja i pozycja „Oferty" w menu znikają ze strony.
+export const SHOW_OFFERS = false;
+
 // DO POTWIERDZENIA (Idzi): telefon i e-mail. Jedyne miejsce w repo.
 const CONTACT = {
   phone: '+48 505 085 001',
@@ -50,7 +54,7 @@ const IMAGES = {
   offerMalaga: {
     name: 'oferta-malaga',
     ratio: [4, 3],
-    alt: 'Trzy osoby przed białym apartamentowcem z basenem i palmami',
+    alt: 'Apartament z tarasem, Málaga Centro',
     placeholder: 'Zdjęcie 4:3',
   },
   offerMijas: {
@@ -69,12 +73,6 @@ const IMAGES = {
     name: 'obsluga',
     ratio: [4, 3],
     alt: 'Widok z tarasu na ogród z palmami i biały apartamentowiec',
-    placeholder: 'Zdjęcie 4:3',
-  },
-  contact: {
-    name: 'kontakt',
-    ratio: [4, 3],
-    alt: 'Piotr i Ania na deptaku w centrum Málagi',
     placeholder: 'Zdjęcie 4:3',
   },
 };
@@ -252,7 +250,7 @@ const raw = {
   process: {
     label: 'Jasny proces',
     title: 'Od pierwszej rozmowy do kluczy',
-    lead: 'Cztery etapy. Po każdym wiesz, co dalej.',
+    lead: 'Każdy etap ma jasny cel i następny krok.',
     steps: [
       { number: '1', title: 'Rozmowa i plan', text: 'Poznajemy Twój cel, budżet i oczekiwania wobec lokalizacji.' },
       { number: '2', title: 'Selekcja ofert', text: 'Przeszukujemy rynek i przedstawiamy krótką, dopasowaną listę.' },
@@ -265,7 +263,7 @@ const raw = {
   // i link (pole href, wtedy tytuł staje się linkiem). Do tego czasu sekcja jest poza menu.
   offers: {
     label: 'Przykładowe kierunki',
-    title: 'Nieruchomości warte rozmowy',
+    title: 'Przykłady z Costa del Sol',
     note: 'Zakres i ceny są orientacyjne. Właściwą ofertę dobieramy po konsultacji.',
     items: [
       {
@@ -318,8 +316,11 @@ const raw = {
       label: 'Ocena Google',
       value: '4,9',
       scale: '/ 5',
-      // DO UZUPEŁNIENIA: data odczytu liczby opinii
       note: 'Na podstawie 120 opinii w wizytówce Google',
+      // TODO (Idzi): nazwa wizytówki Google i data odczytu liczby opinii. Nie wpisywać z głowy.
+      // Puste pola nie pojawiają się na stronie.
+      profileName: '',
+      readDate: '',
     },
     // Każdy cytat skrócony do jednego zdania z oryginalnej opinii. Cudzysłowy „ ” dokłada szablon.
     quotes: [
@@ -346,6 +347,7 @@ const raw = {
     title: 'Zanim zaczniesz szukać',
     items: [
       {
+        // TODO: do potwierdzenia przez hiszpańskiego prawnika
         question: 'Czy Polak może kupić nieruchomość w Hiszpanii?',
         answer:
           'Tak. Obywatel Polski może kupić nieruchomość na takich samych zasadach jak obywatel Hiszpanii. Do transakcji potrzebny jest numer NIE.',
@@ -374,14 +376,12 @@ const raw = {
     text: 'Napisz, czego szukasz i jaki budżet rozważasz. Wrócimy z pytaniami, które pozwolą dobrze rozpocząć poszukiwania.',
     phoneLabel: 'Zadzwoń do nas',
     cta: { label: 'Poznaj Grupę Inwestycyjną Kwadrat', href: COMPANY.website },
-    image: IMAGES.contact,
     form: {
       name: 'Imię i nazwisko',
       email: 'E-mail',
-      phone: 'Telefon',
-      interest: 'Co Cię interesuje?',
-      interestPlaceholder: 'Wybierz cel zakupu',
-      interestOptions: ['Inwestycja pod wynajem', 'Dom na wypoczynek', 'Mieszkanie na stałe', 'Jeszcze nie wiem'],
+      region: 'Rozważany region',
+      regionPlaceholder: 'Wybierz lub zostaw otwarte',
+      regionOptions: ['Costa del Sol', 'Costa Blanca', 'Chcę porównać regiony', 'Inny region Hiszpanii'],
       message: 'Wiadomość',
       submit: 'Wyślij zapytanie',
       // DO POTWIERDZENIA z prawnikiem: treść zgody i zdanie o newsletterach

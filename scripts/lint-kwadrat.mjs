@@ -71,7 +71,7 @@ const rules = [
   {
     id: 5,
     name: 'pauza (U+2014) albo półpauza (U+2013)',
-    pattern: /[–—]/g,
+    pattern: /[\u2013\u2014]/g,
   },
 ];
 
