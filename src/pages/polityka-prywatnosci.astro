@@ -1,5 +1,6 @@
 ---
 // Szablon w stylu systemu. Treść polityki dostarczy Idzi: nie pisać tekstu prawnego.
+// TODO (Idzi): treść polityki prywatności. Formularze zbierają dane osobowe.
 import Base from '../layouts/Base.astro';
 import { site } from '../content/site';
 
@@ -7,14 +8,17 @@ const { privacy, meta } = site;
 ---
 
 <Base title={privacy.metaTitle} description={meta.description}>
-  <section class="section hero-privacy container">
-    <h1>{privacy.title}</h1>
-    <p class="mt-m">{privacy.body}</p>
+  <section class="privacy">
+    <div class="container">
+      <h1><b>{privacy.title}</b></h1>
+      <p class="mt-m">{privacy.body}</p>
+    </div>
   </section>
 </Base>
 
 <style>
-  .hero-privacy {
-    margin-top: var(--space-xl);
+  .privacy {
+    padding-top: 48px;
+    padding-bottom: var(--section);
   }
 </style>

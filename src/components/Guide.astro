@@ -14,7 +14,8 @@ const { form } = guide;
 const formId = 'poradnik-formularz';
 ---
 
-<section class="section container" id="poradnik">
+<section class="section" id="poradnik">
+  <div class="container">
   <div class="grid">
     <div class="col-4">
       <SectionHead label={guide.label} title={guide.title} text={guide.text} />
@@ -27,7 +28,7 @@ const formId = 'poradnik-formularz';
     <div class="col-4 guide-side">
       <Photo
         image={guide.image}
-        sizes="(min-width: 1100px) min(384px, calc((100vw - 200px) / 3)), (min-width: 760px) calc(50vw - 88px), calc(100vw - 48px)"
+        sizes="(min-width: 1200px) 357px, (min-width: 768px) calc(50vw - 52px), calc(100vw - 40px)"
       />
     </div>
 
@@ -69,11 +70,12 @@ const formId = 'poradnik-formularz';
       </Form>
     </div>
   </div>
+  </div>
 </section>
 
 <style>
   /* Tablet: okładka i formularz obok siebie pod opisem */
-  @media (min-width: 760px) and (max-width: 1099.98px) {
+  @media (min-width: 768px) and (max-width: 1199.98px) {
     .grid > .guide-side {
       grid-column: span 6;
     }

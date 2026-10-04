@@ -1,7 +1,8 @@
-/* Style bazowe systemu Kwadrat na web.
-   Kolory wyłącznie przez tokeny z tokens.css. Czerwień tylko w markers.css.
-   Progi: 760px (max-width: 759.98px, telefon) i 1100px (max-width: 1099.98px, tablet),
-   plus 480px dla rzędu czterech kafelków. */
+/* Style bazowe systemu Kwadrat na web, wersja 2 (warstwa www z artefaktu „Kwadrat Documents”:
+   project/WEB.md, project/components/bundle.css). Kolory wyłącznie przez tokeny z tokens.css.
+   Czerwień tylko w markers.css. Klasy kw-* przeniesione z bundle.css.
+   Progi: 768px (web-bp-tablet, poniżej jedna kolumna) i 1200px (web-bp-desktop, od niego
+   trzy i cztery kolumny). Między nimi tablet: najwyżej dwie kolumny. */
 
 /* Reset */
 
@@ -21,9 +22,9 @@ body {
   background: var(--paper);
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 27px;
   font-variant-numeric: tabular-nums;
   font-synthesis: none;
 }
@@ -70,6 +71,11 @@ th {
   font-weight: 700;
 }
 
+strong,
+b {
+  color: var(--ink);
+}
+
 em,
 i,
 cite,
@@ -87,6 +93,7 @@ textarea {
   color: inherit;
 }
 
+/* Fokus: obrys 2px ink, odsunięty o 3px, na każdym elemencie klikanym */
 :focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
@@ -104,22 +111,23 @@ textarea {
   border: 0;
 }
 
-/* Typografia */
+/* Typografia www: web-display, web-h2, web-h3, web-lead, web-body, web-label, web-small, web-kpi */
 
 h1 {
+  max-width: 880px;
   color: var(--ink);
-  font-size: 44px;
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  text-wrap: balance;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 56px;
+  letter-spacing: -0.015em;
 }
 
 h2 {
   color: var(--ink);
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 40px;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 
@@ -128,7 +136,8 @@ h3,
   color: var(--ink);
   font-size: 20px;
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 28px;
+  letter-spacing: 0;
   text-wrap: balance;
 }
 
@@ -138,93 +147,65 @@ p {
 }
 
 .lead {
-  color: var(--ink);
-  font-size: 20px;
-  line-height: 1.5;
+  max-width: var(--measure);
+  color: var(--text);
+  font-size: 18px;
+  line-height: 30px;
 }
 
 .small {
   color: var(--muted);
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.label,
-.cta,
-.cta-2,
-.nav-link,
-.field-label {
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 13px;
+  line-height: 20px;
 }
 
 .label {
   color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .kpi {
   color: var(--ink);
   font-size: 40px;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 44px;
   letter-spacing: -0.02em;
-}
-
-.kpi-mid {
-  color: var(--ink);
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.num2 {
-  color: var(--ink);
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: 0;
+  white-space: nowrap;
 }
 
 .nowrap {
   white-space: nowrap;
 }
 
-@media (max-width: 759.98px) {
-  body {
-    font-size: 16px;
-  }
-
+@media (max-width: 767.98px) {
   h1 {
     font-size: 32px;
-    line-height: 1.2;
+    line-height: 38px;
   }
 
   h2 {
-    font-size: 24px;
+    font-size: 26px;
+    line-height: 32px;
   }
 
   h3,
   .h3 {
     font-size: 18px;
+    line-height: 26px;
   }
 
   .lead {
-    font-size: 18px;
+    font-size: 16px;
+    line-height: 27px;
   }
 
   .kpi {
     font-size: 32px;
-  }
-
-  .kpi-mid {
-    font-size: 24px;
-  }
-
-  .num2 {
-    font-size: 21px;
+    line-height: 36px;
   }
 }
 
@@ -243,25 +224,23 @@ p {
 }
 
 .mt-l {
-  margin-top: var(--space-l);
+  margin-top: var(--block);
 }
 
-.mt-xl {
-  margin-top: var(--space-xl);
-}
-
-/* Siatka: kontener, 12 kolumn, dozwolone podziały 12, 6+6, 4+4+4, 8+4, 3+3+3+3 */
+/* Siatka: kontener 1200px z marginesem 40px (20px na telefonie), 12 kolumn, gutter 24px.
+   Podziały 12, 6+6, 4+4+4, 8+4, w hero 7+5. */
 
 .container {
-  width: min(100% - 2 * var(--side), var(--container));
+  max-width: var(--container);
   margin-inline: auto;
+  padding-inline: var(--side);
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--gutter);
-  row-gap: var(--space-l);
+  row-gap: var(--block);
 }
 
 .col-12 {
@@ -272,19 +251,34 @@ p {
   grid-column: span 8;
 }
 
+.col-7 {
+  grid-column: span 7;
+}
+
 .col-6 {
   grid-column: span 6;
+}
+
+.col-5 {
+  grid-column: span 5;
 }
 
 .col-4 {
   grid-column: span 4;
 }
 
-.col-3 {
-  grid-column: span 3;
+/* Tablet (768 do 1200px): 8+4, 7+5 i 4+4+4 w jednej kolumnie, 6+6 bez zmian */
+@media (max-width: 1199.98px) {
+  .grid > .col-4,
+  .grid > .col-5,
+  .grid > .col-7,
+  .grid > .col-8 {
+    grid-column: 1 / -1;
+  }
 }
 
-@media (max-width: 759.98px) {
+/* Telefon: wszystko w jednej kolumnie */
+@media (max-width: 767.98px) {
   .grid > * {
     grid-column: 1 / -1;
   }
@@ -295,39 +289,15 @@ p {
   }
 }
 
-/* Tablet (760 do 1100px): 8+4 i 4+4+4 w jednej kolumnie, 6+6 bez zmian */
-@media (min-width: 760px) and (max-width: 1099.98px) {
-  .grid > .col-4,
-  .grid > .col-8 {
-    grid-column: 1 / -1;
-  }
-}
-
-/* Sekcje */
+/* Sekcje: odstęp 96px (64px na telefonie), oddziela je linia 1px line, nigdy kolorowe tło */
 
 .section {
-  margin-top: var(--section);
-  scroll-margin-top: var(--space-m);
-}
-
-.section:last-child {
-  margin-bottom: var(--section);
-}
-
-.subsection {
-  margin-top: var(--space-xl);
-}
-
-/* Dawne ciemne pasy (Porównanie, Obsługa 360°): tło paper, sekcja między dwiema cienkimi liniami */
-.section--ruled,
-.section--ruled + .section {
-  margin-top: calc(var(--section) / 2);
-  padding-top: calc(var(--section) / 2);
+  padding-block: var(--section);
   border-top: var(--rule) solid var(--line);
 }
 
 .head > .label {
-  margin-bottom: var(--space-xs);
+  margin-bottom: var(--space-s);
 }
 
 .head > .lead,
@@ -335,7 +305,7 @@ p {
   margin-top: var(--space-s);
 }
 
-/* Kafelki: linia mocna nad, części w rzędach subgrid, liczby w rzędzie na jednej wysokości */
+/* Kafelki tekstowe: linia 1px ink nad, części w rzędach subgrid */
 
 .tiles {
   display: grid;
@@ -345,7 +315,7 @@ p {
 }
 
 .tiles + .tiles {
-  margin-top: var(--space-l);
+  margin-top: var(--block);
 }
 
 .tile {
@@ -354,6 +324,7 @@ p {
   display: grid;
   grid-template-rows: subgrid;
   align-content: start;
+  min-width: 0;
   border-top: var(--rule) solid var(--ink);
   padding-top: var(--space-s);
 }
@@ -375,20 +346,12 @@ p {
   margin-top: var(--space-s);
 }
 
-.tile .kpi {
-  white-space: nowrap;
-}
-
-/* Poniżej 1100px kafelki po trzy stoją jeden pod drugim */
-@media (max-width: 1099.98px) {
+/* Poniżej 1200px kafelki po trzy stoją jeden pod drugim */
+@media (max-width: 1199.98px) {
   .tiles {
     display: flex;
     flex-direction: column;
-    gap: var(--space-m);
-  }
-
-  .tiles + .tiles {
-    margin-top: var(--space-m);
+    gap: var(--block);
   }
 
   .tile {
@@ -397,20 +360,7 @@ p {
   }
 }
 
-/* Rząd czterech kafelków: 2 × 2 od 480px do 1100px, niżej jedna kolumna */
-@media (min-width: 480px) and (max-width: 1099.98px) {
-  .tiles--4 {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-m) var(--gutter);
-  }
-
-  .tiles--4 > .tile {
-    grid-column: auto;
-  }
-}
-
-/* Listy: kwadracik wyrównany do środka pierwszej linii, kolor w markers.css */
+/* Listy: kwadracik 8px wyrównany do środka pierwszej linii, kolor w markers.css */
 
 .list > li {
   position: relative;
@@ -441,14 +391,14 @@ p {
   font-weight: 700;
 }
 
-/* Callout: lewa krawędź, bez tła */
+/* Callout: lewa krawędź 1px line, bez tła */
 
 .callout {
   border-left: var(--rule) solid var(--line);
   padding-left: var(--space-s);
 }
 
-/* Tabela danych: dwie kolumny, linie włosowe między wierszami */
+/* Tabela danych: dwie kolumny, linie 1px line-soft między wierszami */
 
 .data-table {
   width: 100%;
@@ -493,21 +443,27 @@ p {
   font-weight: 700;
 }
 
-@media (max-width: 759.98px) {
+@media (max-width: 767.98px) {
   .data-table th {
     width: 40%;
   }
 }
 
-/* CTA */
+/* Przycisk główny (kw-btn): tło ink, tekst paper, 600 16px, min. 52px, rogi 0. Jeden na sekcję. */
 
 .cta {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
   padding: 16px 28px;
   border: 0;
   border-radius: 0;
   background: var(--ink);
   color: var(--paper);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -521,23 +477,27 @@ p {
   cursor: progress;
 }
 
-.cta-2 {
-  display: inline-block;
-  padding-bottom: 2px;
-  border-bottom: var(--rule) solid currentColor;
+/* Link i przycisk drugi (kw-link): ink, 600, podkreślenie 1px z odsunięciem 4px, hover 2px */
+
+.cta-2,
+.link {
   color: var(--ink);
-  text-decoration: none;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 
-.cta-2:hover {
-  color: var(--muted);
+.cta-2:hover,
+.link:hover {
+  text-decoration-thickness: 2px;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-m);
+  gap: var(--gutter);
 }
 
 /* Zdjęcia: naturalne proporcje, bez ramek i nakładek */
@@ -565,25 +525,26 @@ figcaption {
   margin-top: var(--space-xs);
 }
 
-/* Formularze */
+/* Formularze: pola Mulish 16px na bieli, linia 1px line na dole zamiast ramki,
+   etykieta nad polem 13px 600. Błąd: tekst w ink z kwadracikiem line, bez czerwieni. */
 
 .field + .field,
 .field-row + .field {
-  margin-top: var(--space-m);
+  margin-top: var(--gutter);
 }
 
-/* Dwa krótkie pola w jednym rzędzie (6+6 w kolumnie), na mobile jedno pod drugim */
+/* Dwa krótkie pola w jednym rzędzie, na telefonie jedno pod drugim */
 .field-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-m) var(--gutter);
+  gap: var(--gutter);
 }
 
 .field-row > .field + .field {
   margin-top: 0;
 }
 
-@media (max-width: 759.98px) {
+@media (max-width: 767.98px) {
   .field-row {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -593,19 +554,22 @@ figcaption {
   display: block;
   margin-bottom: var(--space-xs);
   color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
 }
 
 .input {
   display: block;
   width: 100%;
-  padding: 14px 16px;
+  padding: 12px 0;
   border: 0;
   border-bottom: var(--rule) solid var(--line);
   border-radius: 0;
-  background: var(--surface);
+  background: var(--paper);
   color: var(--text);
-  font-size: 17px;
-  line-height: 1.65;
+  font-size: 16px;
+  line-height: 27px;
 }
 
 .input::placeholder {
@@ -613,18 +577,12 @@ figcaption {
   opacity: 1;
 }
 
-.input:focus {
-  outline: none;
-  border-bottom: 2px solid var(--ink);
-  padding-bottom: 13px;
-}
-
 textarea.input {
-  min-height: 160px;
+  min-height: 136px;
   resize: vertical;
 }
 
-/* Lista wyboru bez natywnego wyglądu: ten sam font, wysokość i linia co pozostałe pola.
+/* Lista wyboru wygląda tak samo jak pole tekstowe: bez natywnego wyglądu, ta sama wysokość.
    Po prawej znak tekstowy „›" z Mulish obrócony w dół, nie ikona. */
 .select {
   position: relative;
@@ -633,8 +591,8 @@ textarea.input {
 .select .input {
   -webkit-appearance: none;
   appearance: none;
-  height: calc(1.65em + 29px);
-  padding-right: 48px;
+  height: 52px;
+  padding-right: 32px;
   cursor: pointer;
 }
 
@@ -643,7 +601,7 @@ textarea.input {
   content: "›" / "";
   position: absolute;
   top: 50%;
-  right: 16px;
+  right: 4px;
   color: var(--muted);
   font-size: 24px;
   line-height: 1;
@@ -651,21 +609,32 @@ textarea.input {
   transform: translateY(-50%) rotate(90deg);
 }
 
-@media (max-width: 759.98px) {
-  .input {
-    font-size: 16px;
-  }
+.field-error {
+  position: relative;
+  margin-top: var(--space-xs);
+  padding-left: calc(var(--marker-list) + var(--space-xs));
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 20px;
 }
 
-.field-error,
+.field-error::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc((20px - var(--marker-list)) / 2);
+  width: var(--marker-list);
+  height: var(--marker-list);
+  background: var(--line);
+}
+
 .form-status {
   margin-top: var(--space-xs);
   color: var(--ink);
 }
 
-
 .form-submit {
-  margin-top: var(--space-m);
+  margin-top: var(--block);
 }
 
 .form-note {
@@ -674,10 +643,11 @@ textarea.input {
 
 .form-note a {
   color: var(--ink);
+  text-underline-offset: 3px;
 }
 
 .form-note a:hover {
-  color: var(--muted);
+  text-decoration-thickness: 2px;
 }
 
 .form-success:focus {
@@ -690,4 +660,255 @@ textarea.input {
   width: 1px;
   height: 1px;
   overflow: hidden;
+}
+
+/* WebStats (kw-stats): pasek 3 do 4 kafelków pod hero. Kafelki to subgrid, wartości stoją
+   na jednej wysokości. Liczba web-kpi 40px, wartość tekstowa 20px Bold na tej samej linii. */
+
+.kw-stats {
+  display: grid;
+  grid-template-columns: repeat(var(--stats, 4), minmax(0, 1fr));
+  grid-template-rows: auto auto auto;
+  column-gap: var(--gutter);
+}
+
+.kw-stat {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  align-content: start;
+  min-width: 0;
+  border-top: var(--rule) solid var(--ink);
+  padding-top: 14px;
+}
+
+.kw-stat .label {
+  margin-bottom: var(--space-xs);
+}
+
+.kw-stat .kw-value {
+  color: var(--ink);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 44px;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.kw-stat .kw-value--text {
+  position: relative;
+  /* Ta sama linia bazowa co liczba 40px: (40 - 20) × (ascent - descent) / 2 = 7,55px dla Mulish */
+  top: 7.55px;
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+.kw-stat .kw-scale {
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.kw-stat .small {
+  margin-top: 6px;
+}
+
+/* Tablet i telefon: dwie kolumny */
+@media (max-width: 1199.98px) {
+  .kw-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--gutter);
+  }
+
+  .kw-stat {
+    grid-row: auto;
+    grid-template-rows: auto;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .kw-stat .kw-value {
+    font-size: 32px;
+    line-height: 36px;
+  }
+
+  .kw-stat .kw-value--text,
+  .kw-stat .kw-scale {
+    font-size: 18px;
+  }
+
+  /* Liczba 32px, tekst 18px: (32 - 18) × 0,755 / 2 = 5,28px */
+  .kw-stat .kw-value--text {
+    top: 5.28px;
+  }
+}
+
+/* WebSteps (kw-steps): kroki w rzędzie po 4, linia 1px ink nad krokiem, numer w web-label */
+
+.kw-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+
+.kw-step {
+  min-width: 0;
+  border-top: var(--rule) solid var(--ink);
+  padding-top: 14px;
+}
+
+.kw-step .label {
+  margin-bottom: 10px;
+}
+
+.kw-step p {
+  margin-top: var(--space-xs);
+}
+
+@media (max-width: 1199.98px) {
+  .kw-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--block);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .kw-steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* WebFaq (kw-faq): details i summary, linia 1px line nad pierwszym pytaniem i pod każdym,
+   plus z dwóch kresek 16 × 2px w ink. Bez zmiany koloru na hover i po otwarciu. */
+
+.kw-faq {
+  max-width: 880px;
+}
+
+.kw-faq details {
+  border-bottom: var(--rule) solid var(--line);
+}
+
+.kw-faq details:first-child {
+  border-top: var(--rule) solid var(--line);
+}
+
+.kw-faq summary {
+  position: relative;
+  padding: 24px 52px 24px 0;
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 25px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.kw-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.kw-faq summary::before,
+.kw-faq summary::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  width: 16px;
+  height: 2px;
+  background: var(--ink);
+  transform: translateY(-50%);
+  transition: transform 0.2s ease;
+}
+
+.kw-faq summary::after {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.kw-faq details[open] summary::after {
+  transform: translateY(-50%) rotate(0deg);
+}
+
+.kw-faq .kw-answer {
+  max-width: var(--measure);
+  padding: 0 52px 24px 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 27px;
+}
+
+@media (max-width: 767.98px) {
+  .kw-faq summary {
+    padding: 20px 42px 20px 0;
+    font-size: 16px;
+    line-height: 23px;
+  }
+
+  .kw-faq .kw-answer {
+    padding-right: 42px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kw-faq summary::after {
+    transition: none;
+  }
+}
+
+/* WebFooter (kw-foot): linia 1px ink nad stopką, 13/20px muted, nagłówki kolumn 700 ink,
+   trzy kolumny 4+4+4, na telefonie jedna. Pasek dolny oddzielony linią 1px line. */
+
+.kw-foot {
+  border-top: var(--rule) solid var(--ink);
+  padding: var(--block) 0 32px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.kw-foot .kw-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+
+.kw-foot b {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.kw-foot a {
+  color: var(--ink);
+  text-underline-offset: 3px;
+}
+
+.kw-foot a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.kw-foot img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 12px;
+}
+
+.kw-foot p {
+  max-width: none;
+}
+
+.kw-foot .kw-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--gutter);
+  margin-top: 32px;
+  padding-top: var(--space-s);
+  border-top: var(--rule) solid var(--line);
+}
+
+@media (max-width: 767.98px) {
+  .kw-foot .kw-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

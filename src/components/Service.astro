@@ -8,7 +8,8 @@ import { site } from '../content/site';
 const { service } = site;
 ---
 
-<section class="section section--ruled container" id="bezpieczenstwo">
+<section class="section" id="bezpieczenstwo">
+  <div class="container">
   <div class="grid">
     <div class="col-6">
       <SectionHead label={service.label} title={service.title} text={service.text} />
@@ -16,5 +17,6 @@ const { service } = site;
     <div class="col-6">
       <List items={service.list} variant="plus" />
     </div>
+  </div>
   </div>
 </section>

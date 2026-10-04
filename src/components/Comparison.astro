@@ -10,7 +10,8 @@ const { comparison } = site;
 const [criterion, ...regions] = comparison.head;
 ---
 
-<section class="section section--ruled container" id="porownanie">
+<section class="section" id="porownanie">
+  <div class="container">
   <SectionHead label={comparison.label} title={comparison.title} lead={comparison.lead} />
   <table class="compare mt-l">
     <thead>
@@ -42,6 +43,7 @@ const [criterion, ...regions] = comparison.head;
   </table>
   <p class="small mt-s">{comparison.anchorNote}</p>
   <p class="small mt-xs">{comparison.note}</p>
+  </div>
 </section>
 
 <style>
@@ -91,7 +93,7 @@ const [criterion, ...regions] = comparison.head;
     padding-left: var(--space-s);
   }
 
-  @media (max-width: 759.98px) {
+  @media (max-width: 767.98px) {
     .compare thead {
       position: absolute;
       width: 1px;

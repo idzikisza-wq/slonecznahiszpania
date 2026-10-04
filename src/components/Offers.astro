@@ -12,7 +12,8 @@ const { offers } = site;
 const photoNote = typoText(OFFER_PHOTO_NOTE);
 ---
 
-<section class="section container" id="oferty">
+<section class="section" id="oferty">
+  <div class="container">
   <SectionHead label={offers.label} title={offers.title} note={offers.note} />
   <ul class="tiles mt-l">
     {
@@ -21,18 +22,19 @@ const photoNote = typoText(OFFER_PHOTO_NOTE);
           <figure>
             <Photo
               image={offer.image}
-              sizes="(min-width: 1100px) min(384px, calc((100vw - 200px) / 3)), (min-width: 760px) calc(100vw - 152px), calc(100vw - 48px)"
+              sizes="(min-width: 1200px) 357px, (min-width: 768px) calc(100vw - 80px), calc(100vw - 40px)"
             />
             {photoNote && <figcaption class="small">{photoNote}</figcaption>}
           </figure>
           <p class="label tile-after-photo">{offer.location}</p>
           <h3>{offer.href ? <a class="offer-link" href={offer.href}>{offer.title}</a> : offer.title}</h3>
           <p class="small">{offer.details.join(' · ')}</p>
-          <p class="num2 tile-price nowrap">{offer.price}</p>
+          <p class="kpi tile-price">{offer.price}</p>
         </li>
       ))
     }
   </ul>
+  </div>
 </section>
 
 <style>

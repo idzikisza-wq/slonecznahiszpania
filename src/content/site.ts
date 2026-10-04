@@ -13,39 +13,72 @@ import { typo } from './typo';
 // Gdy false, sekcja i pozycja „Oferty" w menu znikają ze strony.
 export const SHOW_OFFERS = true;
 
-// Zdjęcia poglądowe (DANE): podpis pod zdjęciami w hero. Pusty tekst ukrywa podpis.
+// Zdjęcie poglądowe (DANE): podpis pod zdjęciem w hero. Pusty tekst ukrywa podpis.
 export const PHOTO_NOTE = 'Zdjęcie poglądowe';
 
 // Zdjęcia ofert to wizualizacje dewelopera (Idzi, 3.10.2026): podpis pod każdym zdjęciem oferty.
 // Pusty tekst ukrywa podpis, np. po podmianie na zdjęcia nieruchomości.
 export const OFFER_PHOTO_NOTE = 'Wizualizacja';
 
-// Telefon i e-mail jak na nowej stronie (potwierdził Idzi 3.10.2026). Jedyne miejsce w repo.
+// Telefon w nagłówku („Zadzwoń …”) i w sekcji Konsultacja: numer z nowej strony.
+// TODO: potwierdzić z Idzim (Idzi potwierdził ten numer 3.10.2026; prompt v2 prosi o ponowne potwierdzenie).
+export const CONTACT_PHONE = '+48 505 085 001';
+
 const CONTACT = {
-  phone: '+48 505 085 001',
-  phoneHref: 'tel:+48505085001',
+  phone: CONTACT_PHONE,
+  phoneHref: `tel:${CONTACT_PHONE.replaceAll(' ', '')}`,
+  // Na ten adres trafiają zgłoszenia z formularzy (klucz Web3Forms); jest też w danych strukturalnych
   email: 'biuro@kwadrat.io',
 };
 
+// Dane spółki ze stopki kwadrat.io (odczyt 04.10.2026), w zapisie systemowym
 const COMPANY = {
-  brand: 'Kwadrat Nieruchomości',
-  legalName: 'GRUPA INWESTYCYJNA KWADRAT Sp. z o.o.',
+  brand: 'Grupa Inwestycyjna Kwadrat',
+  legalName: 'Grupa Inwestycyjna Kwadrat Sp. z o.o.',
   street: 'ul. Samorządowa 9/1',
   postalCode: '05-400',
   city: 'Otwock',
   nip: '5322092950',
-  regon: '388901030',
   krs: '0000896911',
-  capital: '50 000,00 zł',
-  court: 'Sąd Rejonowy dla m.st. Warszawy w Warszawie, XIV Wydział Gospodarczy KRS',
-  website: 'https://www.kwadrat.io',
-  websiteLabel: 'www.kwadrat.io',
+  capital: '50 000 zł',
+  network: 'Część sieci biur Kwadrat',
+  website: 'https://kwadrat.io/',
+  websiteLabel: 'kwadrat.io',
 };
+
+// Agent prowadzący: kolumna „Kontakt” w stopce (dane od Idziego, 4.10.2026)
+export const AGENT = {
+  name: 'Idzi Kisza',
+  phone: '600 038 758',
+  phoneHref: 'tel:+48600038758',
+  email: 'idzi.kisza@kwadrat.io',
+  address: 'ul. Słowackiego 22/11a, Warszawa',
+};
+
+// Social media w stopce: linki tekstowe, bez ikon. TikTok bezpośrednio, nie przez przekierowanie Google.
+export const SOCIAL = [
+  { label: 'Facebook', href: 'https://www.facebook.com/kwadratotwock/' },
+  { label: 'YouTube', href: 'https://www.youtube.com/channel/UCgaHalw9yhbhTqfaa1B1YCg' },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@kwadratnieruchomosci' },
+];
+
+// Ocena Google (pasek KPI pod hero i sekcja Opinie): wartość i liczba opinii z nowej strony,
+// nazwa wizytówki i data odczytu od Idziego (3.10.2026). Nie wpisywać z głowy.
+// Jeśli którekolwiek z czterech pól jest puste, kafelek z oceną się nie renderuje.
+export const GOOGLE_RATING = '4,9';
+export const GOOGLE_REVIEWS = '120';
+export const GOOGLE_PROFILE_NAME = 'Kwadrat Otwock';
+export const GOOGLE_READ_DATE = '01.10.2026';
+export const GOOGLE_REVIEWS_URL = 'https://www.google.com/maps/search/Kwadrat+Nieruchomo%C5%9Bci+Otwock';
+export const HAS_GOOGLE_RATING = [GOOGLE_RATING, GOOGLE_REVIEWS, GOOGLE_PROFILE_NAME, GOOGLE_READ_DATE].every(
+  (field) => field.trim() !== '',
+);
 
 // Zdjęcia: źródła w zdjecia/, warianty w public/img/{name}-{szerokość}.webp i .jpg
 // (generuje npm run zdjecia). ratio to naturalne proporcje pliku, bez kadrowania.
 // Brak plików = szare pole z podpisem.
 // Źródło zdjęć w hero i w ofertach: deweloper (potwierdził Idzi 3.10.2026).
+// Hero w systemie v2 ma jedno zdjęcie (heroSol). heroBlanca zostaje w repo, na stronie dziś nieużywane.
 const IMAGES = {
   heroSol: {
     name: 'hero-costa-del-sol',
@@ -90,23 +123,23 @@ const raw = {
   company: COMPANY,
 
   meta: {
-    title: 'Kwadrat Nieruchomości | Costa del Sol i Costa Blanca',
+    title: 'Grupa Inwestycyjna Kwadrat | Costa del Sol i Costa Blanca',
     description:
       'Porównaj Costa del Sol, Costa Blanca i inne regiony Hiszpanii. Polska obsługa zakupu nieruchomości od wyboru lokalizacji po odbiór kluczy.',
-    ogTitle: 'Kwadrat Nieruchomości | Hiszpania',
+    ogTitle: 'Grupa Inwestycyjna Kwadrat | Hiszpania',
     ogDescription:
       'Costa del Sol czy Costa Blanca? Pomagamy wybrać region dopasowany do Twojego celu, budżetu i stylu życia.',
     // og:image: zrzut górnej części tej strony w systemie Kwadrat (okno 1600 × 840 zmniejszone
-    // do 1200 × 630). Idzi wybrał go 3.10.2026 zamiast zrzutu wersji z Lovable.
-    // Alt złożony z nazwy marki i h1.
+    // do 1200 × 630). Po zmianie hero zrób nowy zrzut. Alt złożony z nazwy marki i h1.
     ogImage: '/og-image.jpg',
-    ogImageAlt: 'Kwadrat Nieruchomości: Dwa wybrzeża. Dwie dobre odpowiedzi.',
-    author: 'Kwadrat Nieruchomości',
+    ogImageAlt: 'Grupa Inwestycyjna Kwadrat: Dwa wybrzeża. Dwie dobre odpowiedzi.',
+    author: 'Grupa Inwestycyjna Kwadrat',
   },
 
   header: {
-    logoAlt: 'Kwadrat Nieruchomości',
+    logoAlt: 'Grupa Inwestycyjna Kwadrat',
     menu: 'Menu',
+    phoneLabel: 'Zadzwoń',
     navLabel: 'Nawigacja główna',
     skipLink: 'Przejdź do treści',
     nav: [
@@ -122,26 +155,38 @@ const raw = {
 
   hero: {
     label: 'Przewodnik po hiszpańskim rynku',
-    title: ['Dwa wybrzeża.', 'Dwie dobre odpowiedzi.'],
+    // H1 w dwóch grubościach (web-display): początek 400, puenta z obietnicą 700. Słowa bez zmian.
+    title: { start: 'Dwa wybrzeża.', end: 'Dwie dobre odpowiedzi.' },
     lead: 'Nie sprzedajemy jednego regionu za wszelką cenę. Porównujemy Costa del Sol, Costa Blanca i inne części Hiszpanii, żeby znaleźć miejsce właściwe dla Twojego celu.',
-    ctaPrimary: { label: 'Porównajmy Twój wybór', href: '#kontakt' },
+    ctaPrimary: { label: 'Umów bezpłatną konsultację', href: '#kontakt' },
     ctaSecondary: { label: 'Pobierz poradnik', href: '#poradnik' },
     note: 'Bez rankingu na siłę. Najlepszy region zależy od celu, budżetu i sposobu użytkowania.',
+    image: IMAGES.heroSol,
     directions: [
       {
         label: 'Kierunek 01',
         title: 'Costa del Sol',
         text: 'Malaga, Marbella i spokojniejsza Axarquía. Dla osób, które cenią całoroczną infrastrukturę, zróżnicowany popyt i szeroki wybór lokalizacji.',
         link: { label: 'Zobacz mocne strony i kompromisy', href: '#porownanie' },
-        image: IMAGES.heroSol,
       },
       {
         label: 'Kierunek 02',
         title: 'Costa Blanca',
         text: 'Alicante i różnorodne miejscowości nad białym wybrzeżem. Dla osób szukających szerokiej podaży, plażowego stylu życia i elastycznego budżetu.',
         link: { label: 'Zobacz mocne strony i kompromisy', href: '#porownanie' },
-        image: IMAGES.heroBlanca,
       },
+    ],
+  },
+
+  // Pasek KPI pod hero (WebStats). Kafelek 1: ocena Google z konfiguracji GOOGLE_*.
+  // Pozostałe: wartości tekstowe wyłącznie z usług i regionów opisanych niżej na stronie
+  // (Regiony, Obsługa 360°, opis strony). Bez nowych obietnic i bez liczby oddziałów.
+  stats: {
+    rating: { label: 'Ocena Google', scale: '/ 5', reviews: 'opinii' },
+    items: [
+      { label: 'Regiony', value: 'Costa del Sol', note: 'i Costa Blanca' },
+      { label: 'Obsługa', value: 'Po polsku', note: 'od wyboru lokalizacji po odbiór kluczy' },
+      { label: 'Weryfikacja', value: 'Dokumenty', note: 'z prawnikiem i notariuszem' },
     ],
   },
 
@@ -344,24 +389,22 @@ const raw = {
     label: 'Jasny proces',
     title: 'Od porównania do kluczy',
     lead: 'Każdy etap ma jasny cel i następny krok.',
+    // Etykieta kroku w web-label: „Krok 01” do „Krok 04” (WebSteps)
+    stepLabel: 'Krok',
     steps: [
       {
-        number: '1',
         title: 'Rozmowa i kryteria',
         text: 'Ustalamy cel, budżet, horyzont i to, jak chcesz korzystać z nieruchomości.',
       },
       {
-        number: '2',
         title: 'Porównanie regionów',
         text: 'Zestawiamy Costa del Sol, Costa Blanca i rozsądne alternatywy pod Twoje kryteria.',
       },
       {
-        number: '3',
         title: 'Oferty i weryfikacja',
         text: 'Organizujemy wizyty oraz sprawdzamy dokumenty, koszty i stan prawny.',
       },
       {
-        number: '4',
         title: 'Umowa i klucze',
         text: 'Koordynujemy notariusza, płatności i przekazanie nieruchomości.',
       },
@@ -420,15 +463,11 @@ const raw = {
     label: 'Opinie klientów',
     title: 'Zaufanie potwierdzone w Google',
     text: 'Standard pracy Grupy Inwestycyjnej Kwadrat potwierdzają klienci obsługiwani w Polsce.',
+    // Wartości oceny w konfiguracji GOOGLE_* na górze pliku
     rating: {
       label: 'Ocena Google',
-      value: '4,9',
       scale: '/ 5',
-      note: '120 opinii w wizytówce Google',
-      // Nazwa wizytówki i data odczytu liczby opinii od Idziego (3.10.2026).
-      // Puste pole nie pojawia się na stronie.
-      profileName: 'Kwadrat Otwock',
-      readDate: '01.10.2026',
+      note: 'opinii w wizytówce Google',
     },
     // Cudzysłowy „ ” dokłada szablon. Wykrzyknik w opinii 1 zostaje: to cytat klienta.
     quotes: [
@@ -445,7 +484,7 @@ const raw = {
     ],
     cta: {
       label: 'Zobacz wszystkie',
-      href: 'https://www.google.com/maps/search/Kwadrat+Nieruchomo%C5%9Bci+Otwock',
+      href: GOOGLE_REVIEWS_URL,
     },
   },
 
@@ -454,7 +493,8 @@ const raw = {
     title: 'Zanim zaczniesz szukać',
     items: [
       {
-        // Odpowiedź potwierdzona przez hiszpańskiego prawnika (informacja od Idziego, 3.10.2026).
+        // TODO: do potwierdzenia przez hiszpańskiego prawnika (prompt v2 i zasada WebFaq).
+        // Idzi przekazał 3.10.2026, że prawnik odpowiedź potwierdził: do zamknięcia po jego decyzji.
         question: 'Czy Polak może kupić nieruchomość w Hiszpanii?',
         answer:
           'Tak. Obywatel Polski może kupić nieruchomość na takich samych zasadach jak obywatel Hiszpanii. Do transakcji potrzebny jest numer NIE.',
@@ -465,6 +505,8 @@ const raw = {
           'Nie ma jednej odpowiedzi. Costa del Sol może lepiej pasować do osoby szukającej kosmopolitycznego, całorocznego rynku, a Costa Blanca do kupującego, który ceni szeroki wybór i elastyczny budżet. Porównujemy konkretne miasta i osiedla.',
       },
       {
+        // TODO: odpowiedź dotyczy podatków, do potwierdzenia przez prawnika lub doradcę podatkowego
+        // przed produkcją (zasada WebFaq w design systemie)
         question: 'Jakie dodatkowe koszty trzeba uwzględnić?',
         answer:
           'Poza ceną zakupu trzeba uwzględnić podatki, notariusza, wpis do rejestru i obsługę prawną. Wyliczenie zależy od regionu oraz rynku pierwotnego lub wtórnego.',
@@ -512,20 +554,26 @@ const raw = {
     errorSend: `Nie udało się wysłać formularza. Spróbuj ponownie albo zadzwoń: ${CONTACT.phone}.`,
   },
 
+  // Stopka (WebFooter): marka, kontakt agenta (AGENT), dane spółki, social, pasek prawny
   footer: {
-    lines: [
-      `${COMPANY.legalName} · ${COMPANY.street}, ${COMPANY.postalCode} ${COMPANY.city}`,
-      `NIP: ${COMPANY.nip} · REGON: ${COMPANY.regon} · KRS: ${COMPANY.krs} · kapitał zakładowy: ${COMPANY.capital}`,
-      COMPANY.court,
+    contactHeading: 'Kontakt',
+    // Wiersz to lista fragmentów, które nie łamią się w środku (kod pocztowy, NIP, KRS).
+    company: [
+      [`${COMPANY.street},`, `${COMPANY.postalCode} ${COMPANY.city}`],
+      [`NIP ${COMPANY.nip} ·`, `KRS ${COMPANY.krs}`],
+      [`Kapitał zakładowy ${COMPANY.capital}`],
     ],
+    phonePrefix: 'tel.',
     disclaimer:
       'Treści na stronie mają charakter informacyjny i nie stanowią porady prawnej, podatkowej ani inwestycyjnej.',
     privacy: { label: 'Polityka prywatności', href: '/polityka-prywatnosci' },
   },
 
+  // TODO (Idzi): treść polityki prywatności. Formularze zbierają dane osobowe, więc strona
+  // z formularzem nie idzie na produkcję bez tej treści (zasada WebFooter).
   privacy: {
     title: 'Polityka prywatności',
-    metaTitle: 'Polityka prywatności | Kwadrat Nieruchomości',
+    metaTitle: 'Polityka prywatności | Grupa Inwestycyjna Kwadrat',
     body: 'Treść w przygotowaniu.',
   },
 };

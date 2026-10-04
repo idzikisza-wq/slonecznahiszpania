@@ -1,12 +1,13 @@
 /* Jedyny plik poza tokens.css, w którym wolno użyć --kwadrat-red.
-   Tylko: kwadracik przed h2, kwadraciki list atutów i ocena 4,9 w Opiniach. */
+   Tylko: kwadracik przed H2 (12px), kwadraciki list atutów (8px) i jedna liczba na ekranie
+   (ocena Google, klasa .kpi--accent). Nigdzie więcej: ani w tekście, ani w tle, ani w hoverze. */
 
-/* Kwadracik przed h2 sekcji: 10px, odstęp 12px, środek pierwszej linii.
-   h2 w stylu h3 (tytuły kierunków w hero) jest bez kwadracika. */
+/* Kwadracik przed H2 sekcji (kw-h2): 12 × 12px, odstęp 14px, na linii bazowej pierwszego wiersza.
+   h2 w stylu h3 (tytuły kierunków pod hero) jest bez kwadracika. */
 h2:not(.h3) {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: baseline;
+  gap: 14px;
 }
 
 h2:not(.h3)::before {
@@ -14,11 +15,11 @@ h2:not(.h3)::before {
   flex: none;
   width: var(--marker-section);
   height: var(--marker-section);
-  margin-top: calc((1lh - var(--marker-section)) / 2);
   background: var(--kwadrat-red);
+  transform: translateY(-2px);
 }
 
-/* Lista atutów: czerwony kwadracik */
+/* Lista atutów: czerwony kwadracik 8 × 8px */
 .list--plus > li::before {
   background: var(--kwadrat-red);
 }
@@ -28,7 +29,7 @@ h2:not(.h3)::before {
   background: var(--line);
 }
 
-/* Jedyna czerwona liczba na stronie: ocena Google 4,9 */
+/* Jedna czerwona liczba na ekranie: ocena Google */
 .kpi--accent {
   color: var(--kwadrat-red);
 }

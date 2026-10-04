@@ -1,8 +1,8 @@
 # slonecznahiszpania.pl
 
-Landing Kwadrat Nieruchomości: porównanie Costa del Sol, Costa Blanca i innych regionów Hiszpanii, w systemie wizualnym Kwadrat Documents. Statyczna strona w Astro, czysty CSS, zero zależności poza Astro i fontem Mulish z Google Fonts.
+Landing Grupy Inwestycyjnej Kwadrat: porównanie Costa del Sol, Costa Blanca i innych regionów Hiszpanii, w systemie wizualnym Kwadrat (wersja 2, z warstwą www). Statyczna strona w Astro, czysty CSS, zero zależności poza Astro. Font Mulish jest hostowany lokalnie w `public/fonts/` (licencja OFL), więc strona nie ładuje niczego z zewnątrz.
 
-Zasady projektu, tokeny i inwentarz sekcji: [CLAUDE.md](CLAUDE.md). Całe aktualne copy jest w `src/content/site.ts` (źródło: nowa wersja www.slonecznahiszpania.pl, wyrenderowana 3.10.2026). [docs/copy.md](docs/copy.md) to zapis najstarszej wersji strony.
+Zasady projektu, tokeny, komponenty i inwentarz sekcji: [CLAUDE.md](CLAUDE.md). Całe aktualne copy jest w `src/content/site.ts` (źródło: nowa wersja www.slonecznahiszpania.pl, wyrenderowana 3.10.2026). [docs/copy.md](docs/copy.md) to zapis najstarszej wersji strony.
 
 ## Uruchomienie lokalne
 
@@ -19,7 +19,7 @@ npm run preview    # podgląd zbudowanej strony
 | --- | --- |
 | `npm run dev` | serwer deweloperski z odświeżaniem |
 | `npm run build` | `lint:kwadrat`, potem statyczny build do `dist/` |
-| `npm run lint:kwadrat` | strażnik systemu: przerywa build przy złamaniu reguł (kolory hex poza tokenami, czerwień poza `markers.css`, zaokrąglenia, cienie, gradienty, niedozwolone wagi i kroje, pauzy i półpauzy) |
+| `npm run lint:kwadrat` | strażnik systemu: przerywa build przy złamaniu reguł (kolory hex poza tokenami, czerwień poza `markers.css`, zaokrąglenia, cienie, gradienty, niedozwolone wagi i kroje, pauzy i półpauzy, biblioteki ikon) |
 | `npm run zdjecia` | generuje warianty zdjęć do `public/img/` z plików w `zdjecia/` |
 | `npm run pdf:placeholder` | odtwarza tymczasowy `public/poradnik.pdf` |
 
@@ -27,16 +27,17 @@ npm run preview    # podgląd zbudowanej strony
 
 ```
 src/
-  content/site.ts      całe copy strony, telefon i e-mail w jednej stałej
+  content/site.ts      całe copy strony, dane kontaktowe, dane spółki, ocena Google
   content/typo.ts      twarde spacje (spójniki, liczby, kropka środkowa)
   pages/               index.astro, polityka-prywatnosci.astro
-  layouts/Base.astro   head, meta, schema.org, font
+  layouts/Base.astro   head, meta, schema.org, preload fontu
   components/          sekcje strony w kolejności z inwentarza
   components/ui/       kafelki, listy, tabela, zdjęcie, pola formularza
   scripts/forms.ts     walidacja i wysyłka formularzy
   styles/              tokens.css, base.css, markers.css
 public/
-  brand/               logo (lockup i sam znak), favicon
+  brand/               logo (sam znak w nagłówku, stopce i favicon; lockup nieużywany)
+  fonts/               Mulish 400, 600, 700 (woff2) i licencja OFL
   img/                 warianty zdjęć (generowane, nie edytować ręcznie)
   poradnik.pdf         PDF poradnika (teraz placeholder)
 zdjecia/               pliki źródłowe zdjęć
@@ -53,8 +54,8 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 
 | Plik źródłowy w `zdjecia/` | Miejsce | Proporcje |
 | --- | --- | --- |
-| `hero-costa-del-sol.jpg` | hero, kierunek 01 | naturalne (dziś 1200 × 912) |
-| `hero-costa-blanca.jpg` | hero, kierunek 02 | naturalne (dziś 1200 × 912) |
+| `hero-costa-del-sol.jpg` | hero, obok tytułu (7+5) | naturalne (dziś 1200 × 912) |
+| `hero-costa-blanca.jpg` | od wersji 2 nieużywane (kierunki są bez zdjęć) | naturalne (dziś 1200 × 912) |
 | `poradnik-cover.webp` | okładka przy formularzu poradnika | naturalne |
 | `oferta-malaga.jpg` | oferta Málaga Centro | naturalne (dziś 1008 × 752) |
 | `oferta-mijas.jpg` | oferta Mijas | naturalne |
@@ -67,7 +68,7 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 
 Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę.
 
-Podpis „Zdjęcie poglądowe" pod zdjęciami w hero to stała `PHOTO_NOTE` w `site.ts`, a podpis „Wizualizacja" pod zdjęciami ofert to stała `OFFER_PHOTO_NOTE`. Pusty tekst ukrywa podpis, np. po podmianie wizualizacji na zdjęcia.
+Podpis „Zdjęcie poglądowe" pod zdjęciem w hero to stała `PHOTO_NOTE` w `site.ts`, a podpis „Wizualizacja" pod zdjęciami ofert to stała `OFFER_PHOTO_NOTE`. Pusty tekst ukrywa podpis, np. po podmianie wizualizacji na zdjęcia.
 
 Obraz do udostępniania linku (og:image) to `public/og-image.jpg`, ustawiany w `meta.ogImage` w `site.ts`. To zrzut górnej części strony w oknie 1600 × 840 px (Playwright), zmniejszony do 1200 × 630 px i zapisany jako JPG. Po zmianie hero zrób nowy zrzut w tym samym formacie i podmień plik.
 
@@ -75,13 +76,28 @@ Obraz do udostępniania linku (og:image) to `public/og-image.jpg`, ustawiany w `
 
 Sekcja przykładowych nieruchomości jest widoczna (`SHOW_OFFERS = true` w `src/content/site.ts`): oferty i ceny potwierdził Idzi 3.10.2026. Oferty zmieniasz w `site.ts` (miejsce, tytuł, parametry, cena, opcjonalnie `href` z linkiem do oferty). `SHOW_OFFERS = false` chowa sekcję razem z pozycją „Oferty" w menu.
 
+## Dane kontaktowe i ocena Google
+
+Wszystko w `src/content/site.ts`:
+
+| Stała | Co zawiera | Gdzie na stronie |
+| --- | --- | --- |
+| `CONTACT_PHONE` | telefon +48 505 085 001 (TODO: potwierdzić z Idzim) | nagłówek, sekcja kontaktu, schema.org |
+| `CONTACT` | telefon i e-mail biuro@kwadrat.io | sekcja kontaktu, schema.org |
+| `AGENT` | Idzi Kisza: telefon, e-mail, adres | stopka, kolumna Kontakt |
+| `COMPANY` | dane spółki: nazwa, adres, NIP, KRS, kapitał | stopka, schema.org |
+| `SOCIAL` | Facebook, YouTube, TikTok | stopka, linki tekstowe |
+| `GOOGLE_RATING`, `GOOGLE_REVIEWS`, `GOOGLE_PROFILE_NAME`, `GOOGLE_READ_DATE`, `GOOGLE_REVIEWS_URL` | ocena, liczba opinii, nazwa wizytówki, data odczytu, link | pasek KPI pod hero i kafelek w Opiniach |
+
+Ocena Google pokazuje się tylko wtedy, gdy cztery pierwsze pola `GOOGLE_*` są wypełnione. Wystarczy wyczyścić jedno, a oba kafelki z oceną znikną. Przy aktualizacji oceny zmień też datę odczytu.
+
 ## Podmiana PDF poradnika
 
 Zastąp `public/poradnik.pdf` docelowym plikiem pod tą samą nazwą i zrób commit. Link po zapisie do poradnika nie wymaga zmian.
 
 ## Polityka prywatności
 
-Treść strony `/polityka-prywatnosci` jest w `src/pages/polityka-prywatnosci.astro` (teraz tylko „Treść w przygotowaniu."). Akapity wstaw jako kolejne `<p>` w sekcji.
+Treść strony `/polityka-prywatnosci` jest w `src/pages/polityka-prywatnosci.astro` (teraz tylko „Treść w przygotowaniu.” i TODO w kodzie). Akapity wstaw jako kolejne `<p>` w sekcji. Formularze zbierają dane osobowe, więc strona nie idzie na produkcję bez tej treści.
 
 ## Formularze (Web3Forms)
 

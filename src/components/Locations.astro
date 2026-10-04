@@ -8,7 +8,8 @@ import { site } from '../content/site';
 const { locations } = site;
 ---
 
-<section class="section container" id="lokalizacje">
+<section class="section" id="lokalizacje">
+  <div class="container">
   <SectionHead label={locations.label} title={locations.title} lead={locations.lead} />
   <div class="grid mt-l">
     {
@@ -18,5 +19,6 @@ const { locations } = site;
         </div>
       ))
     }
+  </div>
   </div>
 </section>

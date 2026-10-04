@@ -1,18 +1,17 @@
 ---
-// Kafelki tekstowe: linia mocna nad, opcjonalnie label (np. 01) i druga etykieta z miejscami,
-// albo numer kpi-mid, potem h3 i akapit. Każdy rząd to osobna siatka z subgridem,
-// części kafelków wyrównane w poziomie.
+// Kafelki tekstowe: linia 1px ink nad, opcjonalnie etykieta (np. 01) i druga etykieta z miejscami,
+// potem H3 i akapit. Każdy rząd to osobna siatka z subgridem, części kafelków wyrównane w poziomie.
+// Poniżej 1200px kafelki stoją jeden pod drugim.
 interface Tile {
   label?: string;
   places?: string;
-  number?: string;
   title: string;
   text: string;
 }
 
 interface Props {
   items: Tile[];
-  span: 3 | 4 | 6;
+  span: 4 | 6;
 }
 
 const { items, span } = Astro.props;
@@ -21,17 +20,16 @@ const rowsOfTiles = Array.from({ length: Math.ceil(items.length / perRow) }, (_,
   items.slice(i * perRow, (i + 1) * perRow),
 );
 const first = items[0];
-const parts = (first.label ? 1 : 0) + (first.places ? 1 : 0) + (first.number ? 1 : 0) + 2;
+const parts = (first.label ? 1 : 0) + (first.places ? 1 : 0) + 2;
 ---
 
 {
   rowsOfTiles.map((row) => (
-    <ul class:list={['tiles', { 'tiles--4': perRow === 4 }]}>
+    <ul class="tiles">
       {row.map((item) => (
         <li class="tile" style={`--span: ${span}; --rows: ${parts}`}>
           {item.label && <p class="label">{item.label}</p>}
           {item.places && <p class="label">{item.places}</p>}
-          {item.number && <p class="kpi-mid">{item.number}</p>}
           <h3>{item.title}</h3>
           <p>{item.text}</p>
         </li>

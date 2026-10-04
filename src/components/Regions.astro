@@ -8,9 +8,11 @@ import { site } from '../content/site';
 const { regions } = site;
 ---
 
-<section class="section container" id="regiony">
+<section class="section" id="regiony">
+  <div class="container">
   <SectionHead label={regions.label} title={regions.title} lead={regions.lead} />
   <div class="mt-l">
     <TextTiles items={regions.items} span={4} />
+  </div>
   </div>
 </section>

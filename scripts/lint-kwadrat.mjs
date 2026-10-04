@@ -9,6 +9,9 @@ const ROOT = process.argv[2] ?? 'src';
 const EXTENSIONS = new Set(['.astro', '.css', '.ts', '.js', '.mjs', '.md', '.mdx', '.html', '.json', '.svg']);
 const TOKENS = 'tokens.css';
 const MARKERS = 'markers.css';
+// Biblioteki ikon i fonty ikon: system nie używa ikon (reguła 3)
+const ICON_LIBRARIES =
+  /(?:lucide|heroicons|fortawesome|font-?awesome|material-(?:icons|symbols)|@mdi\/|@iconify|react-icons|astro-icon|bootstrap-icons|phosphor-icons|@tabler\/icons|feather-icons|ionicons)/gi;
 
 const rules = [
   {
@@ -58,9 +61,13 @@ const rules = [
   },
   {
     id: 4,
-    name: 'font-family inny niż var(--font-sans)',
-    pattern: /font-family\s*:\s*([^;}"'\n]+)/gi,
-    reject: (match) => !/^(?:var\(--font-sans\)|inherit)(?:\s*!important)?$/.test(match[1].trim()),
+    name: 'font-family inny niż var(--font-sans) (nazwa „Mulish” tylko w @font-face w tokens.css)',
+    pattern: /font-family\s*:\s*([^;}\n]+)/gi,
+    reject: (match, file) => {
+      const value = match[1].trim().replace(/\s*!important$/, '');
+      if (value === 'var(--font-sans)' || value === 'inherit') return false;
+      return !(file === TOKENS && value === '"Mulish"');
+    },
   },
   {
     id: 4,
@@ -72,6 +79,11 @@ const rules = [
     id: 5,
     name: 'pauza (U+2014) albo półpauza (U+2013)',
     pattern: /[\u2013\u2014]/g,
+  },
+  {
+    id: 6,
+    name: 'import biblioteki ikon',
+    pattern: ICON_LIBRARIES,
   },
 ];
 
@@ -92,11 +104,19 @@ for await (const file of walk(ROOT)) {
     for (const rule of rules) {
       if (rule.skip?.(name)) continue;
       for (const match of line.matchAll(rule.pattern)) {
-        if (rule.reject && !rule.reject(match)) continue;
+        if (rule.reject && !rule.reject(match, name)) continue;
         problems.push(`${file}:${index + 1}  [reguła ${rule.id}] ${rule.name}: ${match[0].trim()}`);
       }
     }
   });
+}
+
+// Zależności w package.json: żadnej biblioteki ikon
+const pkg = JSON.parse(await readFile('package.json', 'utf8'));
+for (const dep of Object.keys({ ...pkg.dependencies, ...pkg.devDependencies })) {
+  if (dep.match(new RegExp(ICON_LIBRARIES.source, 'i'))) {
+    problems.push(`package.json  [reguła 6] import biblioteki ikon: ${dep}`);
+  }
 }
 
 if (problems.length) {

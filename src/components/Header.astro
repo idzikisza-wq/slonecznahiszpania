@@ -1,18 +1,19 @@
 ---
-// Nagłówek: logo lockup, menu w label, na końcu telefon jako zwykły tekst (bez przycisku i ikony).
-// Nie sticky. Poniżej 1100px (tablet i telefon) linki chowane pod słowem MENU, telefon zostaje widoczny.
+// Nagłówek (pasek z WebHero): logo kwadrat-logo.svg 40px na białym, menu tekstowe 15px 600 w ink,
+// telefon jako tekst „Zadzwoń …” (bez ikony). Pod paskiem linia 1px line. Nie sticky.
+// Poniżej 1200px (tablet i telefon) linki chowane pod przyciskiem tekstowym „Menu”, telefon zostaje.
 import { site, SHOW_OFFERS } from '../content/site';
 
 const { header, contact } = site;
 const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty');
 ---
 
-<a class="skip-link nav-link" href="#tresc">{header.skipLink}</a>
+<a class="skip-link" href="#tresc">{header.skipLink}</a>
 
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="/">
-      <img src="/brand/kwadrat-logo-lockup.svg" alt={header.logoAlt} width="134" height="36" />
+      <img src="/brand/kwadrat-logo.svg" alt={header.logoAlt} width="40" height="40" />
     </a>
     <nav class="site-nav" id="nawigacja" aria-label={header.navLabel}>
       <ul>
@@ -27,7 +28,9 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
         }
       </ul>
     </nav>
-    <a class="nav-link header-phone" href={contact.phoneHref}>{contact.phone}</a>
+    <a class="nav-link header-phone" href={contact.phoneHref}>
+      {header.phoneLabel}{' '}<span class="nowrap">{contact.phone}</span>
+    </a>
     <button class="nav-link menu-toggle" type="button" aria-expanded="false" aria-controls="nawigacja">
       {header.menu}
     </button>
@@ -43,6 +46,7 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     padding: var(--space-xs) var(--space-s);
     background: var(--paper);
     color: var(--ink);
+    font-weight: 600;
     transform: translateY(-200%);
   }
 
@@ -59,8 +63,8 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     grid-template-columns: auto 1fr auto auto;
     grid-template-areas: 'brand nav phone toggle';
     align-items: center;
-    column-gap: var(--space-m);
-    padding-block: var(--space-s);
+    column-gap: 28px;
+    padding-block: 20px;
   }
 
   .brand {
@@ -68,8 +72,8 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
   }
 
   .brand img {
-    width: auto;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
 
   .site-nav {
@@ -81,27 +85,31 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    column-gap: var(--gutter);
+    column-gap: 28px;
     row-gap: var(--space-xs);
-  }
-
-  .header-phone {
-    grid-area: phone;
-    white-space: nowrap;
   }
 
   .nav-link {
     color: var(--ink);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 20px;
     text-decoration: none;
   }
 
   a.nav-link:hover {
-    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
   }
 
   .site-nav .nav-link {
     display: inline-block;
     padding-block: var(--space-xs);
+  }
+
+  .header-phone {
+    grid-area: phone;
   }
 
   .menu-toggle {
@@ -114,8 +122,8 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     cursor: pointer;
   }
 
-  /* Menu mieści się w jednym rzędzie dopiero od około 1040px, więc niżej chowa się pod MENU */
-  @media (max-width: 1099.98px) {
+  /* Tablet i telefon: menu pod przyciskiem tekstowym „Menu”, telefon obok */
+  @media (max-width: 1199.98px) {
     .header-inner {
       grid-template-areas:
         'brand . phone toggle'
@@ -140,13 +148,10 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     }
   }
 
-  @media (max-width: 759.98px) {
+  @media (max-width: 767.98px) {
     .header-inner {
       column-gap: var(--space-s);
-    }
-
-    .brand img {
-      height: 28px;
+      padding-block: var(--space-s);
     }
   }
 </style>

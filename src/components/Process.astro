@@ -1,15 +1,27 @@
 ---
-// 8. Proces (#proces): rząd czterech kafelków 3+3+3+3, numer w kpi-mid.
+// Proces (#proces, WebSteps): kroki w rzędzie po 4 (tablet 2 × 2, telefon jeden pod drugim).
+// Nad każdym krokiem linia 1px ink, etykieta „Krok 01” w muted (nie w czerwieni), H3 i jedno zdanie.
+// Bez zdjęć (wszystkie kroki ze zdjęciem albo żaden) i bez strzałek między krokami.
 import SectionHead from './ui/SectionHead.astro';
-import TextTiles from './ui/TextTiles.astro';
 import { site } from '../content/site';
 
 const { process } = site;
+const stepLabel = (index: number) => `${process.stepLabel} ${String(index + 1).padStart(2, '0')}`;
 ---
 
-<section class="section container" id="proces">
-  <SectionHead label={process.label} title={process.title} lead={process.lead} />
-  <div class="mt-l">
-    <TextTiles items={process.steps} span={3} />
+<section class="section" id="proces">
+  <div class="container">
+    <SectionHead label={process.label} title={process.title} lead={process.lead} />
+    <ol class="kw-steps mt-l">
+      {
+        process.steps.map((step, index) => (
+          <li class="kw-step">
+            <p class="label">{stepLabel(index)}</p>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>

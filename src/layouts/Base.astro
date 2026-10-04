@@ -1,5 +1,5 @@
 ---
-// Szkielet strony: meta, font Mulish z Google Fonts, style systemu, nagłówek i stopka.
+// Szkielet strony: meta, font Mulish hostowany lokalnie, style systemu, nagłówek i stopka.
 import fs from 'node:fs';
 import path from 'node:path';
 import Header from '../components/Header.astro';
@@ -33,7 +33,9 @@ const ogImage = fs.existsSync(path.join(process.cwd(), 'public', ogImageFile))
   ? new URL(`/${ogImageFile}`, Astro.site).href
   : undefined;
 
-const fontCss = 'https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap';
+// Mulish 400, 600, 700 z public/fonts (pliki z design systemu). Preload, żeby font był gotowy
+// przed pierwszym malowaniem i nie przesuwał treści po podmianie.
+const fonts = ['/fonts/Mulish-400.woff2', '/fonts/Mulish-600.woff2', '/fonts/Mulish-700.woff2'];
 ---
 
 <!doctype html>
@@ -60,13 +62,7 @@ const fontCss = 'https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;70
     <meta name="twitter:description" content={ogDescription} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
 
-    <!-- Mulish 400, 600, 700. API css2 podaje podzbiory latin i latin-ext przez unicode-range.
-         Arkusz ładowany bez blokowania renderu (display=swap), bez JS zwykły link w noscript. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href={fontCss} />
-    <link rel="stylesheet" href={fontCss} media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href={fontCss} /></noscript>
+    {fonts.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
 
     <script is:inline>document.documentElement.classList.add('js');</script>
 

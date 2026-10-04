@@ -1,64 +1,28 @@
 ---
-// 13. FAQ (#faq): natywne <details>, summary w stylu h3, linia włosowa między pozycjami.
-// Po prawej szary znak tekstowy „+" (otwarte: „−"), pierwsze pytanie otwarte od startu.
+// FAQ (#faq, WebFaq): natywne <details> i <summary>, pierwsze pytanie otwarte. Linia 1px line nad
+// pierwszym pytaniem i pod każdym. Plus z dwóch kresek 16 × 2px w ink (pseudo-elementy, nie znak
+// i nie ikona), pionowa obraca się do zera po otwarciu. Odpowiedź 16/27px w muted, do 720px.
+// Bez zmiany koloru na hover i po otwarciu (świadoma różnica wobec kwadrat.io).
 import SectionHead from './ui/SectionHead.astro';
 import { site } from '../content/site';
 
 const { faq } = site;
 ---
 
-<section class="section container" id="faq">
-  <SectionHead label={faq.label} title={faq.title} />
-  <div class="faq mt-l">
-    {
-      faq.items.map((item, index) => (
-        <details open={index === 0}>
-          <summary>
-            <h3>{item.question}</h3>
-          </summary>
-          <p>{item.answer}</p>
-        </details>
-      ))
-    }
+<section class="section" id="faq">
+  <div class="container">
+    <SectionHead label={faq.label} title={faq.title} />
+    <div class="kw-faq mt-l">
+      {
+        faq.items.map((item, index) => (
+          <details open={index === 0}>
+            <summary>{item.question}</summary>
+            <div class="kw-answer">
+              <p>{item.answer}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
   </div>
 </section>
-
-<style>
-  .faq details + details {
-    border-top: var(--rule) solid var(--line-soft);
-  }
-
-  .faq summary {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-s);
-    padding-block: var(--space-s);
-    list-style: none;
-    cursor: pointer;
-  }
-
-  .faq summary::-webkit-details-marker {
-    display: none;
-  }
-
-  /* Znak tekstowy, nie ikona. Druga deklaracja ukrywa znak przed czytnikami ekranu. */
-  .faq summary::after {
-    content: "+";
-    content: "+" / "";
-    flex: none;
-    color: var(--muted);
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 1;
-  }
-
-  .faq details[open] > summary::after {
-    content: "\2212";
-    content: "\2212" / "";
-  }
-
-  .faq details > p {
-    padding-bottom: var(--space-s);
-  }
-</style>

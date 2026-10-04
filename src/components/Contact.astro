@@ -10,13 +10,14 @@ const { form } = section;
 const formId = 'kontakt-formularz';
 ---
 
-<section class="section container" id="kontakt">
+<section class="section" id="kontakt">
+  <div class="container">
   <div class="grid">
     <div class="col-6">
       <SectionHead label={section.label} title={section.title} text={section.text} />
       <p class="label mt-l">{section.phoneLabel}</p>
       <p class="mt-xs">
-        <a class="num2 phone nowrap" href={contact.phoneHref}>{contact.phone}</a>
+        <a class="contact-phone" href={contact.phoneHref}>{contact.phone}</a>
       </p>
     </div>
     <div class="col-6">
@@ -57,14 +58,23 @@ const formId = 'kontakt-formularz';
       </Form>
     </div>
   </div>
+  </div>
 </section>
 
 <style>
-  .phone {
-    text-decoration: none;
+  /* Telefon w stylu web-h3 jako link: ink, podkreślenie 1px, hover 2px */
+  .contact-phone {
+    color: var(--ink);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    white-space: nowrap;
   }
 
-  .phone:hover {
-    color: var(--muted);
+  .contact-phone:hover {
+    text-decoration-thickness: 2px;
   }
 </style>

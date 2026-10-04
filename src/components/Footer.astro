@@ -1,47 +1,63 @@
 ---
-// Stopka: linia lekka nad, dane rejestrowe spółki i zastrzeżenie w small. Bez logo.
-import { site } from '../content/site';
+// Stopka (WebFooter): linia 1px ink nad stopką, tekst 13/20px muted, nagłówki kolumn 700 ink.
+// Trzy kolumny 4+4+4 (na telefonie jedna): marka z linkiem do kwadrat.io i social media tekstem,
+// kontakt agenta (AGENT w site.ts), dane spółki. Pasek dolny za linią 1px line: zastrzeżenie
+// i polityka prywatności. Bez ikon.
+import { site, AGENT, SOCIAL } from '../content/site';
+import { typoText } from '../content/typo';
 
-const { footer, company, contact } = site;
-const SEP = '\u00a0· ';
+const { footer, company } = site;
+const SEP = ' · ';
 ---
 
-<footer class="site-footer">
-  <div class="container">
-    {
-      footer.lines.map((line) => (
-        <p class="small">{line}</p>
-      ))
-    }
-    <p class="small mt-s">{footer.disclaimer}</p>
-    <p class="small footer-links">
-      <a href={company.website}>{company.websiteLabel}</a>{SEP}<a href={`mailto:${contact.email}`}>{contact.email}</a>{
-        SEP
-      }<a href={footer.privacy.href}>{footer.privacy.label}</a>
-    </p>
+<footer class="container">
+  <div class="kw-foot">
+    <div class="kw-cols">
+      <div>
+        <img src="/brand/kwadrat-logo.svg" alt="" width="40" height="40" />
+        <p>
+          <b>{company.brand}</b><br />{company.network}{SEP}<a href={company.website}>{company.websiteLabel}</a>
+        </p>
+        <p class="mt-s">
+          {
+            SOCIAL.map((item, index) => (
+              <>
+                {index > 0 && SEP}
+                <a href={item.href}>{item.label}</a>
+              </>
+            ))
+          }
+        </p>
+      </div>
+      <div>
+        <p>
+          <b>{footer.contactHeading}</b><br />{AGENT.name}<br /><a href={AGENT.phoneHref}
+            >{typoText(`${footer.phonePrefix} ${AGENT.phone}`)}</a
+          ><br /><a href={`mailto:${AGENT.email}`}>{AGENT.email}</a><br />{typoText(AGENT.address)}
+        </p>
+      </div>
+      <div>
+        <p>
+          <b>{company.legalName}</b>
+          {
+            footer.company.map((line) => (
+              <>
+                <br />
+                {line.map((part, index) => (
+                  <>
+                    {index > 0 && ' '}
+                    <span class="nowrap">{part}</span>
+                  </>
+                ))}
+              </>
+            ))
+          }
+        </p>
+      </div>
+    </div>
+    <div class="kw-legal">
+      <p>{footer.disclaimer}</p>
+      <p><a href={footer.privacy.href}>{footer.privacy.label}</a></p>
+    </div>
   </div>
 </footer>
-
-<style>
-  .site-footer {
-    border-top: var(--rule) solid var(--line);
-    padding-block: var(--space-l);
-  }
-
-  .site-footer p {
-    max-width: none;
-  }
-
-  .footer-links {
-    margin-top: var(--space-s);
-  }
-
-  .footer-links a {
-    color: inherit;
-    text-underline-offset: 3px;
-  }
-
-  .footer-links a:hover {
-    color: var(--ink);
-  }
-</style>

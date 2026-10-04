@@ -1,8 +1,10 @@
 ---
-// Hero (#start): co, dla kogo, następny krok. Pod przyciskami dwa kierunki 6+6:
-// zdjęcie w naturalnych proporcjach, podpis „Zdjęcie poglądowe", etykieta, tytuł, opis, link.
-// Bez ramek, cieni i tekstu na zdjęciach.
+// Hero (#start, WebHero): etykieta, H1 w dwóch grubościach (początek 400, puenta 700, jeden kolor
+// ink), lead, jeden przycisk główny i jeden link drugi, zdjęcie w naturalnych proporcjach obok
+// tekstu (7+5) z podpisem „Zdjęcie poglądowe”. Bez nakładek i przyciemnień. Pod spodem pasek KPI
+// (WebStats) i dwa kierunki. Tablet i telefon: zdjęcie pod przyciskiem.
 import Photo from './ui/Photo.astro';
+import Stats from './Stats.astro';
 import { site, PHOTO_NOTE } from '../content/site';
 import { typoText } from '../content/typo';
 
@@ -10,72 +12,105 @@ const { hero } = site;
 const photoNote = typoText(PHOTO_NOTE);
 ---
 
-<section class="section hero container" id="start">
-  <p class="label">{hero.label}</p>
-  <div class="grid hero-head mt-xs">
-    <h1 class="col-8">
-      {hero.title.map((line) => <span class="hero-line">{line}</span>)}
-    </h1>
-    <p class="lead col-4">{hero.lead}</p>
-  </div>
-
-  <div class="grid hero-actions mt-l">
-    <div class="col-8 actions">
-      <a class="cta" href={hero.ctaPrimary.href}>{hero.ctaPrimary.label}</a>
-      <a class="cta-2" href={hero.ctaSecondary.href}>{hero.ctaSecondary.label}</a>
+<section class="hero" id="start">
+  <div class="container">
+    <div class="grid hero-grid">
+      <div class="col-7">
+        <p class="label">{hero.label}</p>
+        <h1 class="hero-title">
+          <span class="hero-line">{hero.title.start}</span>{' '}<b class="hero-line">{hero.title.end}</b>
+        </h1>
+        <p class="lead hero-lead">{hero.lead}</p>
+        <div class="actions hero-actions">
+          <a class="cta" href={hero.ctaPrimary.href}>{hero.ctaPrimary.label}</a>
+          <a class="cta-2" href={hero.ctaSecondary.href}>{hero.ctaSecondary.label}</a>
+        </div>
+        <p class="small hero-note">{hero.note}</p>
+      </div>
+      <figure class="col-5">
+        <Photo
+          image={hero.image}
+          sizes="(min-width: 1200px) 453px, (min-width: 768px) calc(100vw - 80px), calc(100vw - 40px)"
+          eager
+        />
+        {photoNote && <figcaption class="small">{photoNote}</figcaption>}
+      </figure>
     </div>
-    <p class="small col-4">{hero.note}</p>
-  </div>
 
-  <div class="grid mt-xl">
-    {
-      hero.directions.map((item) => (
-        <article class="col-6 direction">
-          <figure>
-            <Photo
-              image={item.image}
-              sizes="(min-width: 760px) min(588px, calc(50vw - 88px)), calc(100vw - 48px)"
-              eager
-            />
-            {photoNote && <figcaption class="small">{photoNote}</figcaption>}
-          </figure>
-          <p class="label mt-m">{item.label}</p>
-          <h2 class="h3 mt-xs">{item.title}</h2>
-          <p class="mt-xs">{item.text}</p>
-          <p class="mt-s">
-            <a class="cta-2" href={item.link.href}>{item.link.label}</a>
-          </p>
-        </article>
-      ))
-    }
+    <div class="hero-stats">
+      <Stats />
+    </div>
+
+    <div class="grid directions">
+      {
+        hero.directions.map((item) => (
+          <article class="col-6 direction">
+            <p class="label">{item.label}</p>
+            <h2 class="h3 mt-xs">{item.title}</h2>
+            <p class="mt-xs">{item.text}</p>
+            <p class="mt-s">
+              <a class="cta-2" href={item.link.href}>
+                {item.link.label}
+              </a>
+            </p>
+          </article>
+        ))
+      }
+    </div>
   </div>
 </section>
 
 <style>
   .hero {
-    margin-top: var(--space-xl);
+    padding-top: 48px;
+    padding-bottom: var(--section);
+  }
+
+  .hero-grid {
+    align-items: end;
+  }
+
+  .hero-title {
+    margin-top: var(--space-s);
   }
 
   .hero-line {
     display: block;
   }
 
-  .hero-head,
+  .hero-lead {
+    margin-top: 20px;
+  }
+
   .hero-actions {
-    align-items: end;
+    margin-top: 32px;
   }
 
-  /* Poniżej 1100px nagłówek i opis, przyciski i nota stoją jeden pod drugim */
-  @media (max-width: 1099.98px) {
-    .hero-head,
-    .hero-actions {
-      row-gap: var(--space-m);
-    }
+  .hero-note {
+    margin-top: var(--space-s);
   }
 
-  @media (max-width: 759.98px) {
+  .hero-stats {
+    margin-top: 64px;
+  }
+
+  .directions {
+    margin-top: 64px;
+  }
+
+  .direction {
+    border-top: var(--rule) solid var(--ink);
+    padding-top: 14px;
+  }
+
+  @media (max-width: 767.98px) {
     .hero {
-      margin-top: var(--space-l);
+      padding-top: var(--block);
+    }
+
+    .hero-stats,
+    .directions {
+      margin-top: var(--block);
     }
   }
 </style>

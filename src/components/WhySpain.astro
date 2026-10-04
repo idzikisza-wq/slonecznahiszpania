@@ -9,7 +9,8 @@ const { whySpain } = site;
 const { risks } = whySpain;
 ---
 
-<section class="section container" id="dlaczego-hiszpania">
+<section class="section" id="dlaczego-hiszpania">
+  <div class="container">
   <SectionHead label={whySpain.label} title={whySpain.title} lead={whySpain.lead} />
   <div class="mt-l">
     <TextTiles items={whySpain.items} span={4} />
@@ -17,5 +18,6 @@ const { risks } = whySpain;
   <div class="callout mt-l">
     <h3>{risks.title}</h3>
     <p class="mt-xs">{risks.text}</p>
+  </div>
   </div>
 </section>
