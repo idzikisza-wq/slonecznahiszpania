@@ -53,18 +53,24 @@ const COLOR_PROPS =
 
 // Biblioteki ikon i fonty ikon (system nie używa ikon)
 const ICON_SOURCE =
-  /(?:icon|lucide|fortawesome|font-?awesome|material-symbols|@mdi\/|@iconify|feather|phosphor|@tabler\/|octicons|remixicon|boxicons)/i;
+  /(?:(?:^|[/@~-])icons?(?:[/-]|$)|lucide|fortawesome|font-?awesome|material-symbols|@mdi\/|@iconify|feather|phosphor|@tabler\/|octicons|remixicon|boxicons)/i;
 
-// Wartość deklaracji bez przecinka i nawiasu z obiektu stylu, bez cudzysłowów i !important.
-// Przykłady: `var(--font-sans)` zostaje, `'8px',` daje 8px, `var(--font-sans)"` z atrybutu style daje var(--font-sans).
+// Wartość deklaracji bez cudzysłowów, !important i reszty linii. Kończy się na średniku, klamrze,
+// cudzysłowie zamykającym atrybut style albo na następnej właściwości obiektu stylu.
+// Przykłady: `var(--font-sans)` zostaje, `'8px', boxShadow: …` daje 8px,
+// `700" class="nowrap">` z atrybutu style daje 700, `"Mulish";` daje Mulish.
 const valueOf = (raw) => {
-  let value = raw.trim().replace(/,+$/, '').trim();
-  for (const quote of ['"', "'", '`']) {
-    if ((value.split(quote).length - 1) % 2) value = value.slice(0, value.lastIndexOf(quote)).trim();
+  let value = raw.trim();
+  const quote = value.match(/^["'`]/)?.[0];
+  if (quote) {
+    const close = value.indexOf(quote, 1);
+    value = close === -1 ? value.slice(1) : value.slice(1, close);
+  } else {
+    value = value.split(/["'`]|,\s*[\w-]+\s*:/)[0];
   }
-  value = value.replace(/^["'`]|["'`]$/g, '').replace(/\s*!important$/, '').trim();
+  value = value.replace(/\s*!important\s*$/, '').trim();
   while (value.endsWith(')') && value.split(')').length > value.split('(').length) value = value.slice(0, -1).trim();
-  return value.replace(/,+$/, '').trim();
+  return value.replace(/[,;]+$/, '').trim();
 };
 
 const rules = [
@@ -114,18 +120,20 @@ const rules = [
   {
     id: 3,
     name: 'border-radius inny niż 0',
-    pattern: /(?<![\w-])(?:border(?:-[a-z]+)*-radius|border(?:[A-Z][a-z]+)*Radius)\s*:\s*([^;}\n]+)/g,
+    pattern: /(?<![\w-])(?:-(?:webkit|moz|ms|o)-|Webkit|Moz|ms)?(?:border(?:-[a-z]+)*-radius|[bB]order(?:[A-Z][a-z]+)*Radius)\s*:\s*([^;}\n]+)/g,
     reject: (match) => !/^(?:0(?:px|rem|em|%)?\s*)+$/.test(valueOf(match[1])),
   },
   {
     id: 3,
     name: 'zaokrąglenie w clip-path albo w SVG (rx, ry)',
-    pattern: /\binset\([^)]*\bround\s+(?!0(?:px)?[\s)])|(?<![\w-])r[xy]=["']?(?!0["'\s>])[\d.]/g,
+    pattern:
+      /\binset\([^)]*\bround\s+(?!0(?:px)?[\s)])|(?:clip-path|clipPath|shape-outside)\s*:\s*["']?(?:circle|ellipse)\(|(?<![\w-])r[xy]=["']?(?!0["'\s>])[\d.]/g,
   },
   {
     id: 3,
     name: 'cień (box-shadow, text-shadow, drop-shadow)',
-    pattern: /(?<![\w-])(?:box-shadow|text-shadow|boxShadow|textShadow)\s*:\s*([^;}\n]+)|\bdrop-shadow\s*\(/g,
+    pattern:
+      /(?<![\w-])(?:-(?:webkit|moz|ms|o)-|Webkit|Moz|ms)?(?:box-shadow|text-shadow|[bB]oxShadow|[tT]extShadow)\s*:\s*([^;}\n]+)|\bdrop-shadow\s*\(/g,
     reject: (match) => match[1] === undefined || valueOf(match[1]) !== 'none',
   },
   {
@@ -136,7 +144,7 @@ const rules = [
   {
     id: 4,
     name: 'font-weight inny niż 400, 600, 700',
-    pattern: /(?<![\w-])(?:font-weight|fontWeight)\s*:\s*([^;}\n]+)/g,
+    pattern: /(?<![\w-])(?:font-weight|fontWeight)\s*[:=]\s*([^;}\n]+)/g,
     reject: (match) => !/^(?:400|600|700|normal|bold|inherit)$/.test(valueOf(match[1])),
   },
   {
@@ -147,12 +155,12 @@ const rules = [
   {
     id: 4,
     name: 'kursywa',
-    pattern: /(?<![\w-])(?:font-style|fontStyle)\s*:\s*["']?(?:italic|oblique)/g,
+    pattern: /(?<![\w-])(?:font-style|fontStyle)\s*[:=]\s*["']?(?:italic|oblique)/g,
   },
   {
     id: 4,
     name: 'font-family inny niż var(--font-sans) (nazwa „Mulish” tylko w @font-face w tokens.css)',
-    pattern: /(?<![\w-])(?:font-family|fontFamily)\s*:\s*([^;}\n]+)/g,
+    pattern: /(?<![\w-])(?:font-family|fontFamily)\s*[:=]\s*([^;}\n]+)/g,
     reject: (match, rel) => {
       const value = valueOf(match[1]);
       if (value === 'var(--font-sans)' || value === 'inherit') return false;
@@ -171,7 +179,7 @@ const rules = [
     // także w komentarzach: pauz nie ma nigdzie w repo
     raw: true,
     pattern:
-      /[\u2013\u2014]|&[mn]dash;|&#0*(?:8211|8212);|&#x0*201[34];|\\u\{?0*201[34]\}?|\\0*201[34](?![0-9a-f])/gi,
+      /[\u2013\u2014]|&[mn]dash;|&#0*(?:8211|8212)(?!\d)|&#x0*201[34](?![0-9a-f])|\\u\{?0*201[34]\}?|\\0*201[34](?![0-9a-f])/gi,
   },
   {
     id: 6,
@@ -182,13 +190,48 @@ const rules = [
   },
 ];
 
-// Komentarze zamienione na spacje: numery linii i pozycje zostają, treść komentarza nie wpływa na wynik
-function stripComments(text) {
-  const blank = (s) => s.replace(/[^\n]/g, ' ');
-  return text
-    .replace(/\/\*[\s\S]*?\*\//g, blank)
-    .replace(/<!--[\s\S]*?-->/g, blank)
-    .replace(/(^|[^:"'`\\])(\/\/[^\n]*)/gm, (_, before, comment) => before + blank(comment));
+// Komentarze zamienione na spacje: numery linii i pozycje zostają, treść komentarza nie wpływa na wynik.
+// Skaner pomija teksty w cudzysłowach (np. '/img/*' w .ts to nie komentarz). // liczy się jako
+// komentarz tylko na początku linii albo po spacji (nie w url(//…) ani w https://), w CSS wcale.
+function stripComments(text, ext) {
+  const blank = (part) => part.replace(/[^\n]/g, ' ');
+  const lineComments = ext !== '.css';
+  let out = '';
+  let quote = null;
+  let i = 0;
+  while (i < text.length) {
+    const char = text[i];
+    if (quote) {
+      if (char === '\\') {
+        out += text.slice(i, i + 2);
+        i += 2;
+        continue;
+      }
+      if (char === quote || (char === '\n' && quote !== '`')) quote = null;
+      out += char;
+      i += 1;
+      continue;
+    }
+    const closing = text.startsWith('/*', i) ? '*/' : text.startsWith('<!--', i) ? '-->' : null;
+    if (closing) {
+      const end = text.indexOf(closing, i + 2);
+      const stop = end === -1 ? text.length : end + closing.length;
+      out += blank(text.slice(i, stop));
+      i = stop;
+      continue;
+    }
+    if (lineComments && text.startsWith('//', i) && (i === 0 || /\s/.test(text[i - 1]))) {
+      const end = text.indexOf('\n', i);
+      const stop = end === -1 ? text.length : end;
+      out += blank(text.slice(i, stop));
+      i = stop;
+      continue;
+    }
+    if (char === '"' || char === "'" || char === '`') quote = char;
+    out += char;
+    i += 1;
+  }
+  return out;
 }
 
 // markers.css: czerwień tylko w trzech regułach z RED_USES, jako var(--kwadrat-red)
@@ -221,7 +264,7 @@ const problems = [];
 for await (const file of walk(ROOT)) {
   const rel = path.relative(ROOT, file).split(path.sep).join('/');
   const source = await readFile(file, 'utf8');
-  const text = stripComments(source);
+  const text = stripComments(source, path.extname(file));
   const shown = path.relative(process.cwd(), file);
   for (const rule of rules) {
     if (rule.skip?.(rel) || (rule.only && !rule.only(rel))) continue;

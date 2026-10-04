@@ -64,7 +64,7 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 | `oferta-marbella.jpg` | oferta Marbella | naturalne |
 
 1. Wrzuć plik do `zdjecia/` pod nazwą z tabeli (jpg, jpeg, png albo webp). Najlepiej co najmniej 1600 px szerokości. Zdjęcia z iPhone'a w HEIC najpierw wyeksportuj jako JPG.
-2. Uruchom `npm run zdjecia`. Skrypt zapisuje WebP i JPG w szerokościach 800 i 1600 px do `public/img/` (mniejsze źródło także w jego pełnej szerokości) i usuwa metadane (EXIF, GPS). Kadr do innych proporcji ustawiasz polem `ratio` i punktem `focus` przy danym miejscu w `scripts/zdjecia.mjs`.
+2. Uruchom `npm run zdjecia`. Skrypt zapisuje WebP i JPG w szerokościach 800 i 1600 px do `public/img/` (mniejsze źródło także w jego pełnej szerokości) i usuwa metadane (EXIF, GPS). Z `public/img/` usuwa tylko swoje warianty miejsc, których nie ma już na liście; innych plików i katalogów nie rusza. Kadr do innych proporcji ustawiasz polem `ratio` i punktem `focus` przy danym miejscu w `scripts/zdjecia.mjs`.
 3. Jeśli zmieniły się proporcje, popraw `ratio` przy danym zdjęciu w `src/content/site.ts`. Tam też są teksty alternatywne (`alt`).
 4. Zrób commit plików z `zdjecia/` i `public/img/`.
 
@@ -91,7 +91,7 @@ Wszystko w `src/content/site.ts`:
 | `SOCIAL` | Facebook, YouTube, TikTok | stopka, linki tekstowe |
 | `GOOGLE_RATING`, `GOOGLE_REVIEWS`, `GOOGLE_PROFILE_NAME`, `GOOGLE_READ_DATE`, `GOOGLE_REVIEWS_URL` | ocena, liczba opinii, nazwa wizytówki, data odczytu, link | pasek KPI pod hero i kafelek w Opiniach |
 
-Ocena Google pokazuje się tylko wtedy, gdy cztery pierwsze pola `GOOGLE_*` są wypełnione. Wystarczy wyczyścić jedno, a oba kafelki z oceną znikną. Przy aktualizacji oceny zmień też datę odczytu.
+Ocena Google pokazuje się tylko wtedy, gdy wszystkie pięć pól `GOOGLE_*` jest wypełnionych, także link (checklista `WEB.md`: przy liczbie wizytówka, data odczytu i link). Wystarczy wyczyścić jedno, a oba kafelki z oceną znikną, więc link zmieniaj na inny, nie usuwaj. Przy aktualizacji oceny zmień też datę odczytu.
 
 ## Podmiana PDF poradnika
 

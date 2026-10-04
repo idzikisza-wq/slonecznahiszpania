@@ -195,8 +195,11 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
   nav?.addEventListener('click', (event) => {
     if ((event.target as Element).closest('a')) setOpen(false);
   });
+  // Escape zamyka menu tylko z fokusem w menu albo na przycisku (nie przy pisaniu w formularzu)
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape' || toggle?.getAttribute('aria-expanded') !== 'true') return;
+    const active = document.activeElement;
+    if (active !== toggle && !nav?.contains(active)) return;
     setOpen(false);
     toggle?.focus();
   });

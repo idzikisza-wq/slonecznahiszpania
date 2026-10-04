@@ -374,10 +374,16 @@ p {
   content: "";
   position: absolute;
   left: 0;
+  /* środek pierwszej linii tekstu 16/27; z obsługą jednostki lh liczony z wysokości linii */
   top: 9.5px;
-  top: calc((1lh - var(--marker-list)) / 2);
   width: var(--marker-list);
   height: var(--marker-list);
+}
+
+@supports (top: 1lh) {
+  .list > li::before {
+    top: calc((1lh - var(--marker-list)) / 2);
+  }
 }
 
 .list-title {
@@ -487,6 +493,10 @@ p {
 .cta-2:hover,
 .link:hover {
   text-decoration-thickness: 2px;
+}
+
+h3 .link {
+  font-weight: inherit;
 }
 
 .actions {

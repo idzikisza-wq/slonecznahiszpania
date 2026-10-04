@@ -28,10 +28,13 @@ const SLOTS = {
 };
 
 const sources = await readdir(SRC, { withFileTypes: true });
-const outputs = await readdir(OUT).catch(() => []);
+// Tylko pliki (bez katalogów) w public/img
+const outputs = (await readdir(OUT, { withFileTypes: true }).catch(() => [])).filter((f) => f.isFile()).map((f) => f.name);
 const isSlotFile = (file, slot) => new RegExp(`^${slot}-\\d+\\.(jpg|webp)$`).test(file);
+// Wariant wygenerowany przez ten skrypt: nazwa-szerokość.jpg albo .webp. Innych plików nie rusza.
+const isVariant = (file) => /^[a-z0-9-]+-\d+\.(jpg|webp)$/.test(file);
 
-for (const old of outputs.filter((f) => !Object.keys(SLOTS).some((slot) => isSlotFile(f, slot)))) {
+for (const old of outputs.filter((f) => isVariant(f) && !Object.keys(SLOTS).some((slot) => isSlotFile(f, slot)))) {
   await unlink(path.join(OUT, old));
   console.log(`${old}: usunięty (miejsca nie ma już na stronie)`);
 }
