@@ -12,6 +12,8 @@ const rules: [RegExp, string][] = [
   [/(?<=^|[\s(„])([aiouwzAIOUWZ]) /g, `$1${NBSP}`],
   // kropka środkowa zostaje przy poprzednim słowie
   [/ ·/g, `${NBSP}·`],
+  // skrót zostaje przy następnym słowie: ul. Samorządowej, tj. Prezesa, art. 6, lit. f, tel. 600
+  [/(?<=(?:^|[\s(„])(?:ul|al|pl|os|tj|np|art|ust|lit|pkt|nr|tel|ok)\.) /g, NBSP],
 ];
 
 export function typoText(text: string): string {

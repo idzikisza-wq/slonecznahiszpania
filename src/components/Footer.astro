@@ -1,12 +1,12 @@
 ---
 // Stopka (WebFooter): linia 1px ink nad stopką, tekst 13/20px muted, nagłówki kolumn 700 ink.
 // Trzy kolumny 4+4+4 (na telefonie jedna): marka z linkiem do kwadrat.io i social media tekstem,
-// kontakt agenta (AGENT w site.ts), dane spółki. Pasek dolny za linią 1px line: zastrzeżenie
-// i polityka prywatności. Bez ikon.
+// kontakt agenta (AGENT w site.ts), dane spółki z adresem biuro@kwadrat.io (decyzja Idziego
+// 4.10.2026). Pasek dolny za linią 1px line: zastrzeżenie i polityka prywatności. Bez ikon.
 import { site, AGENT, SOCIAL } from '../content/site';
 import { typoText } from '../content/typo';
 
-const { footer, company } = site;
+const { footer, company, contact } = site;
 const SEP = ' · ';
 ---
 
@@ -52,6 +52,7 @@ const SEP = ' · ';
               </>
             ))
           }
+          <br /><a href={`mailto:${contact.email}`}>{contact.email}</a>
         </p>
       </div>
     </div>

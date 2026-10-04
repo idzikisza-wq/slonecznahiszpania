@@ -83,9 +83,9 @@ Wszystko w `src/content/site.ts`:
 | Stała | Co zawiera | Gdzie na stronie |
 | --- | --- | --- |
 | `CONTACT_PHONE` | telefon +48 505 085 001 (TODO: potwierdzić z Idzim) | nagłówek, sekcja kontaktu, schema.org |
-| `CONTACT` | telefon i e-mail biuro@kwadrat.io | sekcja kontaktu, schema.org |
+| `CONTACT` | telefon i e-mail biuro@kwadrat.io | sekcja kontaktu, stopka (dane spółki), polityka prywatności, schema.org |
 | `AGENT` | Idzi Kisza: telefon, e-mail, adres | stopka, kolumna Kontakt |
-| `COMPANY` | dane spółki: nazwa, adres, NIP, KRS, kapitał | stopka, schema.org |
+| `COMPANY` | dane spółki: nazwa, adres, NIP, KRS, kapitał, link zwrotny do kwadrat.io | stopka, schema.org |
 | `SOCIAL` | Facebook, YouTube, TikTok | stopka, linki tekstowe |
 | `GOOGLE_RATING`, `GOOGLE_REVIEWS`, `GOOGLE_PROFILE_NAME`, `GOOGLE_READ_DATE`, `GOOGLE_REVIEWS_URL` | ocena, liczba opinii, nazwa wizytówki, data odczytu, link | pasek KPI pod hero i kafelek w Opiniach |
 
@@ -97,7 +97,7 @@ Zastąp `public/poradnik.pdf` docelowym plikiem pod tą samą nazwą i zrób com
 
 ## Polityka prywatności
 
-Treść strony `/polityka-prywatnosci` jest w `src/pages/polityka-prywatnosci.astro` (teraz tylko „Treść w przygotowaniu.” i TODO w kodzie). Akapity wstaw jako kolejne `<p>` w sekcji. Formularze zbierają dane osobowe, więc strona nie idzie na produkcję bez tej treści.
+Treść strony `/polityka-prywatnosci` jest w `src/content/site.ts` (obiekt `privacy`): klauzula RODO z [kwadrat.io/rodo](https://kwadrat.io/rodo/), dostosowana do formularzy tej strony. Akapity to kolejne pozycje listy `body` i `closing`, prawa użytkownika to lista `rights`. Adres e-mail w tekście sam zamienia się w link. Komentarz nad obiektem wymienia zmiany wobec oryginału. Przed produkcją treść sprawdza prawnik (TODO w kodzie), bo formularze zbierają dane osobowe.
 
 ## Formularze (Web3Forms)
 
@@ -130,6 +130,6 @@ Wykonuje Idzi, po akceptacji podglądu.
 
 1. Sprawdzić, gdzie trafiają dziś zapytania z formularzy na stronie w Lovable, i wyeksportować dotychczasowe leady.
 2. Podpiąć klucz Web3Forms, wysłać testowe zgłoszenie z obu formularzy, potwierdzić odbiór na biuro@kwadrat.io.
-3. Wgrać docelowe zdjęcia, PDF poradnika i treść polityki prywatności.
+3. Wgrać docelowe zdjęcia i PDF poradnika, potwierdzić z prawnikiem treść polityki prywatności.
 4. W Cloudflare Pages dodać domenę slonecznahiszpania.pl i www, ustawić rekordy DNS u rejestratora domeny.
 5. Po propagacji sprawdzić stronę, formularze i certyfikat, dopiero wtedy odpiąć domenę od projektu w Lovable.

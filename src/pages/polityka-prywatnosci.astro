@@ -1,17 +1,41 @@
 ---
-// Szablon w stylu systemu. Treść polityki dostarczy Idzi: nie pisać tekstu prawnego.
-// TODO (Idzi): treść polityki prywatności. Formularze zbierają dane osobowe.
+// Polityka prywatności w stylu systemu: etykieta, H1, lead, akapity do 720px, prawa jako lista
+// z szarym kwadracikiem (to nie lista atutów, więc bez czerwieni). Treść w site.ts (privacy):
+// klauzula RODO z kwadrat.io/rodo dostosowana do tej strony. TODO przed produkcją: w site.ts.
 import Base from '../layouts/Base.astro';
 import { site } from '../content/site';
 
-const { privacy, meta } = site;
+const { privacy } = site;
+
+// Adres e-mail w tekście zamienia się w link mailto
+const withEmail = (text: string) => text.split(privacy.email);
 ---
 
-<Base title={privacy.metaTitle} description={meta.description}>
+<Base title={privacy.metaTitle} description={privacy.metaDescription}>
   <section class="privacy">
     <div class="container">
-      <h1><b>{privacy.title}</b></h1>
-      <p class="mt-m">{privacy.body}</p>
+      <p class="label">{privacy.label}</p>
+      <h1 class="privacy-title"><b>{privacy.title}</b></h1>
+      <p class="lead privacy-lead">{privacy.lead}</p>
+      <div class="privacy-body">
+        {
+          privacy.body.map((text) => (
+            <p>
+              {withEmail(text).map((part, index) => (
+                <>
+                  {index > 0 && <a class="link" href={`mailto:${privacy.email}`}>{privacy.email}</a>}
+                  {part}
+                </>
+              ))}
+            </p>
+          ))
+        }
+        <p>{privacy.rightsIntro}</p>
+        <ul class="list list--minus privacy-rights">
+          {privacy.rights.map((right) => <li>{right}</li>)}
+        </ul>
+        {privacy.closing.map((text) => <p>{text}</p>)}
+      </div>
     </div>
   </section>
 </Base>
@@ -20,5 +44,33 @@ const { privacy, meta } = site;
   .privacy {
     padding-top: 48px;
     padding-bottom: var(--section);
+  }
+
+  .privacy-title {
+    margin-top: var(--space-s);
+  }
+
+  .privacy-lead {
+    margin-top: 20px;
+  }
+
+  .privacy-body {
+    margin-top: var(--block);
+    padding-top: var(--block);
+    border-top: var(--rule) solid var(--line);
+  }
+
+  .privacy-body > * + * {
+    margin-top: var(--space-s);
+  }
+
+  .privacy-body > .privacy-rights {
+    margin-top: var(--space-xs);
+  }
+
+  @media (max-width: 767.98px) {
+    .privacy {
+      padding-top: var(--block);
+    }
   }
 </style>

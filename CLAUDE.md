@@ -130,7 +130,7 @@ Odstęp między sekcjami `--section` 96px (64px na telefonie). Każdą sekcję o
 - Fokus: obrys 2px `--ink` z odsunięciem 3px na każdym elemencie klikanym, także w polach formularza.
 - Pole formularza: Mulish 16px (mniej powoduje zoom na iOS) na bieli, bez ramki, dolna linia 1px `--line`, padding 12px 0. Etykieta pola nad polem: 13px 600 `muted`. Błąd: tekst `small` w `--ink` z kwadracikiem w `--line` pod polem, bez czerwieni. Dwa krótkie pola mogą stać w jednym rzędzie, na telefonie jedno pod drugim. Lista wyboru wygląda jak pole tekstowe: bez natywnego wyglądu (Safari podmienia w niej font na systemowy), Mulish, 52px wysokości, po prawej szary znak tekstowy „›" obrócony w dół. Zgoda jako tekst `small` pod przyciskiem (wysłanie formularza oznacza zgodę), bez checkboxa.
 - FAQ (WebFaq): natywne `<details>`, pierwsze pytanie otwarte od startu. Linia 1px `--line` nad pierwszym pytaniem i pod każdym. Pytanie 18px 700 ink (16px na telefonie), padding 24px 52px 24px 0. Plus z dwóch kresek 16 × 2px w ink (pseudo-elementy): pionowa obraca się do 0 po otwarciu, przejście 0,2 s, bez animacji przy `prefers-reduced-motion`. Odpowiedź 16px / 27px w `muted`, do 720px. Bez zmiany koloru na hover i po otwarciu. Bez znaku „+” i bez ikony.
-- Stopka (WebFooter): linia 1px ink nad, tekst 13px / 20px w `muted`, nagłówki kolumn 700 ink. Trzy kolumny 4+4+4, na telefonie jedna. Kolumna 1: logo 40px, „Grupa Inwestycyjna Kwadrat”, „Część sieci biur Kwadrat · kwadrat.io” z linkiem do https://kwadrat.io/, social media jako linki tekstowe (Facebook, YouTube, TikTok). Kolumna 2: „Kontakt” i dane agenta. Kolumna 3: dane spółki. Pasek dolny za linią 1px `--line`: zastrzeżenie i link „Polityka prywatności”. Fragmenty danych (kod pocztowy z miastem, NIP, KRS) nie łamią się w środku.
+- Stopka (WebFooter): linia 1px ink nad, tekst 13px / 20px w `muted`, nagłówki kolumn 700 ink. Trzy kolumny 4+4+4, na telefonie jedna. Kolumna 1: logo 40px, „Grupa Inwestycyjna Kwadrat”, „Część Grupy Inwestycyjnej Kwadrat · kwadrat.io” z linkiem do https://kwadrat.io/ (jak w `WEB.md`, decyzja Idziego 4.10.2026), social media jako linki tekstowe (Facebook, YouTube, TikTok). Kolumna 2: „Kontakt” i dane agenta. Kolumna 3: dane spółki i adres biuro@kwadrat.io. Pasek dolny za linią 1px `--line`: zastrzeżenie i link „Polityka prywatności”. Fragmenty danych (kod pocztowy z miastem, NIP, KRS) nie łamią się w środku.
 - Favicon: `kwadrat-logo.svg`.
 
 ### Dostępność
@@ -141,7 +141,7 @@ Kontrast na `--paper`: ink 17,4:1, text 12,6:1, muted 5,0:1 (nie rozjaśniać), 
 
 - Nazwa w treści, meta i schema.org: „Grupa Inwestycyjna Kwadrat”, odmieniana. „Kwadrat Nieruchomości” nie występuje w treści (logo bez zmian). Dane spółki: Grupa Inwestycyjna Kwadrat Sp. z o.o. (stała `COMPANY` w `site.ts`). Oddział Żoliborz i „Kwadrat Żoliborz” nie występują nigdzie. Liczby oddziałów nie podajemy.
 - Logo: `kwadrat-logo.svg` 40px w nagłówku i w stopce, zawsze na białym tle.
-- Telefon i e-mail: +48 505 085 001 i biuro@kwadrat.io, jak na nowej stronie (potwierdził Idzi 3.10.2026). Telefon jest w stałej `CONTACT_PHONE` w `site.ts` z komentarzem TODO: prompt v2 prosi o ponowne potwierdzenie z Idzim. Formularze wysyłają na biuro@kwadrat.io.
+- Telefon i e-mail: +48 505 085 001 i biuro@kwadrat.io, jak na nowej stronie (potwierdził Idzi 3.10.2026). Telefon jest w stałej `CONTACT_PHONE` w `site.ts` z komentarzem TODO: prompt v2 prosi o ponowne potwierdzenie z Idzim. Formularze wysyłają na biuro@kwadrat.io, a adres jest widoczny w stopce, w kolumnie danych spółki (decyzja Idziego 4.10.2026).
 - Kontakt agenta w stopce (stała `AGENT`, dane od Idziego): Idzi Kisza, tel. 600 038 758, idzi.kisza@kwadrat.io, ul. Słowackiego 22/11a, Warszawa.
 - Social media (stała `SOCIAL`): Facebook, YouTube, TikTok, wyłącznie jako linki tekstowe.
 
@@ -165,7 +165,7 @@ Usunięte po przebudowie z 3.10.2026: rząd PL / 360° / 1 plan, sekcja „Bez u
 12. Opinie (#opinie). `label` OPINIE KLIENTÓW, h2, akapit. 4+4+4: kafelek z `label` OCENA GOOGLE, liczbą 4,9 w `--kwadrat-red` z „/ 5” 20px w ink, uwagą `small` „120 opinii w wizytówce Google”, pod nią `small` z nazwą wizytówki i datą odczytu („Kwadrat Otwock”, stan na 01.10.2026), link drugi „Zobacz wszystkie”; dwie opinie jako callout. Wartości z konfiguracji `GOOGLE_*`. Bez gwiazdek, bez logo Google.
 13. FAQ (#faq). `label` NAJCZĘSTSZE PYTANIA, h2. Cztery pytania (WebFaq), pierwsze otwarte od startu. Przy odpowiedzi o prawie zakupu w `site.ts` TODO: do potwierdzenia przez hiszpańskiego prawnika (Idzi przekazał 3.10.2026, że prawnik ją potwierdził; TODO zamyka Idzi).
 14. Konsultacja (#kontakt). 6+6. Lewa: `label` BEZPŁATNA KONSULTACJA, h2, akapit, `label` ZADZWOŃ DO NAS, telefon 20px 700 ink jako link `tel:`. Prawa: formularz Imię i nazwisko, E-mail, Rozważany region (select, placeholder „Wybierz lub zostaw otwarte": Costa del Sol, Costa Blanca, Chcę porównać regiony, Inny region Hiszpanii), Wiadomość, przycisk główny „Wyślij zapytanie”, zgoda. Placeholdery pól z nowej strony.
-15. Stopka (WebFooter). Marka z linkiem do kwadrat.io i social media, kontakt agenta, dane spółki: Grupa Inwestycyjna Kwadrat Sp. z o.o., ul. Samorządowa 9/1, 05-400 Otwock, NIP 5322092950, KRS 0000896911, kapitał zakładowy 50 000 zł. Pasek dolny: „Treści na stronie mają charakter informacyjny i nie stanowią porady prawnej, podatkowej ani inwestycyjnej.” i link Polityka prywatności.
+15. Stopka (WebFooter). Marka z linkiem do kwadrat.io („Część Grupy Inwestycyjnej Kwadrat · kwadrat.io”) i social media, kontakt agenta, dane spółki: Grupa Inwestycyjna Kwadrat Sp. z o.o., ul. Samorządowa 9/1, 05-400 Otwock, NIP 5322092950, KRS 0000896911, kapitał zakładowy 50 000 zł, biuro@kwadrat.io. Pasek dolny: „Treści na stronie mają charakter informacyjny i nie stanowią porady prawnej, podatkowej ani inwestycyjnej.” i link Polityka prywatności.
 
 ## Copy: zasady przenoszenia
 
@@ -191,7 +191,7 @@ Dwa formularze: poradnik i kontakt. Dostawca: Web3Forms (potwierdził Idzi 3.10.
 - Honeypot przeciw spamowi, bez CAPTCHA.
 - Po wysłaniu poradnika: komunikat w `body` i link do `public/poradnik.pdf`. Do czasu dostarczenia pliku: jednostronicowy placeholder PDF wygenerowany w repo.
 - Zgoda pod formularzem poradnika z nowej strony (treść w `site.ts`, potwierdzona). Pod formularzem kontaktowym zgoda z poprzedniej wersji strony: nowa strona jej nie ma, ale Idzi zdecydował 3.10.2026, że ma być (treść potwierdzona). Pod każdym formularzem zdanie z linkiem do `/polityka-prywatnosci`.
-- Strona `/polityka-prywatnosci`: zaślepka w stylu systemu z nagłówkiem i stopką, treść to wyłącznie „Treść w przygotowaniu.”, w kodzie TODO. Nie pisz tekstu prawnego. Treść dostarczy Idzi. Formularze zbierają dane osobowe, więc strona nie idzie na produkcję bez tej treści.
+- Strona `/polityka-prywatnosci`: w stylu systemu z nagłówkiem i stopką. Treść to klauzula RODO z https://kwadrat.io/rodo/ (odczyt 4.10.2026), dostosowana do formularzy tej strony na prośbę Idziego (4.10.2026). Jest w `site.ts` (`privacy`), a lista zmian wobec oryginału w komentarzu nad nią. Nie zmieniaj tekstu prawnego bez zgody Idziego. Przed produkcją treść sprawdza prawnik (TODO w `site.ts`), w tym przekazywanie danych poza EOG przez dostawców formularzy i hostingu.
 
 ## SEO i meta
 
@@ -237,7 +237,7 @@ Dwa formularze: poradnik i kontakt. Dostawca: Web3Forms (potwierdził Idzi 3.10.
 
 1. Sprawdzić, gdzie trafiają dziś zapytania z formularzy na stronie w Lovable, i wyeksportować dotychczasowe leady.
 2. Podpiąć klucz Web3Forms, wysłać testowe zgłoszenie z obu formularzy, potwierdzić odbiór na biuro@kwadrat.io.
-3. Wgrać docelowe zdjęcia, PDF poradnika i treść polityki prywatności.
+3. Wgrać docelowe zdjęcia i PDF poradnika, potwierdzić z prawnikiem treść polityki prywatności.
 4. W Cloudflare Pages dodać domenę slonecznahiszpania.pl i www, ustawić rekordy DNS u rejestratora domeny.
 5. Po propagacji sprawdzić stronę, formularze i certyfikat, dopiero wtedy odpiąć domenę od projektu w Lovable.
 

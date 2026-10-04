@@ -41,7 +41,8 @@ const COMPANY = {
   nip: '5322092950',
   krs: '0000896911',
   capital: '50 000 zł',
-  network: 'Część sieci biur Kwadrat',
+  // Link zwrotny w stopce według WEB.md (decyzja Idziego 4.10.2026)
+  network: 'Część Grupy Inwestycyjnej Kwadrat',
   website: 'https://kwadrat.io/',
   websiteLabel: 'kwadrat.io',
 };
@@ -569,12 +570,39 @@ const raw = {
     privacy: { label: 'Polityka prywatności', href: '/polityka-prywatnosci' },
   },
 
-  // TODO (Idzi): treść polityki prywatności. Formularze zbierają dane osobowe, więc strona
-  // z formularzem nie idzie na produkcję bez tej treści (zasada WebFooter).
+  // Polityka prywatności: klauzula RODO z kwadrat.io/rodo (odczyt 4.10.2026), dostosowana do
+  // formularzy tej strony na prośbę Idziego (4.10.2026). Zmiany wobec oryginału: lead, dopisek
+  // o hostingu i obsłudze formularzy, zdanie o cookies, bez odwołania do art. 172 Prawa
+  // telekomunikacyjnego (ustawę zastąpiło 10.11.2024 Prawo komunikacji elektronicznej),
+  // drobna redakcja bez myślników. Adres e-mail w tekście zamienia się w link.
+  // TODO: przed produkcją treść sprawdza prawnik, w tym czy dostawcy formularzy (Web3Forms)
+  // i hostingu (Cloudflare) przekazują dane poza EOG (art. 13 ust. 1 lit. f RODO).
   privacy: {
+    label: 'Zapisy prawne',
     title: 'Polityka prywatności',
     metaTitle: 'Polityka prywatności | Grupa Inwestycyjna Kwadrat',
-    body: 'Treść w przygotowaniu.',
+    metaDescription:
+      'Zasady przetwarzania danych osobowych przesłanych przez formularze na stronie slonecznahiszpania.pl.',
+    lead: 'Zasady przetwarzania danych osobowych przesłanych przez formularze na stronie slonecznahiszpania.pl: formularz poradnika i formularz konsultacji.',
+    email: CONTACT.email,
+    body: [
+      `Administratorem danych osobowych jest Grupa Inwestycyjna Kwadrat Sp. z o.o. z siedzibą przy ul. Samorządowej 9/1, 05-400 Otwock („Administrator”), z którym można się skontaktować przez adres ${CONTACT.email}.`,
+      'Dane osobowe będą przetwarzane w celu udzielenia odpowiedzi na Pani/Pana wiadomość oraz dla celów marketingowych i analitycznych.',
+      'Podstawą prawną przetwarzania danych osobowych jest prawnie uzasadniony interes Administratora, polegający na obsłudze korespondencji oraz prowadzeniu marketingu bezpośredniego produktów i usług własnych, w tym dla celów analitycznych (art. 6 ust. 1 lit. f RODO).',
+      'Dostęp do Pani/Pana danych będą mieć nasi pracownicy, podwykonawcy oraz podmioty świadczące usługi na naszą rzecz (tj. usługi IT i wsparcia technicznego, w tym hosting strony i obsługa formularzy) w zakresie koniecznym w celu obsługi korespondencji.',
+      'Pani/Pana dane będą przechowywane przez okres niezbędny do rozpatrzenia zapytania lub wniesienia sprzeciwu, w zakresie wyrażonej zgody na kontakt do czasu jej wycofania, a w zakresie, w jakim komunikacja następuje w ramach umowy, do czasu zakończenia jej wykonywania oraz upływu okresu przedawnienia ewentualnych roszczeń umownych.',
+    ],
+    rightsIntro: 'Przysługuje Pani/Panu prawo do:',
+    rights: [
+      'żądania dostępu do swoich danych osobowych, ich sprostowania, usunięcia lub ograniczenia przetwarzania, a także prawo do przenoszenia danych,',
+      'wniesienia w dowolnym momencie sprzeciwu wobec przetwarzania Pani/Pana danych osobowych z przyczyn związanych ze szczególną sytuacją,',
+      'wniesienia skargi do organu nadzorczego, tj. Prezesa Urzędu Ochrony Danych Osobowych.',
+    ],
+    closing: [
+      'Podanie danych jest dobrowolne, jednak ich niepodanie będzie skutkowało brakiem możliwości udzielenia odpowiedzi na Pani/Pana wiadomość. Wyrażenie zgody jest dobrowolne.',
+      'Dane osobowe nie będą wykorzystywane do podejmowania zautomatyzowanych decyzji, w tym profilowania.',
+      'Strona nie korzysta z narzędzi analitycznych ani reklamowych i sama nie zapisuje plików cookies.',
+    ],
   },
 };
 
