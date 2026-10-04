@@ -24,6 +24,7 @@ Czytelność ponad efektowność. Odwiedzający w trzy sekundy wie: co to jest, 
 - Zero zależności poza Astro. Żadnych bibliotek ikon, animacji, sliderów.
 - Font Mulish hostowany lokalnie: `public/fonts/Mulish-400.woff2`, `Mulish-600.woff2`, `Mulish-700.woff2` (pliki z artefaktu systemu, z polskimi i hiszpańskimi znakami), `@font-face` z `font-display: swap` w `tokens.css`, preload trzech plików w `Base.astro`. Licencja OFL w `public/fonts/OFL.txt`. Strona nie ładuje niczego z zewnątrz.
 - Build statyczny do `dist/`. Hosting: Cloudflare Pages, podgląd na adresie `*.pages.dev`.
+- `vite.build.cssTarget` w `astro.config.mjs` trzyma w CSS zapis `max-width:` zamiast `(width<=…)`, którego Safari do 16.3 nie zna. Nie usuwaj.
 - Struktura: `src/pages/index.astro`, sekcje w `src/components/`, całe copy i dane kontaktowe w `src/content/site.ts` (poprawka tekstu nie wymaga grzebania w markupie), style w `src/styles/tokens.css`, `src/styles/base.css`, `src/styles/markers.css`.
 - Logo jest w repo: `public/brand/kwadrat-logo.svg` (sam kwadrat, wersja www: nagłówek, stopka, favicon) i `public/brand/kwadrat-logo-lockup.svg` (znak z napisem NIERUCHOMOŚCI, od v2 nieużywany na stronie). Nie rysuj logo od nowa, nie przekoloruj, nie przeskaluj nieproporcjonalnie. Usuń z plików blok `<metadata>` (c2pa) przy optymalizacji, ścieżek nie ruszaj.
 - Zdjęcia w `public/img/`: WebP plus JPG przez `<picture>`, szerokości 1600 i 800 px, `width` i `height` zawsze ustawione, `loading="lazy"` poza hero.
@@ -115,7 +116,7 @@ Odstęp między sekcjami `--section` 96px (64px na telefonie). Każdą sekcję o
 ### Komponenty
 
 - Etykieta sekcji: `label` nad h2, odstęp 16px.
-- Nagłówek strony: logo `kwadrat-logo.svg` 40 × 40px na białym tle po lewej, menu tekstowe 15px 600 w ink (hover: podkreślenie), na końcu telefon jako tekst „Zadzwoń +48 505 085 001” (link `tel:`, bez przycisku i ikony). Pod nagłówkiem linia 1px `--line`. Nie sticky. Poniżej 1200px linki chowane pod przyciskiem tekstowym „Menu”, bez ikony, telefon widoczny obok.
+- Nagłówek strony: logo `kwadrat-logo.svg` 40 × 40px na białym tle po lewej, menu tekstowe 15px 600 w ink (hover: podkreślenie), na końcu telefon jako tekst „Zadzwoń +48 505 085 001” (link `tel:`, bez przycisku i ikony). Pod nagłówkiem linia 1px `--line`. Nie sticky. Poniżej 1200px linki chowane pod przyciskiem tekstowym „Menu”, bez ikony, telefon widoczny obok. Kolejność w HTML jest kolejnością tabulacji: logo, telefon (do 1199px), „Menu”, linki, telefon (od 1200px; widoczny zawsze tylko jeden). Tab po otwarciu menu wchodzi w linki, Escape zamyka menu i wraca na przycisk. Bez JS menu stoi otwarte pod paskiem.
 - Hero (WebHero): `label`, h1 w dwóch grubościach, lead, jeden przycisk główny i jeden link drugi, pod nimi `small`. Obok (7+5) jedno zdjęcie w naturalnych proporcjach, bez nakładek i przyciemnień, pod nim `small` „Zdjęcie poglądowe” (stała `PHOTO_NOTE` w `site.ts`).
 - Pasek KPI (WebStats): bezpośrednio pod hero, 3 do 4 kafelków. Kafelek: linia 1px ink nad, `label`, wartość, uwaga `small`. Kafelki to subgrid, wartości stoją na jednej wysokości. Kafelek 1 to ocena Google z konfiguracji w `site.ts` (`GOOGLE_RATING`, `GOOGLE_REVIEWS`, `GOOGLE_PROFILE_NAME`, `GOOGLE_READ_DATE`, link `GOOGLE_REVIEWS_URL`): gdy któreś z czterech pól jest puste, kafelek się nie renderuje (tak samo kafelek oceny w Opiniach). Wartości wpisuje Idzi, nigdy Claude. Pozostałe kafelki: wartości tekstowe 20px 700 wyłącznie z usług i regionów opisanych niżej na stronie, bez nowych obietnic i bez liczby oddziałów. Na tablecie i telefonie dwie kolumny.
 - Kierunek: linia 1px ink nad, `label` KIERUNEK 01, tytuł w stylu h3 (h2 bez kwadracika), akapit, link drugi. Bez zdjęcia.
@@ -128,7 +129,7 @@ Odstęp między sekcjami `--section` 96px (64px na telefonie). Każdą sekcję o
 - Przycisk główny (kw-btn): tło `--ink`, tekst `--paper` 600 16px, padding 16px 28px, co najmniej 52px wysokości, rogi 0, bez cienia. Hover: tło `--text`. Jeden przycisk główny na sekcję. To jedyne ciemne pole na stronie.
 - Link i przycisk drugi (kw-link): tekst `--ink` 600, podkreślenie 1px z odsunięciem 4px. Hover: podkreślenie 2px. Czerwień nigdy w linkach.
 - Fokus: obrys 2px `--ink` z odsunięciem 3px na każdym elemencie klikanym, także w polach formularza.
-- Pole formularza: Mulish 16px (mniej powoduje zoom na iOS) na bieli, bez ramki, dolna linia 1px `--line`, padding 12px 0. Etykieta pola nad polem: 13px 600 `muted`. Błąd: tekst `small` w `--ink` z kwadracikiem w `--line` pod polem, bez czerwieni. Dwa krótkie pola mogą stać w jednym rzędzie, na telefonie jedno pod drugim. Lista wyboru wygląda jak pole tekstowe: bez natywnego wyglądu (Safari podmienia w niej font na systemowy), Mulish, 52px wysokości, po prawej szary znak tekstowy „›" obrócony w dół. Zgoda jako tekst `small` pod przyciskiem (wysłanie formularza oznacza zgodę), bez checkboxa.
+- Pole formularza: Mulish 16px (mniej powoduje zoom na iOS) na bieli, bez ramki, dolna linia 1px `--line`, padding 12px 0. Etykieta pola nad polem: 13px 600 `muted`. Błąd: tekst `small` w `--ink` z kwadracikiem w `--line` pod polem, bez czerwieni. Dwa krótkie pola mogą stać w jednym rzędzie, na telefonie jedno pod drugim. Lista wyboru wygląda jak pole tekstowe: bez natywnego wyglądu (Safari podmienia w niej font na systemowy), Mulish, 52px wysokości, po prawej szary znak tekstowy „›" obrócony w dół. Zgoda jako tekst `small` pod przyciskiem (wysłanie formularza oznacza zgodę), bez checkboxa, połączona z przyciskiem przez `aria-describedby`. W trakcie wysyłki przycisk ma `aria-disabled` (nie `disabled`, który gubi fokus), a żądanie ma limit 15 s.
 - FAQ (WebFaq): natywne `<details>`, pierwsze pytanie otwarte od startu. Linia 1px `--line` nad pierwszym pytaniem i pod każdym. Pytanie 18px 700 ink (16px na telefonie), padding 24px 52px 24px 0. Plus z dwóch kresek 16 × 2px w ink (pseudo-elementy): pionowa obraca się do 0 po otwarciu, przejście 0,2 s, bez animacji przy `prefers-reduced-motion`. Odpowiedź 16px / 27px w `muted`, do 720px. Bez zmiany koloru na hover i po otwarciu. Bez znaku „+” i bez ikony.
 - Stopka (WebFooter): linia 1px ink nad, tekst 13px / 20px w `muted`, nagłówki kolumn 700 ink. Trzy kolumny 4+4+4, na telefonie jedna. Kolumna 1: logo 40px, „Grupa Inwestycyjna Kwadrat”, „Część Grupy Inwestycyjnej Kwadrat · kwadrat.io” z linkiem do https://kwadrat.io/ (jak w `WEB.md`, decyzja Idziego 4.10.2026), social media jako linki tekstowe (Facebook, YouTube, TikTok). Kolumna 2: „Kontakt” i dane agenta. Kolumna 3: dane spółki i adres biuro@kwadrat.io. Pasek dolny za linią 1px `--line`: zastrzeżenie i link „Polityka prywatności”. Fragmenty danych (kod pocztowy z miastem, NIP, KRS) nie łamią się w środku.
 - Favicon: `kwadrat-logo.svg`.
@@ -178,7 +179,7 @@ Usunięte po przebudowie z 3.10.2026: rząd PL / 360° / 1 plan, sekcja „Bez u
 ## Zdjęcia
 
 - Źródła zdjęć leżą w `zdjecia/` pod nazwą miejsca na stronie, warianty do `public/img/` robi `npm run zdjecia` (proporcje i punkt kadru w `scripts/zdjecia.mjs`). PDF poradnika do `public/poradnik.pdf`.
-- Zdjęcia pochodzą z nowej strony: `hero-costa-del-sol.jpg` (1200 × 912, w hero), `poradnik-cover.webp` (1354 × 1920), `oferta-malaga.jpg`, `oferta-mijas.jpg`, `oferta-marbella.jpg` (1008 × 752). `hero-costa-blanca.jpg` zostaje w repo, ale od v2 nie jest na stronie (kierunki są bez zdjęć). Wszystkie w naturalnych proporcjach, bez kadrowania.
+- Zdjęcia pochodzą z nowej strony: `hero-costa-del-sol.jpg` (1200 × 912, w hero), `poradnik-cover.webp` (1354 × 1920), `oferta-malaga.jpg`, `oferta-mijas.jpg`, `oferta-marbella.jpg` (1008 × 752). `hero-costa-blanca.jpg` zostaje w `zdjecia/` jako źródło, bez wariantów w `public/img/`: od v2 nie jest na stronie (kierunki są bez zdjęć). Wszystkie w naturalnych proporcjach, bez kadrowania.
 - Zdjęcie tarasu w hero to zdjęcie poglądowe: podpis „Zdjęcie poglądowe" (stała `PHOTO_NOTE`), alt bez nazw konkretnych miejsc. Źródło zdjęć w hero i w ofertach: deweloper (potwierdził Idzi 3.10.2026).
 - Zdjęcia ofert to wizualizacje dewelopera: podpis „Wizualizacja" (stała `OFFER_PHOTO_NOTE`). Idzi podmieni je na docelowe.
 - Okładka poradnika powstała poza tym systemem: do wymiany.
@@ -198,6 +199,7 @@ Dwa formularze: poradnik i kontakt. Dostawca: Web3Forms (potwierdził Idzi 3.10.
 - Title: „Grupa Inwestycyjna Kwadrat | Costa del Sol i Costa Blanca”, og:title „Grupa Inwestycyjna Kwadrat | Hiszpania”. Description i og:description z `<head>` nowej strony, bez myślników. og:image: `public/og-image.jpg`, zrzut górnej części tej strony w systemie Kwadrat (okno 1600 × 840 zmniejszone do 1200 × 630), ostatnio 4.10.2026 po hero v2. Ustawiany w `meta.ogImage` w `site.ts`. Po zmianie hero zrób nowy zrzut.
 - Kotwice sekcji jak w inwentarzu.
 - Schema.org: RealEstateAgent (Grupa Inwestycyjna Kwadrat, dane spółki, telefon, adres, logo `kwadrat-logo.svg`) i FAQPage z czterema pytaniami.
+- `public/sitemap.xml` (dwie strony) i wpis `Sitemap:` w `robots.txt`. PDF poradnika ma w `public/_headers` nagłówek `X-Robots-Tag: noindex`, bo jest „dostępny po zapisie”.
 - Lighthouse: Performance, Accessibility, Best Practices, SEO po 95 lub więcej, CLS 0. Strona nie ładuje zasobów z zewnątrz.
 
 ## Czego nie robić
@@ -214,14 +216,14 @@ Dwa formularze: poradnik i kontakt. Dostawca: Web3Forms (potwierdził Idzi 3.10.
 
 ## Strażnik systemu
 
-`npm run lint:kwadrat` (skrypt `scripts/lint-kwadrat.mjs`) uruchamia się przed `build`. Wywala build, gdy w `src/`:
+`npm run lint:kwadrat` (skrypt `scripts/lint-kwadrat.mjs`) uruchamia się przed `build`. Czyta każdy plik w całości po usunięciu komentarzy (wartość w kolejnej linii też się liczy) i sprawdza zarówno zapis CSS (`border-radius`), jak i obiekty stylu w JS i Astro (`borderRadius`). Wyjątki dotyczą ścieżek `src/styles/tokens.css` i `src/styles/markers.css`, nie samych nazw plików. Wywala build, gdy w `src/`:
 
-1. Pojawia się kolor hex poza `src/styles/tokens.css`.
-2. `--kwadrat-red` jest użyty poza `tokens.css` i `markers.css` (w `markers.css` siedzą wyłącznie kwadraciki h2 i list, ocena Google dostaje klasę z tego pliku).
-3. `border-radius` ma wartość inną niż 0, występuje `box-shadow`, `linear-gradient` albo `radial-gradient`.
-4. `font-weight` ma wartość inną niż 400, 600, 700, występuje `font-style: italic` albo `font-family` inne niż `var(--font-sans)` lub `inherit` (nazwa „Mulish” wolno tylko w `@font-face` w `tokens.css`).
-5. W `site.ts` albo w markupie występuje znak U+2014 (pauza) albo U+2013 (półpauza).
-6. Pojawia się import biblioteki ikon (w `src/` albo jako zależność w `package.json`).
+1. Pojawia się kolor poza `src/styles/tokens.css`: hex (także `%23…` w data URI), `rgb()`, `hsl()`, `color-mix()` i podobne, nazwany kolor CSS (`red`, `white`…) albo redefinicja tokenu (`--ink:`, `--font-sans:`…).
+2. `--kwadrat-red` jest użyty poza `tokens.css` i `markers.css`. W `markers.css` wolno go użyć tylko w trzech regułach: kwadracik h2, kwadracik listy atutów i `.kpi--accent` (ocena Google), zawsze jako `var(--kwadrat-red)`. W `tokens.css` tylko w jego własnej definicji.
+3. `border-radius` ma wartość inną niż 0, zaokrąglenie powstaje przez `clip-path: inset(… round …)` albo `rx`/`ry` w SVG, występuje cień (`box-shadow` i `text-shadow` inne niż `none`, `drop-shadow()`) albo gradient.
+4. `font-weight` ma wartość inną niż 400, 600, 700 (`normal`, `bold`), występuje `font-variation-settings`, kursywa albo `font-family` inne niż `var(--font-sans)` lub `inherit` (nazwa „Mulish” wolno tylko w `@font-face` w `tokens.css`), albo skrót `font:` inny niż `font: inherit`.
+5. Występuje pauza albo półpauza: znak U+2014 lub U+2013, encja (`&mdash;`, `&ndash;`, `&#8212;`, `&#x2014;`) albo sekwencja ucieczki (`\u2014`, `\2014`). Ta reguła sprawdza też komentarze.
+6. Pojawia się import biblioteki ikon w `src/` albo w `package.json` jest jakakolwiek zależność poza `astro`.
 
 ## Definition of done
 

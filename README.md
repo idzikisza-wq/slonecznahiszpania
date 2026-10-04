@@ -19,9 +19,9 @@ npm run preview    # podgląd zbudowanej strony
 | --- | --- |
 | `npm run dev` | serwer deweloperski z odświeżaniem |
 | `npm run build` | `lint:kwadrat`, potem statyczny build do `dist/` |
-| `npm run lint:kwadrat` | strażnik systemu: przerywa build przy złamaniu reguł (kolory hex poza tokenami, czerwień poza `markers.css`, zaokrąglenia, cienie, gradienty, niedozwolone wagi i kroje, pauzy i półpauzy, biblioteki ikon) |
+| `npm run lint:kwadrat` | strażnik systemu: przerywa build przy złamaniu reguł (kolory poza tokenami, czerwień poza trzema regułami w `markers.css`, zaokrąglenia, cienie, gradienty, niedozwolone wagi i kroje, pauzy i półpauzy, biblioteki ikon, zależności poza Astro); pełna lista w CLAUDE.md |
 | `npm run zdjecia` | generuje warianty zdjęć do `public/img/` z plików w `zdjecia/` |
-| `npm run pdf:placeholder` | odtwarza tymczasowy `public/poradnik.pdf` |
+| `npm run pdf:placeholder` | odtwarza tymczasowy `public/poradnik.pdf`; docelowego poradnika nie nadpisze (chyba że z `-- --force`) |
 
 ## Struktura
 
@@ -40,6 +40,8 @@ public/
   fonts/               Mulish 400, 600, 700 (woff2) i licencja OFL
   img/                 warianty zdjęć (generowane, nie edytować ręcznie)
   poradnik.pdf         PDF poradnika (teraz placeholder)
+  sitemap.xml          mapa strony (dwie strony), robots.txt wskazuje na nią
+  _headers             nagłówki Cloudflare Pages: cache, bezpieczeństwo, noindex dla PDF
 zdjecia/               pliki źródłowe zdjęć
 scripts/               lint-kwadrat, zdjecia, placeholder-pdf
 ```
@@ -55,7 +57,7 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 | Plik źródłowy w `zdjecia/` | Miejsce | Proporcje |
 | --- | --- | --- |
 | `hero-costa-del-sol.jpg` | hero, obok tytułu (7+5) | naturalne (dziś 1200 × 912) |
-| `hero-costa-blanca.jpg` | od wersji 2 nieużywane (kierunki są bez zdjęć) | naturalne (dziś 1200 × 912) |
+| `hero-costa-blanca.jpg` | od wersji 2 nieużywane (kierunki są bez zdjęć): zostaje tylko jako źródło, bez wariantów | naturalne (dziś 1200 × 912) |
 | `poradnik-cover.webp` | okładka przy formularzu poradnika | naturalne |
 | `oferta-malaga.jpg` | oferta Málaga Centro | naturalne (dziś 1008 × 752) |
 | `oferta-mijas.jpg` | oferta Mijas | naturalne |
@@ -93,7 +95,7 @@ Ocena Google pokazuje się tylko wtedy, gdy cztery pierwsze pola `GOOGLE_*` są 
 
 ## Podmiana PDF poradnika
 
-Zastąp `public/poradnik.pdf` docelowym plikiem pod tą samą nazwą i zrób commit. Link po zapisie do poradnika nie wymaga zmian.
+Zastąp `public/poradnik.pdf` docelowym plikiem pod tą samą nazwą i zrób commit. Link po zapisie do poradnika nie wymaga zmian. Wyszukiwarki nie indeksują pliku (nagłówek `X-Robots-Tag: noindex` w `public/_headers`), a `npm run pdf:placeholder` go nie nadpisze. Bez JS formularz poradnika po wysłaniu przekierowuje wprost do PDF (pole `redirect` Web3Forms, tylko gdy jest klucz).
 
 ## Polityka prywatności
 

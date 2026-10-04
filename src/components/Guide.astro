@@ -16,60 +16,66 @@ const formId = 'poradnik-formularz';
 
 <section class="section" id="poradnik">
   <div class="container">
-  <div class="grid">
-    <div class="col-4">
-      <SectionHead label={guide.label} title={guide.title} text={guide.text} />
-      <div class="mt-m">
-        <List items={guide.list} variant="plus" />
-      </div>
-      <p class="small mt-m">{guide.note}</p>
-    </div>
-
-    <div class="col-4 guide-side">
-      <Photo
-        image={guide.image}
-        sizes="(min-width: 1200px) 357px, (min-width: 768px) calc(50vw - 52px), calc(100vw - 40px)"
-      />
-    </div>
-
-    <div class="col-4 guide-side">
-      <Form id={formId} subject={form.subject} submit={form.submit} consent={form.consent}>
-        <div class="field-row">
-          <Field
-            form={formId}
-            name="imie"
-            label={form.firstName}
-            placeholder={form.firstNamePlaceholder}
-            required
-            autocomplete="given-name"
-          />
-          <Field
-            form={formId}
-            name="nazwisko"
-            label={form.lastName}
-            placeholder={form.lastNamePlaceholder}
-            required
-            autocomplete="family-name"
-          />
+    <div class="grid">
+      <div class="col-4">
+        <SectionHead label={guide.label} title={guide.title} text={guide.text} />
+        <div class="mt-m">
+          <List items={guide.list} variant="plus" />
         </div>
-        <Field
-          form={formId}
-          name="email"
-          label={form.email}
-          placeholder={form.emailPlaceholder}
-          type="email"
-          required
-          autocomplete="email"
+        <p class="small mt-m">{guide.note}</p>
+      </div>
+
+      <div class="col-4 guide-side">
+        <Photo
+          image={guide.image}
+          sizes="(min-width: 1200px) 357px, (min-width: 768px) calc(50vw - 52px), calc(100vw - 40px)"
         />
-        <Fragment slot="success">
-          <p>{form.success}</p>
-          <p class="mt-s">
-            <a class="cta-2" href={form.pdf} download>{form.download}</a>
-          </p>
-        </Fragment>
-      </Form>
+      </div>
+
+      <div class="col-4 guide-side">
+        <Form
+          id={formId}
+          subject={form.subject}
+          submit={form.submit}
+          consent={form.consent}
+          redirect={new URL(form.pdf, Astro.site).href}
+        >
+          <div class="field-row">
+            <Field
+              form={formId}
+              name="imie"
+              label={form.firstName}
+              placeholder={form.firstNamePlaceholder}
+              required
+              autocomplete="given-name"
+            />
+            <Field
+              form={formId}
+              name="nazwisko"
+              label={form.lastName}
+              placeholder={form.lastNamePlaceholder}
+              required
+              autocomplete="family-name"
+            />
+          </div>
+          <Field
+            form={formId}
+            name="email"
+            label={form.email}
+            placeholder={form.emailPlaceholder}
+            type="email"
+            required
+            autocomplete="email"
+          />
+          <Fragment slot="success">
+            <p>{form.success}</p>
+            <p class="mt-s">
+              <a class="cta-2" href={form.pdf} download>{form.download}</a>
+            </p>
+          </Fragment>
+        </Form>
+      </div>
     </div>
-  </div>
   </div>
 </section>
 

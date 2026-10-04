@@ -56,6 +56,8 @@ const fonts = ['/fonts/Mulish-400.woff2', '/fonts/Mulish-600.woff2', '/fonts/Mul
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
     {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta property="og:image:width" content={String(site.meta.ogImageSize[0])} />}
+    {ogImage && <meta property="og:image:height" content={String(site.meta.ogImageSize[1])} />}
     {ogImage && <meta property="og:image:alt" content={plainText(site.meta.ogImageAlt)} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={ogTitle} />

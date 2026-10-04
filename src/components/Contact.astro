@@ -12,52 +12,52 @@ const formId = 'kontakt-formularz';
 
 <section class="section" id="kontakt">
   <div class="container">
-  <div class="grid">
-    <div class="col-6">
-      <SectionHead label={section.label} title={section.title} text={section.text} />
-      <p class="label mt-l">{section.phoneLabel}</p>
-      <p class="mt-xs">
-        <a class="contact-phone" href={contact.phoneHref}>{contact.phone}</a>
-      </p>
+    <div class="grid">
+      <div class="col-6">
+        <SectionHead label={section.label} title={section.title} text={section.text} />
+        <p class="label mt-l">{section.phoneLabel}</p>
+        <p class="mt-xs">
+          <a class="contact-phone" href={contact.phoneHref}>{contact.phone}</a>
+        </p>
+      </div>
+      <div class="col-6">
+        <Form id={formId} subject={form.subject} submit={form.submit} consent={form.consent}>
+          <Field
+            form={formId}
+            name="name"
+            label={form.name}
+            placeholder={form.namePlaceholder}
+            required
+            autocomplete="name"
+          />
+          <Field
+            form={formId}
+            name="email"
+            label={form.email}
+            placeholder={form.emailPlaceholder}
+            type="email"
+            required
+            autocomplete="email"
+          />
+          <Field
+            form={formId}
+            name="region"
+            label={form.region}
+            type="select"
+            placeholderOption={form.regionPlaceholder}
+            options={form.regionOptions}
+          />
+          <Field
+            form={formId}
+            name="wiadomosc"
+            label={form.message}
+            placeholder={form.messagePlaceholder}
+            type="textarea"
+          />
+          <p slot="success">{form.success}</p>
+        </Form>
+      </div>
     </div>
-    <div class="col-6">
-      <Form id={formId} subject={form.subject} submit={form.submit} consent={form.consent}>
-        <Field
-          form={formId}
-          name="name"
-          label={form.name}
-          placeholder={form.namePlaceholder}
-          required
-          autocomplete="name"
-        />
-        <Field
-          form={formId}
-          name="email"
-          label={form.email}
-          placeholder={form.emailPlaceholder}
-          type="email"
-          required
-          autocomplete="email"
-        />
-        <Field
-          form={formId}
-          name="region"
-          label={form.region}
-          type="select"
-          placeholderOption={form.regionPlaceholder}
-          options={form.regionOptions}
-        />
-        <Field
-          form={formId}
-          name="wiadomosc"
-          label={form.message}
-          placeholder={form.messagePlaceholder}
-          type="textarea"
-        />
-        <p slot="success">{form.success}</p>
-      </Form>
-    </div>
-  </div>
   </div>
 </section>
 

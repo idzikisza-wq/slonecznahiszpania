@@ -26,7 +26,7 @@ export const CONTACT_PHONE = '+48 505 085 001';
 
 const CONTACT = {
   phone: CONTACT_PHONE,
-  phoneHref: `tel:${CONTACT_PHONE.replaceAll(' ', '')}`,
+  phoneHref: `tel:${CONTACT_PHONE.replace(/[^\d+]/g, '')}`,
   // Na ten adres trafiają zgłoszenia z formularzy (klucz Web3Forms); jest też w danych strukturalnych
   email: 'biuro@kwadrat.io',
 };
@@ -48,10 +48,12 @@ const COMPANY = {
 };
 
 // Agent prowadzący: kolumna „Kontakt” w stopce (dane od Idziego, 4.10.2026)
+const AGENT_PHONE = '600 038 758';
+
 export const AGENT = {
   name: 'Idzi Kisza',
-  phone: '600 038 758',
-  phoneHref: 'tel:+48600038758',
+  phone: AGENT_PHONE,
+  phoneHref: `tel:+48${AGENT_PHONE.replace(/\D/g, '')}`,
   email: 'idzi.kisza@kwadrat.io',
   address: 'ul. Słowackiego 22/11a, Warszawa',
 };
@@ -65,13 +67,14 @@ export const SOCIAL = [
 
 // Ocena Google (pasek KPI pod hero i sekcja Opinie): wartość i liczba opinii z nowej strony,
 // nazwa wizytówki i data odczytu od Idziego (3.10.2026). Nie wpisywać z głowy.
-// Jeśli którekolwiek z czterech pól jest puste, kafelek z oceną się nie renderuje.
+// Jeśli którekolwiek z pięciu pól (razem z linkiem) jest puste, kafelki z oceną się nie renderują.
+// DO POTWIERDZENIA: link prowadzi do wyszukiwania w Mapach Google; najlepiej podać link do wizytówki.
 export const GOOGLE_RATING = '4,9';
 export const GOOGLE_REVIEWS = '120';
 export const GOOGLE_PROFILE_NAME = 'Kwadrat Otwock';
 export const GOOGLE_READ_DATE = '01.10.2026';
 export const GOOGLE_REVIEWS_URL = 'https://www.google.com/maps/search/Kwadrat+Nieruchomo%C5%9Bci+Otwock';
-export const HAS_GOOGLE_RATING = [GOOGLE_RATING, GOOGLE_REVIEWS, GOOGLE_PROFILE_NAME, GOOGLE_READ_DATE].every(
+export const HAS_GOOGLE_RATING = [GOOGLE_RATING, GOOGLE_REVIEWS, GOOGLE_PROFILE_NAME, GOOGLE_READ_DATE, GOOGLE_REVIEWS_URL].every(
   (field) => field.trim() !== '',
 );
 
@@ -79,16 +82,11 @@ export const HAS_GOOGLE_RATING = [GOOGLE_RATING, GOOGLE_REVIEWS, GOOGLE_PROFILE_
 // (generuje npm run zdjecia). ratio to naturalne proporcje pliku, bez kadrowania.
 // Brak plików = szare pole z podpisem.
 // Źródło zdjęć w hero i w ofertach: deweloper (potwierdził Idzi 3.10.2026).
-// Hero w systemie v2 ma jedno zdjęcie (heroSol). heroBlanca zostaje w repo, na stronie dziś nieużywane.
+// Hero w systemie v2 ma jedno zdjęcie (heroSol). Źródło zdjęcia Costa Blanca zostaje w zdjecia/,
+// bez wariantów na stronie: żeby wróciło, dopisz miejsce tutaj i w scripts/zdjecia.mjs.
 const IMAGES = {
   heroSol: {
     name: 'hero-costa-del-sol',
-    ratio: [1200, 912],
-    alt: 'Taras apartamentu z widokiem na morze',
-    placeholder: 'Zdjęcie 4:3',
-  },
-  heroBlanca: {
-    name: 'hero-costa-blanca',
     ratio: [1200, 912],
     alt: 'Taras apartamentu z widokiem na morze',
     placeholder: 'Zdjęcie 4:3',
@@ -133,6 +131,7 @@ const raw = {
     // og:image: zrzut górnej części tej strony w systemie Kwadrat (okno 1600 × 840 zmniejszone
     // do 1200 × 630). Po zmianie hero zrób nowy zrzut. Alt złożony z nazwy marki i h1.
     ogImage: '/og-image.jpg',
+    ogImageSize: [1200, 630],
     ogImageAlt: 'Grupa Inwestycyjna Kwadrat: Dwa wybrzeża. Dwie dobre odpowiedzi.',
     author: 'Grupa Inwestycyjna Kwadrat',
   },
@@ -469,6 +468,7 @@ const raw = {
       label: 'Ocena Google',
       scale: '/ 5',
       note: 'opinii w wizytówce Google',
+      readPrefix: 'stan na',
     },
     // Cudzysłowy „ ” dokłada szablon. Wykrzyknik w opinii 1 zostaje: to cytat klienta.
     quotes: [
@@ -575,8 +575,13 @@ const raw = {
   // o hostingu i obsłudze formularzy, zdanie o cookies, bez odwołania do art. 172 Prawa
   // telekomunikacyjnego (ustawę zastąpiło 10.11.2024 Prawo komunikacji elektronicznej),
   // drobna redakcja bez myślników. Adres e-mail w tekście zamienia się w link.
-  // TODO: przed produkcją treść sprawdza prawnik, w tym czy dostawcy formularzy (Web3Forms)
-  // i hostingu (Cloudflare) przekazują dane poza EOG (art. 13 ust. 1 lit. f RODO).
+  // TODO: przed produkcją treść sprawdza prawnik, w tym:
+  // 1. czy dostawcy formularzy (Web3Forms) i hostingu (Cloudflare) przekazują dane poza EOG
+  //    (art. 13 ust. 1 lit. f RODO);
+  // 2. cele marketingowe i analityczne z oryginału wobec zgód „Nie wysyłamy newsletterów”
+  //    i braku narzędzi analitycznych na stronie;
+  // 3. tekst mówi o zgodzie („do czasu jej wycofania”), a jedyna podstawa to art. 6 ust. 1
+  //    lit. f RODO i lista praw nie wymienia prawa do wycofania zgody.
   privacy: {
     label: 'Zapisy prawne',
     title: 'Polityka prywatności',

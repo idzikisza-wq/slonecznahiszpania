@@ -10,13 +10,13 @@ const { service } = site;
 
 <section class="section" id="bezpieczenstwo">
   <div class="container">
-  <div class="grid">
-    <div class="col-6">
-      <SectionHead label={service.label} title={service.title} text={service.text} />
+    <div class="grid">
+      <div class="col-6">
+        <SectionHead label={service.label} title={service.title} text={service.text} />
+      </div>
+      <div class="col-6">
+        <List items={service.list} variant="plus" />
+      </div>
     </div>
-    <div class="col-6">
-      <List items={service.list} variant="plus" />
-    </div>
-  </div>
   </div>
 </section>

@@ -2,7 +2,7 @@
 // Opinie (#opinie): 4+4+4. Kafelek z oceną Google z konfiguracji GOOGLE_* (jedyna czerwona liczba
 // na ekranie; bez kompletu danych kafelek się nie renderuje) i dwie opinie jako callout.
 // Uwaga pod liczbą w jednej linii, nazwa wizytówki i data odczytu w osobnej linii pod nią.
-// Bez gwiazdek i bez logo Google.
+// Bez kafelka z oceną opinie stoją 6+6. Bez gwiazdek i bez logo Google.
 import SectionHead from './ui/SectionHead.astro';
 import {
   site,
@@ -18,6 +18,7 @@ const { reviews } = site;
 const { rating } = reviews;
 const note = typoText(`${GOOGLE_REVIEWS} ${rating.note}`);
 const source = `„${GOOGLE_PROFILE_NAME}”, `;
+const quoteSpan = HAS_GOOGLE_RATING ? 'col-4' : 'col-6';
 ---
 
 <section class="section" id="opinie">
@@ -33,7 +34,7 @@ const source = `„${GOOGLE_PROFILE_NAME}”, `;
             </p>
             <p class="small mt-xs">{note}</p>
             <p class="small">
-              {source}<span class="nowrap">{`stan na ${GOOGLE_READ_DATE}`}</span>
+              {source}<span class="nowrap">{`${rating.readPrefix} ${GOOGLE_READ_DATE}`}</span>
             </p>
             <p class="mt-s">
               <a class="cta-2" href={reviews.cta.href}>
@@ -45,12 +46,12 @@ const source = `„${GOOGLE_PROFILE_NAME}”, `;
       }
       {
         reviews.quotes.map((quote) => (
-          <figure class="col-4 callout">
+          <figure class:list={[quoteSpan, 'callout']}>
             <blockquote>
               <p>„{quote.text}”</p>
             </blockquote>
             <figcaption class="small mt-s">
-              {quote.author} · {quote.meta}
+              {quote.author}{'\u00a0· '}{quote.meta}
             </figcaption>
           </figure>
         ))

@@ -1,7 +1,7 @@
 ---
 // Przykładowe nieruchomości (#oferty): trzy oferty 4+4+4. Zdjęcie w naturalnych proporcjach,
 // pod nim podpis „Wizualizacja" (stała OFFER_PHOTO_NOTE), lokalizacja, tytuł, parametry, cena.
-// Bez ramek i przycisków. Z polem href tytuł staje się linkiem do oferty.
+// Bez ramek i przycisków. Z polem href tytuł staje się linkiem do oferty (styl linku z systemu).
 // Sekcję i pozycję „Oferty" w menu włącza przełącznik SHOW_OFFERS w site.ts.
 import SectionHead from './ui/SectionHead.astro';
 import Photo from './ui/Photo.astro';
@@ -14,35 +14,25 @@ const photoNote = typoText(OFFER_PHOTO_NOTE);
 
 <section class="section" id="oferty">
   <div class="container">
-  <SectionHead label={offers.label} title={offers.title} note={offers.note} />
-  <ul class="tiles mt-l">
-    {
-      offers.items.map((offer) => (
-        <li class="tile tile--plain" style="--span: 4; --rows: 5">
-          <figure>
-            <Photo
-              image={offer.image}
-              sizes="(min-width: 1200px) 357px, (min-width: 768px) calc(100vw - 80px), calc(100vw - 40px)"
-            />
-            {photoNote && <figcaption class="small">{photoNote}</figcaption>}
-          </figure>
-          <p class="label tile-after-photo">{offer.location}</p>
-          <h3>{offer.href ? <a class="offer-link" href={offer.href}>{offer.title}</a> : offer.title}</h3>
-          <p class="small">{offer.details.join(' · ')}</p>
-          <p class="kpi tile-price">{offer.price}</p>
-        </li>
-      ))
-    }
-  </ul>
+    <SectionHead label={offers.label} title={offers.title} note={offers.note} />
+    <ul class="tiles mt-l">
+      {
+        offers.items.map((offer) => (
+          <li class="tile tile--plain" style="--span: 4; --rows: 5">
+            <figure>
+              <Photo
+                image={offer.image}
+                sizes="(min-width: 1200px) 357px, (min-width: 768px) calc(100vw - 80px), calc(100vw - 40px)"
+              />
+              {photoNote && <figcaption class="small">{photoNote}</figcaption>}
+            </figure>
+            <p class="label tile-after-photo">{offer.location}</p>
+            <h3>{offer.href ? <a class="link" href={offer.href}>{offer.title}</a> : offer.title}</h3>
+            <p class="small">{offer.details.join('\u00a0· ')}</p>
+            <p class="kpi tile-price">{offer.price}</p>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
-
-<style>
-  .offer-link {
-    text-decoration: none;
-  }
-
-  .offer-link:hover {
-    color: var(--muted);
-  }
-</style>

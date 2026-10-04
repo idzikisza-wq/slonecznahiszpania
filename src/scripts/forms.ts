@@ -1,9 +1,12 @@
 // Walidacja i wysyłka formularzy. Komunikaty błędów w small, w kolorze ink, pod polem.
 // Bez klucza PUBLIC_WEB3FORMS_KEY: tryb demo (sukces i payload w konsoli).
+// W trakcie wysyłki przycisk ma aria-disabled, a nie disabled: wyłączony przycisk gubi fokus.
+// Żądanie ma limit czasu, żeby zawieszone połączenie skończyło się komunikatem błędu.
 
 const ENDPOINT = 'https://api.web3forms.com/submit';
 const KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const TIMEOUT = 15000;
 
 type Field = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
@@ -51,8 +54,11 @@ function initForm(form: HTMLFormElement) {
     });
   });
 
+  let sending = false;
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    if (sending) return;
 
     const invalid = fields.filter((field) => {
       const message = check(field);
@@ -69,19 +75,24 @@ function initForm(form: HTMLFormElement) {
     // honeypot: bot widzi sukces, nic nie wychodzi
     if (data.botcheck) return done();
     delete data.botcheck;
+    // przekierowanie jest tylko dla wysyłki bez JS; tu odpowiedź ma być w JSON
+    delete data.redirect;
 
     if (!KEY) {
       console.info('Formularz w trybie demo (brak PUBLIC_WEB3FORMS_KEY). Payload:', data);
       return done();
     }
 
-    if (button) button.disabled = true;
+    sending = true;
+    form.setAttribute('aria-busy', 'true');
+    button?.setAttribute('aria-disabled', 'true');
     if (status) status.hidden = true;
     try {
       const response = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ ...data, access_key: KEY }),
+        signal: AbortSignal.timeout?.(TIMEOUT),
       });
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error(result.message);
@@ -93,7 +104,9 @@ function initForm(form: HTMLFormElement) {
         status.hidden = false;
       }
     } finally {
-      if (button) button.disabled = false;
+      sending = false;
+      form.removeAttribute('aria-busy');
+      button?.removeAttribute('aria-disabled');
     }
   });
 }

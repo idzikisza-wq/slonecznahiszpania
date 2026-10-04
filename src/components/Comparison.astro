@@ -12,37 +12,37 @@ const [criterion, ...regions] = comparison.head;
 
 <section class="section" id="porownanie">
   <div class="container">
-  <SectionHead label={comparison.label} title={comparison.title} lead={comparison.lead} />
-  <table class="compare mt-l">
-    <thead>
-      <tr>
-        <th scope="col" class="label">{criterion}</th>
+    <SectionHead label={comparison.label} title={comparison.title} lead={comparison.lead} />
+    <table class="compare mt-l">
+      <thead>
+        <tr>
+          <th scope="col" class="label">{criterion}</th>
+          {
+            regions.map((region) => (
+              <th scope="col" class="label">
+                {region}
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+      <tbody>
         {
-          regions.map((region) => (
-            <th scope="col" class="label">
-              {region}
-            </th>
+          comparison.rows.map((row) => (
+            <tr class:list={{ 'compare-anchor': row.anchor }}>
+              <th scope="row" class="label">
+                {row.key}
+              </th>
+              {row.values.map((value, index) => (
+                <td data-label={regions[index]}>{value}</td>
+              ))}
+            </tr>
           ))
         }
-      </tr>
-    </thead>
-    <tbody>
-      {
-        comparison.rows.map((row) => (
-          <tr class:list={{ 'compare-anchor': row.anchor }}>
-            <th scope="row" class="label">
-              {row.key}
-            </th>
-            {row.values.map((value, index) => (
-              <td data-label={regions[index]}>{value}</td>
-            ))}
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
-  <p class="small mt-s">{comparison.anchorNote}</p>
-  <p class="small mt-xs">{comparison.note}</p>
+      </tbody>
+    </table>
+    <p class="small mt-s">{comparison.anchorNote}</p>
+    <p class="small mt-xs">{comparison.note}</p>
   </div>
 </section>
 
@@ -50,6 +50,7 @@ const [criterion, ...regions] = comparison.head;
   .compare {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
   }
 
   .compare th,
@@ -59,18 +60,27 @@ const [criterion, ...regions] = comparison.head;
     vertical-align: top;
   }
 
+  /* Etykieta kryterium (12/16) na tej samej linii bazowej co tekst regionu (16/27) */
+  .compare tbody th,
+  .compare tbody td {
+    vertical-align: baseline;
+  }
+
+  /* Kolumna kryterium ma stałą szerokość, dwie kolumny regionów dzielą resztę po równo */
+  .compare tr > :first-child {
+    width: 34%;
+  }
+
   .compare thead th {
     padding-top: 0;
     border-bottom: var(--rule) solid var(--ink);
   }
 
   .compare tbody th {
-    width: calc(100% / 3 + var(--gutter) / 3);
     color: var(--muted);
   }
 
   .compare td {
-    width: calc(100% / 3);
     color: var(--text);
   }
 
@@ -128,7 +138,8 @@ const [criterion, ...regions] = comparison.head;
     }
 
     .compare tbody th,
-    .compare td {
+    .compare td,
+    .compare tr > :first-child {
       width: auto;
       padding: 0;
     }
@@ -143,7 +154,7 @@ const [criterion, ...regions] = comparison.head;
       color: var(--muted);
       font-size: 12px;
       font-weight: 600;
-      line-height: 1.3;
+      line-height: 16px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }

@@ -1,8 +1,17 @@
 // Generuje jednostronicowy placeholder public/poradnik.pdf (A4), bez zależności.
 // Do podmiany na docelowy PDF poradnika. Tekst tylko ASCII: standardowy font PDF nie ma polskich znaków.
 // Uruchom: npm run pdf:placeholder
+// Nie nadpisuje docelowego poradnika: zapisuje tylko wtedy, gdy pliku nie ma albo jest to ten
+// placeholder (Producer slonecznahiszpania.pl). Wymuszenie: npm run pdf:placeholder -- --force
 
-import { writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
+
+const TARGET = 'public/poradnik.pdf';
+const existing = await readFile(TARGET).catch(() => null);
+if (existing && !existing.includes('/Producer (slonecznahiszpania.pl)') && !process.argv.includes('--force')) {
+  console.error(`${TARGET} to nie jest placeholder (pewnie docelowy poradnik). Nic nie zmieniam. Wymuszenie: --force`);
+  process.exit(1);
+}
 
 const lines = [
   ['F2', 24, 72, 760, 'Poradnik'],
@@ -33,5 +42,5 @@ pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
 pdf += offsets.map((offset) => `${String(offset).padStart(10, '0')} 00000 n \n`).join('');
 pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R /Info ${objects.length} 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
 
-await writeFile('public/poradnik.pdf', pdf, 'latin1');
+await writeFile(TARGET, pdf, 'latin1');
 console.log('public/poradnik.pdf: placeholder zapisany');

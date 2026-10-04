@@ -2,6 +2,9 @@
 // Nagłówek (pasek z WebHero): logo kwadrat-logo.svg 40px na białym, menu tekstowe 15px 600 w ink,
 // telefon jako tekst „Zadzwoń …” (bez ikony). Pod paskiem linia 1px line. Nie sticky.
 // Poniżej 1200px (tablet i telefon) linki chowane pod przyciskiem tekstowym „Menu”, telefon zostaje.
+// Kolejność w HTML = kolejność tabulacji: menu stoi zaraz za przyciskiem „Menu”, więc Tab po
+// otwarciu wchodzi w linki. Telefon jest dwa razy, widoczny zawsze tylko jeden: przed przyciskiem
+// (tablet i telefon) albo za menu (od 1200px). Escape zamyka menu i wraca na przycisk.
 import { site, SHOW_OFFERS } from '../content/site';
 
 const { header, contact } = site;
@@ -15,6 +18,12 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     <a class="brand" href="/">
       <img src="/brand/kwadrat-logo.svg" alt={header.logoAlt} width="40" height="40" />
     </a>
+    <a class="nav-link header-phone header-phone--top" href={contact.phoneHref}>
+      {header.phoneLabel}{' '}<span class="nowrap">{contact.phone}</span>
+    </a>
+    <button class="nav-link menu-toggle" type="button" aria-expanded="false" aria-controls="nawigacja">
+      {header.menu}
+    </button>
     <nav class="site-nav" id="nawigacja" aria-label={header.navLabel}>
       <ul>
         {
@@ -28,12 +37,9 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
         }
       </ul>
     </nav>
-    <a class="nav-link header-phone" href={contact.phoneHref}>
+    <a class="nav-link header-phone header-phone--end" href={contact.phoneHref}>
       {header.phoneLabel}{' '}<span class="nowrap">{contact.phone}</span>
     </a>
-    <button class="nav-link menu-toggle" type="button" aria-expanded="false" aria-controls="nawigacja">
-      {header.menu}
-    </button>
   </div>
 </header>
 
@@ -60,8 +66,8 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
 
   .header-inner {
     display: grid;
-    grid-template-columns: auto 1fr auto auto;
-    grid-template-areas: 'brand nav phone toggle';
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 'brand nav phone';
     align-items: center;
     column-gap: 28px;
     padding-block: 20px;
@@ -112,6 +118,10 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     grid-area: phone;
   }
 
+  .header-phone--top {
+    display: none;
+  }
+
   .menu-toggle {
     grid-area: toggle;
     display: none;
@@ -122,12 +132,28 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     cursor: pointer;
   }
 
-  /* Tablet i telefon: menu pod przyciskiem tekstowym „Menu”, telefon obok */
+  /* Tablet i telefon: menu pod przyciskiem tekstowym „Menu”, telefon obok.
+     Bez JS przycisku nie ma, a menu stoi otwarte pod paskiem. */
   @media (max-width: 1199.98px) {
     .header-inner {
       grid-template-areas:
+        'brand . phone'
+        'nav nav nav';
+    }
+
+    :global(.js) .header-inner {
+      grid-template-columns: auto 1fr auto auto;
+      grid-template-areas:
         'brand . phone toggle'
         'nav nav nav nav';
+    }
+
+    .header-phone--top {
+      display: block;
+    }
+
+    .header-phone--end {
+      display: none;
     }
 
     :global(.js) .menu-toggle {
@@ -168,5 +194,10 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
   toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
   nav?.addEventListener('click', (event) => {
     if ((event.target as Element).closest('a')) setOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || toggle?.getAttribute('aria-expanded') !== 'true') return;
+    setOpen(false);
+    toggle?.focus();
   });
 </script>

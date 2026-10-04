@@ -14,3 +14,7 @@
 
 /img/*
   Cache-Control: public, max-age=86400
+
+# Poradnik jest „dostępny po zapisie”: wyszukiwarki nie indeksują pliku
+/poradnik.pdf
+  X-Robots-Tag: noindex

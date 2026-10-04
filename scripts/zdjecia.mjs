@@ -1,7 +1,8 @@
 // Generuje warianty zdjęć do public/img z plików źródłowych w zdjecia/.
 // Uruchom: npm run zdjecia
 //
-// Plik źródłowy nazywa się jak miejsce na stronie (hero.jpg, oferta-mijas.jpg...).
+// Plik źródłowy nazywa się jak miejsce na stronie (hero-costa-del-sol.jpg, oferta-mijas.jpg...).
+// Pliki w zdjecia/ bez miejsca na liście (np. hero-costa-blanca.jpg) są pomijane.
 // Skrypt kadruje do proporcji miejsca, zapisuje WebP i JPG w szerokościach 800 i 1600
 // (mniejsze źródło także w jego pełnej szerokości) i usuwa metadane (EXIF, GPS).
 // Warianty miejsc, których już nie ma na liście, są usuwane z public/img.
@@ -20,7 +21,6 @@ const WIDTHS = [800, 1600];
 // focus [x, y]: gdzie leży kadr w nadmiarze zdjęcia, od 0 (lewo, góra) do 1 (prawo, dół).
 const SLOTS = {
   'hero-costa-del-sol': { ratio: null },
-  'hero-costa-blanca': { ratio: null },
   'poradnik-cover': { ratio: null },
   'oferta-malaga': { ratio: null },
   'oferta-mijas': { ratio: null },

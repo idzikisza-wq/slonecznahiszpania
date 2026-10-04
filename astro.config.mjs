@@ -11,4 +11,11 @@ export default defineConfig({
     inlineStylesheets: 'always',
   },
   devToolbar: { enabled: false },
+  vite: {
+    build: {
+      // Minifikator CSS zamienia max-width na zapis (width<=…), którego Safari do 16.3 nie zna:
+      // starsze iPhone'y dostałyby układ komputerowy. Niższy cel zostawia klasyczny zapis.
+      cssTarget: ['safari14', 'chrome100', 'firefox100', 'edge100'],
+    },
+  },
 });

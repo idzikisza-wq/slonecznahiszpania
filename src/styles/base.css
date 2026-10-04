@@ -282,11 +282,6 @@ p {
   .grid > * {
     grid-column: 1 / -1;
   }
-
-  /* Zdjęcie przy tekście ląduje nad tekstem */
-  .grid > .media-first {
-    order: -1;
-  }
 }
 
 /* Sekcje: odstęp 96px (64px na telefonie), oddziela je linia 1px line, nigdy kolorowe tło */
@@ -300,8 +295,7 @@ p {
   margin-bottom: var(--space-s);
 }
 
-.head > .lead,
-.head > p {
+.head > p:not(.label) {
   margin-top: var(--space-s);
 }
 
@@ -380,6 +374,7 @@ p {
   content: "";
   position: absolute;
   left: 0;
+  top: 9.5px;
   top: calc((1lh - var(--marker-list)) / 2);
   width: var(--marker-list);
   height: var(--marker-list);
@@ -403,6 +398,7 @@ p {
 .data-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .data-table caption {
@@ -419,8 +415,8 @@ p {
 }
 
 .data-table th {
-  /* lewa kolumna o stałej szerokości: 4 z 12 kolumn siatki */
-  width: calc(100% / 3 + var(--gutter) / 3);
+  /* lewa kolumna o stałej szerokości, w obu tabelach Lokalizacji taka sama */
+  width: 35%;
   padding-right: var(--gutter);
   color: var(--muted);
   font-weight: 400;
@@ -473,7 +469,7 @@ p {
   background: var(--text);
 }
 
-.cta[disabled] {
+.cta[aria-disabled="true"] {
   cursor: progress;
 }
 
@@ -596,6 +592,15 @@ textarea.input {
   cursor: pointer;
 }
 
+/* Dopóki nic nie wybrano, lista wygląda jak pole z placeholderem */
+.select .input:has(option[value=""]:checked) {
+  color: var(--muted);
+}
+
+.select option {
+  color: var(--text);
+}
+
 .select::after {
   content: "›";
   content: "›" / "";
@@ -641,12 +646,13 @@ textarea.input {
   margin-top: var(--space-s);
 }
 
-.form-note a {
+.form-privacy a {
   color: var(--ink);
+  text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
 
-.form-note a:hover {
+.form-privacy a:hover {
   text-decoration-thickness: 2px;
 }
 
@@ -717,6 +723,7 @@ textarea.input {
 @media (max-width: 1199.98px) {
   .kw-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
     row-gap: var(--gutter);
   }
 
