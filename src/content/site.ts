@@ -146,8 +146,8 @@ const raw = {
     logoAlt: 'Kwadrat Nieruchomości',
     tagline: COMPANY.tagline,
     menu: 'Menu',
-    // Nazwa linku telefonu dla czytników ekranu; na ekranie piktogram słuchawki i numer
-    // (decyzja Idziego 5.10.2026: piktogram zamiast słowa „Zadzwoń”)
+    // Nazwa linku telefonu dla czytników ekranu; na ekranie sam piktogram słuchawki
+    // (decyzja Idziego 5.10.2026: piktogram zamiast słowa „Zadzwoń”, numer na górze się nie wyświetla)
     phoneLabel: 'Zadzwoń',
     navLabel: 'Nawigacja główna',
     skipLink: 'Przejdź do treści',
