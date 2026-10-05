@@ -1,6 +1,6 @@
 // Całe copy strony w jednym miejscu. To jest aktualne, zatwierdzone copy.
 // Źródło: nowa wersja www.slonecznahiszpania.pl, wyrenderowana 3.10.2026, przeniesiona 1:1
-// z poprawkami Idziego (bez długich myślników, pisownia Malaga, poprawki DANE).
+// z poprawkami Idziego (bez długich myślników, pisownia Málaga jak na live od 5.10.2026, poprawki DANE).
 // docs/copy.md zostaje jako zapis stanu najstarszej wersji strony.
 // Etykiety zapisujemy zdaniowo: wersaliki robi CSS (klasa .label).
 // Twarde spacje (przed „·", po jednoliterowych spójnikach, w liczbach)
@@ -20,8 +20,8 @@ export const PHOTO_NOTE = 'Zdjęcie poglądowe';
 // Pusty tekst ukrywa podpis, np. po podmianie na zdjęcia nieruchomości.
 export const OFFER_PHOTO_NOTE = 'Wizualizacja';
 
-// Telefon w nagłówku („Zadzwoń …”) i w sekcji Konsultacja: numer z nowej strony.
-// TODO: potwierdzić z Idzim (Idzi potwierdził ten numer 3.10.2026; prompt v2 prosi o ponowne potwierdzenie).
+// Jedyny telefon na całej stronie (nagłówek, Konsultacja, stopka, schema.org): numer z nowej strony,
+// potwierdzony przez Idziego 3.10 i 5.10.2026.
 export const CONTACT_PHONE = '+48 505 085 001';
 
 const CONTACT = {
@@ -31,31 +31,24 @@ const CONTACT = {
   email: 'biuro@kwadrat.io',
 };
 
-// Dane spółki ze stopki kwadrat.io (odczyt 04.10.2026), w zapisie systemowym
+// Marka w treści: Kwadrat Nieruchomości, jak na live (decyzja Idziego 5.10.2026).
+// Pełna nazwa spółki tylko w danych spółki: stopka, polityka prywatności, schema.org (legalName).
+// Dane spółki jak w stopce live slonecznahiszpania.pl, w zapisie systemowym.
 const COMPANY = {
-  brand: 'Grupa Inwestycyjna Kwadrat',
+  brand: 'Kwadrat Nieruchomości',
+  tagline: 'Hiszpania · Costa del Sol · Costa Blanca',
   legalName: 'Grupa Inwestycyjna Kwadrat Sp. z o.o.',
   street: 'ul. Samorządowa 9/1',
   postalCode: '05-400',
   city: 'Otwock',
   nip: '5322092950',
+  regon: '388901030',
   krs: '0000896911',
+  // Twarde spacje: „m.st. Warszawy” i „XIV Wydział” nie rozdzielają się przy łamaniu
+  court: 'Sąd Rejonowy dla m.st.\u00a0Warszawy w Warszawie, XIV\u00a0Wydział Gospodarczy KRS',
   capital: '50 000 zł',
-  // Link zwrotny w stopce według WEB.md (decyzja Idziego 4.10.2026)
-  network: 'Część Grupy Inwestycyjnej Kwadrat',
-  website: 'https://kwadrat.io/',
-  websiteLabel: 'kwadrat.io',
-};
-
-// Agent prowadzący: kolumna „Kontakt” w stopce (dane od Idziego, 4.10.2026)
-const AGENT_PHONE = '600 038 758';
-
-export const AGENT = {
-  name: 'Idzi Kisza',
-  phone: AGENT_PHONE,
-  phoneHref: `tel:+48${AGENT_PHONE.replace(/\D/g, '')}`,
-  email: 'idzi.kisza@kwadrat.io',
-  address: 'ul. Słowackiego 22/11a, Warszawa',
+  website: 'https://www.kwadrat.io/',
+  websiteLabel: 'www.kwadrat.io',
 };
 
 // Social media w stopce: linki tekstowe, bez ikon. TikTok bezpośrednio, nie przez przekierowanie Google.
@@ -82,13 +75,19 @@ export const HAS_GOOGLE_RATING = [GOOGLE_RATING, GOOGLE_REVIEWS, GOOGLE_PROFILE_
 // (generuje npm run zdjecia). ratio to naturalne proporcje pliku, bez kadrowania.
 // Brak plików = szare pole z podpisem.
 // Źródło zdjęć w hero i w ofertach: deweloper (potwierdził Idzi 3.10.2026).
-// Hero w systemie v2 ma jedno zdjęcie (heroSol). Źródło zdjęcia Costa Blanca zostaje w zdjecia/,
-// bez wariantów na stronie: żeby wróciło, dopisz miejsce tutaj i w scripts/zdjecia.mjs.
+// Hero: dwa zdjęcia, po jednym przy każdym kierunku (decyzja Idziego 5.10.2026, jak na live).
+// Alty jak na live. Podpis „Zdjęcie poglądowe” (PHOTO_NOTE) zostaje.
 const IMAGES = {
   heroSol: {
     name: 'hero-costa-del-sol',
     ratio: [1200, 912],
-    alt: 'Taras apartamentu z widokiem na morze',
+    alt: 'Taras apartamentu z widokiem na wybrzeże Costa del Sol',
+    placeholder: 'Zdjęcie 4:3',
+  },
+  heroBlanca: {
+    name: 'hero-costa-blanca',
+    ratio: [1200, 912],
+    alt: 'Taras apartamentu z widokiem na Alicante i Costa Blanca',
     placeholder: 'Zdjęcie 4:3',
   },
   // Piotr i Ania (zdjęcie od Idziego), w Kontakcie pod telefonem. Prawdziwe zdjęcie zespołu,
@@ -96,7 +95,7 @@ const IMAGES = {
   contact: {
     name: 'kontakt',
     ratio: [4, 3],
-    alt: 'Piotr i Ania na deptaku w centrum Malagi',
+    alt: 'Piotr i Ania na deptaku w centrum Málagi',
     placeholder: 'Zdjęcie 4:3',
   },
   guideCover: {
@@ -130,22 +129,22 @@ const raw = {
   company: COMPANY,
 
   meta: {
-    title: 'Grupa Inwestycyjna Kwadrat | Costa del Sol i Costa Blanca',
+    title: 'Kwadrat Nieruchomości | Costa del Sol i Costa Blanca',
     description:
       'Porównaj Costa del Sol, Costa Blanca i inne regiony Hiszpanii. Polska obsługa zakupu nieruchomości od wyboru lokalizacji po odbiór kluczy.',
-    ogTitle: 'Grupa Inwestycyjna Kwadrat | Hiszpania',
+    ogTitle: 'Kwadrat Nieruchomości | Hiszpania',
     ogDescription:
       'Costa del Sol czy Costa Blanca? Pomagamy wybrać region dopasowany do Twojego celu, budżetu i stylu życia.',
-    // og:image: zrzut górnej części tej strony w systemie Kwadrat (okno 1600 × 840 zmniejszone
-    // do 1200 × 630). Po zmianie hero zrób nowy zrzut. Alt złożony z nazwy marki i h1.
-    ogImage: '/og-image.jpg',
-    ogImageSize: [1200, 630],
-    ogImageAlt: 'Grupa Inwestycyjna Kwadrat: Dwa wybrzeża. Dwie dobre odpowiedzi.',
-    author: 'Grupa Inwestycyjna Kwadrat',
+    // og:image: zdjęcie hero Costa del Sol w wariancie 1200 px (decyzja Idziego 5.10.2026)
+    ogImage: '/img/hero-costa-del-sol-1200.jpg',
+    ogImageSize: [1200, 912],
+    ogImageAlt: 'Taras apartamentu z widokiem na wybrzeże Costa del Sol',
+    author: 'Kwadrat Nieruchomości',
   },
 
   header: {
-    logoAlt: 'Grupa Inwestycyjna Kwadrat',
+    logoAlt: 'Kwadrat Nieruchomości',
+    tagline: COMPANY.tagline,
     menu: 'Menu',
     phoneLabel: 'Zadzwoń',
     navLabel: 'Nawigacja główna',
@@ -166,20 +165,21 @@ const raw = {
     // H1 w dwóch grubościach (web-display): początek 400, puenta z obietnicą 700. Słowa bez zmian.
     title: { start: 'Dwa wybrzeża.', end: 'Dwie dobre odpowiedzi.' },
     lead: 'Nie sprzedajemy jednego regionu za wszelką cenę. Porównujemy Costa del Sol, Costa Blanca i inne części Hiszpanii, żeby znaleźć miejsce właściwe dla Twojego celu.',
-    ctaPrimary: { label: 'Umów bezpłatną konsultację', href: '#kontakt' },
+    ctaPrimary: { label: 'Porównajmy Twój wybór', href: '#kontakt' },
     ctaSecondary: { label: 'Pobierz poradnik', href: '#poradnik' },
     note: 'Bez rankingu na siłę. Najlepszy region zależy od celu, budżetu i sposobu użytkowania.',
-    image: IMAGES.heroSol,
     directions: [
       {
         label: 'Kierunek 01',
         title: 'Costa del Sol',
-        text: 'Malaga, Marbella i spokojniejsza Axarquía. Dla osób, które cenią całoroczną infrastrukturę, zróżnicowany popyt i szeroki wybór lokalizacji.',
+        image: IMAGES.heroSol,
+        text: 'Málaga, Marbella i spokojniejsza Axarquía. Dla osób, które cenią całoroczną infrastrukturę, zróżnicowany popyt i szeroki wybór lokalizacji.',
         link: { label: 'Zobacz mocne strony i kompromisy', href: '#porownanie' },
       },
       {
         label: 'Kierunek 02',
         title: 'Costa Blanca',
+        image: IMAGES.heroBlanca,
         text: 'Alicante i różnorodne miejscowości nad białym wybrzeżem. Dla osób szukających szerokiej podaży, plażowego stylu życia i elastycznego budżetu.',
         link: { label: 'Zobacz mocne strony i kompromisy', href: '#porownanie' },
       },
@@ -221,14 +221,14 @@ const raw = {
       {
         key: 'Życie poza sezonem',
         values: [
-          'Silne szczególnie w Maladze i większych ośrodkach',
+          'Silne szczególnie w Máladze i większych ośrodkach',
           'Dobre w Alicante i większych miastach; kurorty trzeba oceniać osobno',
         ],
       },
       {
         key: 'Dostępność',
         values: [
-          'Lotnisko Malaga i rozwinięta komunikacja wzdłuż wybrzeża',
+          'Lotnisko Málaga i rozwinięta komunikacja wzdłuż wybrzeża',
           'Lotnisko Alicante i wygodny dostęp do wielu nadmorskich miejscowości',
         ],
       },
@@ -241,8 +241,6 @@ const raw = {
         anchor: true,
       },
     ],
-    // NOWE (prośba Idziego): nota do wiersza-kotwicy
-    anchorNote: 'Wiersz „Dla kogo” podsumowuje porównanie.',
     note: 'Warunki zakupu, najmu i podaży różnią się między gminami. Każdą decyzję poprzedzamy aktualną weryfikacją.',
   },
 
@@ -253,7 +251,7 @@ const raw = {
     items: [
       {
         label: '01',
-        places: 'Malaga, Marbella, Mijas, Nerja',
+        places: 'Málaga, Marbella, Mijas, Nerja',
         title: 'Costa del Sol',
         text: 'Duży, zróżnicowany rynek, mocna infrastruktura i całoroczne życie. Ceny w najbardziej znanych lokalizacjach są wyższe.',
       },
@@ -328,19 +326,21 @@ const raw = {
         label: '01',
         title: 'Inwestycja pod wynajem',
         text: 'Porównujemy popyt, sezonowość, regulacje i koszty w konkretnych miejscowościach, nie tylko rozpoznawalność regionu.',
+        link: { label: 'Porozmawiajmy', href: '#kontakt' },
       },
       {
         label: '02',
         title: 'Dom na wypoczynek',
         text: 'Dobieramy wybrzeże do rytmu Twoich pobytów, połączeń lotniczych, plaż, usług i otoczenia, w którym naprawdę odpoczniesz.',
+        link: { label: 'Porozmawiajmy', href: '#kontakt' },
       },
       {
         label: '03',
         title: 'Mieszkanie na stałe',
         text: 'Sprawdzamy codzienną infrastrukturę, opiekę zdrowotną, dojazdy i życie poza sezonem, zanim przejdziemy do ofert.',
+        link: { label: 'Porozmawiajmy', href: '#kontakt' },
       },
     ],
-    cta: { label: 'Umów bezpłatną konsultację', href: '#kontakt' },
   },
 
   whySpain: {
@@ -369,13 +369,13 @@ const raw = {
 
   locations: {
     label: 'Dwa obszary poszukiwań',
-    title: 'Od Malagi po Alicante',
+    title: 'Od Málagi po Alicante',
     lead: 'Na start porównujemy miejscowości reprezentujące różne budżety i style życia.',
     groups: [
       {
         label: 'Costa del Sol i Axarquía',
         rows: [
-          { key: 'Malaga', value: 'Miasto działające przez cały rok.' },
+          { key: 'Málaga', value: 'Miasto działające przez cały rok.' },
           { key: 'Torre del Mar', value: 'Promenada i codzienna infrastruktura.' },
           { key: 'Caleta de Vélez', value: 'Marina i kameralna zabudowa.' },
           { key: 'Nerja', value: 'Zatoki i dojrzały rynek turystyczny.' },
@@ -457,20 +457,17 @@ const raw = {
     label: 'Obsługa 360°',
     title: 'Region wybierasz świadomie. Formalności prowadzimy my.',
     text: 'Przed decyzją otrzymujesz obraz stanu prawnego, harmonogramu i wszystkich kosztów. Dokumenty omawiamy po polsku.',
-    // Najwyżej pięć punktów: weryfikacja połączona z koordynacją prawnika i notariusza
-    list: [
-      'Wyszukanie i selekcja ofert',
-      'Weryfikacja dokumentów i obciążeń z prawnikiem i notariuszem',
-      'NIE, rachunek i pełnomocnictwa',
-      'Wsparcie w finansowaniu',
-      'Odbiór i opieka po zakupie',
+    // Sześć punktów jak na live (decyzja Idziego 5.10.2026), w dwóch listach po trzy
+    lists: [
+      ['Wyszukanie i selekcja ofert', 'Weryfikacja dokumentów i obciążeń', 'Koordynacja prawnika i notariusza'],
+      ['NIE, rachunek i pełnomocnictwa', 'Wsparcie w finansowaniu', 'Odbiór i opieka po zakupie'],
     ],
   },
 
   reviews: {
     label: 'Opinie klientów',
     title: 'Zaufanie potwierdzone w Google',
-    text: 'Standard pracy Grupy Inwestycyjnej Kwadrat potwierdzają klienci obsługiwani w Polsce.',
+    text: 'Standard pracy Kwadrat Nieruchomości potwierdzają klienci obsługiwani w Polsce.',
     // Wartości oceny w konfiguracji GOOGLE_* na górze pliku
     rating: {
       label: 'Ocena Google',
@@ -548,7 +545,7 @@ const raw = {
       // Nowa strona nie ma tu zgody. Idzi zdecydował, że ma być (3.10.2026): tekst z poprzedniej
       // wersji strony, treść potwierdzona.
       consent:
-        'Wysyłając formularz, zgadzasz się na kontakt od Grupy Inwestycyjnej Kwadrat w sprawie Twojego zapytania. Nie wysyłamy newsletterów.',
+        'Wysyłając formularz, zgadzasz się na kontakt od Kwadrat Nieruchomości w sprawie Twojego zapytania. Nie wysyłamy newsletterów.',
       success: 'Dziękujemy. Zapytanie zostało wysłane.',
       subject: 'Zapytanie ze strony slonecznahiszpania.pl',
     },
@@ -564,13 +561,16 @@ const raw = {
     errorSend: `Nie udało się wysłać formularza. Spróbuj ponownie albo zadzwoń: ${CONTACT.phone}.`,
   },
 
-  // Stopka (WebFooter): marka, kontakt agenta (AGENT), dane spółki, social, pasek prawny
+  // Stopka (WebFooter): marka z hasłem i social, kontakt, dane spółki, pasek prawny
   footer: {
     contactHeading: 'Kontakt',
-    // Wiersz to lista fragmentów, które nie łamią się w środku (kod pocztowy, NIP, KRS).
+    // Wiersz w tablicy to lista fragmentów, które nie łamią się w środku (kod pocztowy, NIP, REGON,
+    // KRS). Wiersz jako zwykły tekst (nazwa sądu) łamie się normalnie.
     company: [
       [`${COMPANY.street},`, `${COMPANY.postalCode} ${COMPANY.city}`],
-      [`NIP ${COMPANY.nip} ·`, `KRS ${COMPANY.krs}`],
+      [`NIP ${COMPANY.nip} ·`, `REGON ${COMPANY.regon}`],
+      [`KRS ${COMPANY.krs}`],
+      COMPANY.court,
       [`Kapitał zakładowy ${COMPANY.capital}`],
     ],
     phonePrefix: 'tel.',
@@ -594,7 +594,7 @@ const raw = {
   privacy: {
     label: 'Zapisy prawne',
     title: 'Polityka prywatności',
-    metaTitle: 'Polityka prywatności | Grupa Inwestycyjna Kwadrat',
+    metaTitle: 'Polityka prywatności | Kwadrat Nieruchomości',
     metaDescription:
       'Zasady przetwarzania danych osobowych przesłanych przez formularze na stronie slonecznahiszpania.pl.',
     lead: 'Zasady przetwarzania danych osobowych przesłanych przez formularze na stronie slonecznahiszpania.pl: formularz poradnika i formularz konsultacji.',

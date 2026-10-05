@@ -1,13 +1,14 @@
 ---
 // Stopka (WebFooter): linia 1px ink nad stopką, tekst 13/20px muted, nagłówki kolumn 700 ink.
-// Trzy kolumny 4+4+4 (na telefonie jedna): marka z linkiem do kwadrat.io i social media tekstem,
-// kontakt agenta (AGENT w site.ts), dane spółki z adresem biuro@kwadrat.io (decyzja Idziego
-// 4.10.2026). Pasek dolny za linią 1px line: zastrzeżenie i polityka prywatności. Bez ikon.
-import { site, AGENT, SOCIAL } from '../content/site';
+// Trzy kolumny 4+4+4 (na telefonie jedna): marka z hasłem i social media tekstem, kontakt
+// (jedyny telefon strony, biuro@kwadrat.io, www.kwadrat.io), dane spółki z REGON i sądem
+// (decyzje Idziego 5.10.2026, jak na live). Pasek dolny za linią 1px line: zastrzeżenie
+// i polityka prywatności. Bez ikon.
+import { site, SOCIAL } from '../content/site';
 import { typoText } from '../content/typo';
 
 const { footer, company, contact } = site;
-const SEP = ' · ';
+const SEP = ' · ';
 ---
 
 <footer class="container">
@@ -16,7 +17,7 @@ const SEP = ' · ';
       <div>
         <img src="/brand/kwadrat-logo.svg" alt="" width="40" height="40" />
         <p>
-          <b>{company.brand}</b><br />{company.network}{SEP}<a href={company.website}>{company.websiteLabel}</a>
+          <b>{company.brand}</b><br />{typoText(company.tagline)}
         </p>
         <p class="mt-s">
           {
@@ -30,11 +31,12 @@ const SEP = ' · ';
         </p>
       </div>
       <div>
-        <p>
-          <b>{footer.contactHeading}</b><br />{AGENT.name}<br /><a href={AGENT.phoneHref}
-            >{typoText(`${footer.phonePrefix} ${AGENT.phone}`)}</a
-          ><br /><a href={`mailto:${AGENT.email}`}>{AGENT.email}</a><br />{typoText(AGENT.address)}
-        </p>
+        <p><b>{footer.contactHeading}</b></p>
+        <ul class="kw-foot-links">
+          <li><a href={contact.phoneHref}>{typoText(`${footer.phonePrefix} ${contact.phone}`)}</a></li>
+          <li><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+          <li><a href={company.website}>{company.websiteLabel}</a></li>
+        </ul>
       </div>
       <div>
         <p>
@@ -43,16 +45,17 @@ const SEP = ' · ';
             footer.company.map((line) => (
               <>
                 <br />
-                {line.map((part, index) => (
-                  <>
-                    {index > 0 && ' '}
-                    <span class="nowrap">{part}</span>
-                  </>
-                ))}
+                {typeof line === 'string'
+                  ? typoText(line)
+                  : line.map((part, index) => (
+                      <>
+                        {index > 0 && ' '}
+                        <span class="nowrap">{part}</span>
+                      </>
+                    ))}
               </>
             ))
           }
-          <br /><a href={`mailto:${contact.email}`}>{contact.email}</a>
         </p>
       </div>
     </div>

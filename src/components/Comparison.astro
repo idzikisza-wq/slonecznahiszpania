@@ -1,7 +1,8 @@
 ---
 // Porównanie (#porownanie): tabela systemowa. Nagłówek w label z linią mocną pod spodem,
 // wiersze z linią włosową, bez ramek, pionowych linii i zebry. Wiersz-kotwica „Dla kogo"
-// na tle red-tint, pogrubiony, z notą pod tabelą. Sekcja oddzielona cienką linią (dawny pas).
+// na tle red-tint, pogrubiony. Pod tabelą nota o gminach (zdanie o wierszu-kotwicy usunięte
+// decyzją Idziego 5.10.2026). Sekcja oddzielona cienką linią (dawny pas).
 // Na mobile każdy wiersz to blok: kryterium, potem oba regiony z etykietą.
 import SectionHead from './ui/SectionHead.astro';
 import { site } from '../content/site';
@@ -41,8 +42,7 @@ const [criterion, ...regions] = comparison.head;
         }
       </tbody>
     </table>
-    <p class="small mt-s">{comparison.anchorNote}</p>
-    <p class="small mt-xs">{comparison.note}</p>
+    <p class="small mt-s">{comparison.note}</p>
   </div>
 </section>
 

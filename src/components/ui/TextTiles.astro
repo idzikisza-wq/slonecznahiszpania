@@ -1,12 +1,13 @@
 ---
 // Kafelki tekstowe: linia 1px ink nad, opcjonalnie etykieta (np. 01) i druga etykieta z miejscami,
-// potem H3 i akapit. Każdy rząd to osobna siatka z subgridem, części kafelków wyrównane w poziomie.
-// Poniżej 1200px kafelki stoją jeden pod drugim.
+// potem H3, akapit i opcjonalnie link drugi (np. „Porozmawiajmy” w celach). Każdy rząd to osobna
+// siatka z subgridem, części kafelków wyrównane w poziomie. Poniżej 1200px kafelki stoją jeden pod drugim.
 interface Tile {
   label?: string;
   places?: string;
   title: string;
   text: string;
+  link?: { label: string; href: string };
 }
 
 interface Props {
@@ -23,7 +24,8 @@ const rowsOfTiles = Array.from({ length: Math.ceil(items.length / perRow) }, (_,
 // więc subgrid wyrównuje je w poziomie także wtedy, gdy któryś kafelek nie ma etykiety.
 const hasLabel = items.some((item) => item.label);
 const hasPlaces = items.some((item) => item.places);
-const parts = (hasLabel ? 1 : 0) + (hasPlaces ? 1 : 0) + 2;
+const hasLink = items.some((item) => item.link);
+const parts = (hasLabel ? 1 : 0) + (hasPlaces ? 1 : 0) + 2 + (hasLink ? 1 : 0);
 ---
 
 {
@@ -35,6 +37,15 @@ const parts = (hasLabel ? 1 : 0) + (hasPlaces ? 1 : 0) + 2;
           {hasPlaces && <p class="label">{item.places}</p>}
           <h3>{item.title}</h3>
           <p>{item.text}</p>
+          {hasLink && (
+            <p class="tile-link">
+              {item.link && (
+                <a class="cta-2" href={item.link.href}>
+                  {item.link.label}
+                </a>
+              )}
+            </p>
+          )}
         </li>
       ))}
     </ul>

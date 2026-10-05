@@ -29,6 +29,10 @@ const realEstateAgent = {
   telephone: plain(contact.phone),
   email: contact.email,
   taxID: company.nip,
+  identifier: [
+    { '@type': 'PropertyValue', propertyID: 'REGON', value: company.regon },
+    { '@type': 'PropertyValue', propertyID: 'KRS', value: company.krs },
+  ],
   address: {
     '@type': 'PostalAddress',
     streetAddress: plain(company.street),

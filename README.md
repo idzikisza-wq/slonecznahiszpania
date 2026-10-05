@@ -1,6 +1,6 @@
 # slonecznahiszpania.pl
 
-Landing Grupy Inwestycyjnej Kwadrat: porównanie Costa del Sol, Costa Blanca i innych regionów Hiszpanii, w systemie wizualnym Kwadrat (wersja 2, z warstwą www). Statyczna strona w Astro, czysty CSS, zero zależności poza Astro. Font Mulish jest hostowany lokalnie w `public/fonts/` (licencja OFL), więc strona nie ładuje niczego z zewnątrz.
+Landing Kwadrat Nieruchomości (Grupa Inwestycyjna Kwadrat Sp. z o.o.): porównanie Costa del Sol, Costa Blanca i innych regionów Hiszpanii, w systemie wizualnym Kwadrat (wersja 2, z warstwą www, z decyzjami Idziego z 5.10.2026 po porównaniu z live). Statyczna strona w Astro, czysty CSS, zero zależności poza Astro. Font Mulish jest hostowany lokalnie w `public/fonts/` (licencja OFL), więc strona nie ładuje niczego z zewnątrz.
 
 Zasady projektu, tokeny, komponenty i inwentarz sekcji: [CLAUDE.md](CLAUDE.md). Całe aktualne copy jest w `src/content/site.ts` (źródło: nowa wersja www.slonecznahiszpania.pl, wyrenderowana 3.10.2026). [docs/copy.md](docs/copy.md) to zapis najstarszej wersji strony.
 
@@ -36,7 +36,7 @@ src/
   scripts/forms.ts     walidacja i wysyłka formularzy
   styles/              tokens.css, base.css, markers.css
 public/
-  brand/               logo (sam znak w nagłówku, stopce i favicon; lockup nieużywany)
+  brand/               logo: lockup z napisem NIERUCHOMOŚCI w nagłówku, sam znak w stopce i jako favicon
   fonts/               Mulish 400, 600, 700 (woff2) i licencja OFL
   img/                 warianty zdjęć (generowane, nie edytować ręcznie)
   poradnik.pdf         PDF poradnika (teraz placeholder)
@@ -56,8 +56,8 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 
 | Plik źródłowy w `zdjecia/` | Miejsce | Proporcje |
 | --- | --- | --- |
-| `hero-costa-del-sol.jpg` | hero, obok tytułu (7+5) | naturalne (dziś 1200 × 912) |
-| `hero-costa-blanca.jpg` | od wersji 2 nieużywane (kierunki są bez zdjęć): zostaje tylko jako źródło, bez wariantów | naturalne (dziś 1200 × 912) |
+| `hero-costa-del-sol.jpg` | hero, kierunek Costa del Sol; wariant 1200 px to też og:image | naturalne (dziś 1200 × 912) |
+| `hero-costa-blanca.jpg` | hero, kierunek Costa Blanca | naturalne (dziś 1200 × 912) |
 | `poradnik-cover.webp` | okładka przy formularzu poradnika | naturalne |
 | `oferta-malaga.jpg` | oferta Málaga Centro | naturalne (dziś 1008 × 752) |
 | `oferta-mijas.jpg` | oferta Mijas | naturalne |
@@ -69,11 +69,11 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 3. Jeśli zmieniły się proporcje, popraw `ratio` przy danym zdjęciu w `src/content/site.ts`. Tam też są teksty alternatywne (`alt`).
 4. Zrób commit plików z `zdjecia/` i `public/img/`.
 
-Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę.
+Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Na podglądzie zamiast szarego pola daj kopię zdjęcia, które już jest (decyzja Idziego 5.10.2026): skopiuj plik źródłowy w `zdjecia/` pod nazwą brakującego miejsca i uruchom `npm run zdjecia`. Dziś każde miejsce ma swoje zdjęcie. Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę.
 
-Podpis „Zdjęcie poglądowe" pod zdjęciem w hero to stała `PHOTO_NOTE` w `site.ts`, a podpis „Wizualizacja" pod zdjęciami ofert to stała `OFFER_PHOTO_NOTE`. Pusty tekst ukrywa podpis, np. po podmianie wizualizacji na zdjęcia.
+Podpis „Zdjęcie poglądowe" pod zdjęciami w hero to stała `PHOTO_NOTE` w `site.ts`, a podpis „Wizualizacja" pod zdjęciami ofert to stała `OFFER_PHOTO_NOTE`. Pusty tekst ukrywa podpis, np. po podmianie wizualizacji na zdjęcia.
 
-Obraz do udostępniania linku (og:image) to `public/og-image.jpg`, ustawiany w `meta.ogImage` w `site.ts`. To zrzut górnej części strony w oknie 1600 × 840 px (Playwright), zmniejszony do 1200 × 630 px i zapisany jako JPG. Po zmianie hero zrób nowy zrzut w tym samym formacie i podmień plik.
+Obraz do udostępniania linku (og:image i twitter:image, karta `summary_large_image`) to zdjęcie hero Costa del Sol w wariancie 1200 px: `/img/hero-costa-del-sol-1200.jpg`, 1200 × 912 (decyzja Idziego 5.10.2026). Ustawiają go `meta.ogImage` i `meta.ogImageSize` w `site.ts`. Po podmianie zdjęcia hero i `npm run zdjecia` obraz zmienia się sam; przy innych proporcjach popraw `ogImageSize`.
 
 ## Oferty
 
@@ -85,12 +85,11 @@ Wszystko w `src/content/site.ts`:
 
 | Stała | Co zawiera | Gdzie na stronie |
 | --- | --- | --- |
-| `CONTACT_PHONE` | telefon +48 505 085 001 (TODO: potwierdzić z Idzim) | nagłówek, sekcja kontaktu, schema.org |
-| `CONTACT` | telefon i e-mail biuro@kwadrat.io | sekcja kontaktu, stopka (dane spółki), polityka prywatności, schema.org |
-| `AGENT` | Idzi Kisza: telefon, e-mail, adres | stopka, kolumna Kontakt |
-| `COMPANY` | dane spółki: nazwa, adres, NIP, KRS, kapitał, link zwrotny do kwadrat.io | stopka, schema.org |
+| `CONTACT_PHONE` | jedyny telefon na stronie: +48 505 085 001 (potwierdził Idzi 3.10 i 5.10.2026) | nagłówek, sekcja kontaktu, stopka, schema.org |
+| `CONTACT` | telefon i e-mail biuro@kwadrat.io | sekcja kontaktu, stopka (kolumna Kontakt), polityka prywatności, schema.org |
+| `COMPANY` | marka Kwadrat Nieruchomości z hasłem „Hiszpania · Costa del Sol · Costa Blanca”, dane spółki: nazwa, adres, NIP, REGON, KRS, sąd, kapitał, www.kwadrat.io | nagłówek, stopka, schema.org |
 | `SOCIAL` | Facebook, YouTube, TikTok | stopka, linki tekstowe |
-| `GOOGLE_RATING`, `GOOGLE_REVIEWS`, `GOOGLE_PROFILE_NAME`, `GOOGLE_READ_DATE`, `GOOGLE_REVIEWS_URL` | ocena, liczba opinii, nazwa wizytówki, data odczytu, link | pasek KPI pod hero i kafelek w Opiniach |
+| `GOOGLE_RATING`, `GOOGLE_REVIEWS`, `GOOGLE_PROFILE_NAME`, `GOOGLE_READ_DATE`, `GOOGLE_REVIEWS_URL` | ocena, liczba opinii, nazwa wizytówki, data odczytu, link | pasek KPI w hero i kafelek w Opiniach |
 
 Ocena Google pokazuje się tylko wtedy, gdy wszystkie pięć pól `GOOGLE_*` jest wypełnionych, także link (checklista `WEB.md`: przy liczbie wizytówka, data odczytu i link). Wystarczy wyczyścić jedno, a oba kafelki z oceną znikną, więc link zmieniaj na inny, nie usuwaj. Przy aktualizacji oceny zmień też datę odczytu.
 

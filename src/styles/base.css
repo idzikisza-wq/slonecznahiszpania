@@ -336,7 +336,8 @@ p {
   margin-top: var(--space-s);
 }
 
-.tile > .tile-price {
+.tile > .tile-price,
+.tile > .tile-link {
   margin-top: var(--space-s);
 }
 
@@ -901,6 +902,12 @@ textarea.input {
 
 .kw-foot a:hover {
   text-decoration-thickness: 2px;
+}
+
+/* Linki jeden pod drugim (kolumna Kontakt): cel dotyku 24px wysokości (WCAG 2.5.8) */
+.kw-foot-links a {
+  display: inline-block;
+  padding-block: 2px;
 }
 
 .kw-foot img {
