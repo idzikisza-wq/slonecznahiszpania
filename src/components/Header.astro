@@ -1,11 +1,11 @@
 ---
 // Nagłówek (pasek z WebHero): lockup kwadrat-logo-lockup.svg (znak 40px z napisem NIERUCHOMOŚCI)
-// na białym, pod nim etykieta „Hiszpania · Costa del Sol · Costa Blanca” (decyzja Idziego 5.10.2026,
-// jak na live). Menu tekstowe 15px 600 w ink, na końcu sam piktogram słuchawki 20px w polu 40 × 40px
-// (link tel:, decyzja Idziego 5.10.2026: piktogram zamiast słowa „Zadzwoń”, numer na górze się nie
-// wyświetla); nazwę „Zadzwoń +48 505 085 001” daje aria-label. Pod paskiem linia 1px line. Nie sticky.
-// Poniżej 1200px (tablet i telefon) linki chowane pod przyciskiem tekstowym „Menu”, piktogram zostaje,
-// etykieta schodzi do osobnego wiersza pod lockupem.
+// na białym, obok niego w jednej linii etykieta „Hiszpania · Costa del Sol · Costa Blanca” (decyzje
+// Idziego 5.10.2026: etykieta jak na live, ale nie pod logo). Menu tekstowe 15px 600 w ink, na końcu
+// sam piktogram słuchawki 20px w polu 40 × 40px (link tel:, bez numeru na ekranie); nazwę „Zadzwoń
+// +48 505 085 001” daje aria-label. Pod paskiem linia 1px line. Nie sticky.
+// Poniżej 1200px (tablet i telefon) linki chowane pod przyciskiem tekstowym „Menu”, piktogram zostaje.
+// Poniżej 768px etykiety nie ma: obok lockupu, piktogramu i „Menu” brakuje na nią miejsca.
 // Kolejność w HTML = kolejność tabulacji: menu stoi zaraz za przyciskiem „Menu”, więc Tab po
 // otwarciu wchodzi w linki. Telefon jest dwa razy, widoczny zawsze tylko jeden: przed przyciskiem
 // (tablet i telefon) albo za menu (od 1200px). Escape zamyka menu i wraca na przycisk.
@@ -23,10 +23,12 @@ const phoneName = plainText(`${header.phoneLabel} ${contact.phone}`);
 
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="/">
-      <img src="/brand/kwadrat-logo-lockup.svg" alt={header.logoAlt} width="148" height="40" />
-    </a>
-    <p class="label header-tagline">{header.tagline}</p>
+    <div class="header-brand">
+      <a class="brand" href="/">
+        <img src="/brand/kwadrat-logo-lockup.svg" alt={header.logoAlt} width="148" height="40" />
+      </a>
+      <p class="label header-tagline">{header.tagline}</p>
+    </div>
     <a class="nav-link header-phone header-phone--top" href={contact.phoneHref} aria-label={phoneName}>
       <PhoneIcon />
     </a>
@@ -73,21 +75,26 @@ const phoneName = plainText(`${header.phoneLabel} ${contact.phone}`);
     border-bottom: var(--rule) solid var(--line);
   }
 
-  /* Od 1200px: lockup z etykietą pod spodem po lewej, menu i telefon na środku ich wysokości */
+  /* Od 1200px jeden rząd: lockup z etykietą obok, menu, piktogram telefonu */
   .header-inner {
     display: grid;
     grid-template-columns: auto 1fr auto;
-    grid-template-areas:
-      'brand nav phone'
-      'tagline nav phone';
+    grid-template-areas: 'brand nav phone';
     align-items: center;
     column-gap: var(--gutter);
     padding-block: 20px;
   }
 
-  .brand {
+  .header-brand {
     grid-area: brand;
-    justify-self: start;
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    min-width: 0;
+  }
+
+  .brand {
+    min-width: 0;
   }
 
   /* Lockup w proporcjach pliku (248,352 × 67,012): znak 40px jak w stopce. Gdyby zabrakło
@@ -100,8 +107,7 @@ const phoneName = plainText(`${header.phoneLabel} ${contact.phone}`);
   }
 
   .header-tagline {
-    grid-area: tagline;
-    margin-top: 6px;
+    white-space: nowrap;
   }
 
   .site-nav {
@@ -178,7 +184,6 @@ const phoneName = plainText(`${header.phoneLabel} ${contact.phone}`);
       grid-template-columns: auto 1fr;
       grid-template-areas:
         'brand phone'
-        'tagline tagline'
         'nav nav';
     }
 
@@ -186,7 +191,6 @@ const phoneName = plainText(`${header.phoneLabel} ${contact.phone}`);
       grid-template-columns: auto 1fr auto;
       grid-template-areas:
         'brand phone toggle'
-        'tagline tagline tagline'
         'nav nav nav';
     }
 
@@ -224,6 +228,10 @@ const phoneName = plainText(`${header.phoneLabel} ${contact.phone}`);
     .header-inner {
       column-gap: var(--space-s);
       padding-block: var(--space-s);
+    }
+
+    .header-tagline {
+      display: none;
     }
 
   }
