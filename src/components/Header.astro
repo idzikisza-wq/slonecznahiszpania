@@ -1,18 +1,23 @@
 ---
 // Nagłówek (pasek z WebHero): lockup kwadrat-logo-lockup.svg (znak 40px z napisem NIERUCHOMOŚCI)
 // na białym, pod nim etykieta „Hiszpania · Costa del Sol · Costa Blanca” (decyzja Idziego 5.10.2026,
-// jak na live). Menu tekstowe 15px 600 w ink, telefon jako tekst „Zadzwoń …” (bez ikony).
+// jak na live). Menu tekstowe 15px 600 w ink, telefon jako piktogram słuchawki i numer (piktogram
+// zamiast słowa „Zadzwoń”, decyzja Idziego 5.10.2026); nazwa linku dla czytników to „Zadzwoń …”.
 // Pod paskiem linia 1px line. Nie sticky.
 // Poniżej 1200px (tablet i telefon) linki chowane pod przyciskiem tekstowym „Menu”, telefon zostaje,
-// etykieta schodzi do osobnego wiersza pod lockupem. Na telefonie słowo „Zadzwoń” jest tylko dla
-// czytników ekranu, widać sam numer (lockup, numer i „Menu” mieszczą się w 390px).
+// etykieta schodzi do osobnego wiersza pod lockupem. Na telefonie sam piktogram w polu 40 × 40px
+// (numer jest w nazwie linku), więc lockup ma pełną szerokość nawet przy 320px.
 // Kolejność w HTML = kolejność tabulacji: menu stoi zaraz za przyciskiem „Menu”, więc Tab po
 // otwarciu wchodzi w linki. Telefon jest dwa razy, widoczny zawsze tylko jeden: przed przyciskiem
 // (tablet i telefon) albo za menu (od 1200px). Escape zamyka menu i wraca na przycisk.
+import PhoneIcon from './ui/PhoneIcon.astro';
 import { site, SHOW_OFFERS } from '../content/site';
+import { plainText } from '../content/typo';
 
 const { header, contact } = site;
 const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty');
+// Nazwa linku telefonu: zawiera widoczny numer (WCAG 2.5.3), na telefonie zastępuje go w całości
+const phoneName = plainText(`${header.phoneLabel} ${contact.phone}`);
 ---
 
 <a class="skip-link" href="#tresc">{header.skipLink}</a>
@@ -23,8 +28,8 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
       <img src="/brand/kwadrat-logo-lockup.svg" alt={header.logoAlt} width="148" height="40" />
     </a>
     <p class="label header-tagline">{header.tagline}</p>
-    <a class="nav-link header-phone header-phone--top" href={contact.phoneHref}>
-      <span class="header-phone-label">{header.phoneLabel}</span>{' '}<span class="nowrap">{contact.phone}</span>
+    <a class="nav-link header-phone header-phone--top" href={contact.phoneHref} aria-label={phoneName}>
+      <PhoneIcon /><span class="header-phone-number nowrap">{contact.phone}</span>
     </a>
     <button class="nav-link menu-toggle" type="button" aria-expanded="false" aria-controls="nawigacja">
       {header.menu}
@@ -42,8 +47,8 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
         }
       </ul>
     </nav>
-    <a class="nav-link header-phone header-phone--end" href={contact.phoneHref}>
-      {header.phoneLabel}{' '}<span class="nowrap">{contact.phone}</span>
+    <a class="nav-link header-phone header-phone--end" href={contact.phoneHref} aria-label={phoneName}>
+      <PhoneIcon /><span class="nowrap">{contact.phone}</span>
     </a>
   </div>
 </header>
@@ -86,8 +91,8 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     justify-self: start;
   }
 
-  /* Lockup w proporcjach pliku (248,352 × 67,012): znak 40px jak w stopce. Na wąskim
-     telefonie (poniżej 390px) zmniejsza się proporcjonalnie, zamiast wypychać numer i „Menu”. */
+  /* Lockup w proporcjach pliku (248,352 × 67,012): znak 40px jak w stopce. Gdyby zabrakło
+     miejsca (węziej niż 320px), zmniejsza się proporcjonalnie, zamiast wypychać telefon i „Menu”. */
   .brand img {
     display: block;
     width: 148px;
@@ -132,12 +137,22 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     padding-block: var(--space-xs);
   }
 
+  /* Telefon: piktogram 16px i numer, odstęp 8px; podkreślenie przy hover dostaje tylko numer */
   .header-phone {
     grid-area: phone;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
   }
 
   .header-phone--top {
     display: none;
+  }
+
+  .header-phone :global(.phone-icon) {
+    flex: none;
+    width: 16px;
+    height: 16px;
   }
 
   .menu-toggle {
@@ -174,7 +189,7 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
     }
 
     .header-phone--top {
-      display: block;
+      display: flex;
     }
 
     .header-phone--end {
@@ -205,14 +220,20 @@ const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty')
       padding-block: var(--space-s);
     }
 
-    /* Słowo „Zadzwoń” tylko dla czytników ekranu, widać sam numer */
-    .header-phone-label {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
+    /* Sam piktogram 20px w polu dotyku 40 × 40px; numer jest w nazwie linku (aria-label) */
+    .header-phone--top {
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+
+    .header-phone--top :global(.phone-icon) {
+      width: 20px;
+      height: 20px;
+    }
+
+    .header-phone-number {
+      display: none;
     }
   }
 </style>
