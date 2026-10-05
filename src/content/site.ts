@@ -91,6 +91,14 @@ const IMAGES = {
     alt: 'Taras apartamentu z widokiem na morze',
     placeholder: 'Zdjęcie 4:3',
   },
+  // Piotr i Ania (zdjęcie od Idziego), w Kontakcie pod telefonem. Prawdziwe zdjęcie zespołu,
+  // nie poglądowe, więc bez podpisu. Źródło ma 720 px szerokości: do podmiany na oryginał.
+  contact: {
+    name: 'kontakt',
+    ratio: [4, 3],
+    alt: 'Piotr i Ania na deptaku w centrum Malagi',
+    placeholder: 'Zdjęcie 4:3',
+  },
   guideCover: {
     name: 'poradnik-cover',
     ratio: [1354, 1920],
@@ -525,6 +533,7 @@ const raw = {
     title: 'Zacznijmy od Twojego planu, nie od regionu',
     text: 'Napisz, czego szukasz i jaki budżet rozważasz. Wrócimy z pytaniami, które pozwolą uczciwie porównać lokalizacje.',
     phoneLabel: 'Zadzwoń do nas',
+    image: IMAGES.contact,
     form: {
       name: 'Imię i nazwisko',
       namePlaceholder: 'Jan Kowalski',

@@ -25,6 +25,9 @@ const SLOTS = {
   'oferta-malaga': { ratio: null },
   'oferta-mijas': { ratio: null },
   'oferta-marbella': { ratio: null },
+  // Piotr i Ania w Kontakcie (decyzja Idziego 5.10.2026): pionowe zdjęcie 3:4 w kadrze 4:3
+  // z dolnej części, całe sylwetki z zapasem nad głowami.
+  kontakt: { ratio: [4, 3], focus: [0.5, 0.86] },
 };
 
 const sources = await readdir(SRC, { withFileTypes: true });

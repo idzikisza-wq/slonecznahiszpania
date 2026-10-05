@@ -1,6 +1,9 @@
 ---
-// Konsultacja (#kontakt): 6+6. Lewa: opis i telefon. Prawa: formularz.
+// Konsultacja (#kontakt): 6+6. Lewa: opis, telefon, a na dole zdjęcie Piotra i Ani (4:3)
+// wyrównane do dołu formularza. Prawa: formularz. Na telefonie ta sama kolejność: tekst,
+// zdjęcie, formularz (zdjęcie nie stoi nad nagłówkiem sekcji).
 import SectionHead from './ui/SectionHead.astro';
+import Photo from './ui/Photo.astro';
 import Form from './ui/Form.astro';
 import Field from './ui/Field.astro';
 import { site } from '../content/site';
@@ -13,12 +16,18 @@ const formId = 'kontakt-formularz';
 <section class="section" id="kontakt">
   <div class="container">
     <div class="grid">
-      <div class="col-6">
-        <SectionHead label={section.label} title={section.title} text={section.text} />
-        <p class="label mt-l">{section.phoneLabel}</p>
-        <p class="mt-xs">
-          <a class="contact-phone" href={contact.phoneHref}>{contact.phone}</a>
-        </p>
+      <div class="col-6 contact-info">
+        <div>
+          <SectionHead label={section.label} title={section.title} text={section.text} />
+          <p class="label mt-l">{section.phoneLabel}</p>
+          <p class="mt-xs">
+            <a class="contact-phone" href={contact.phoneHref}>{contact.phone}</a>
+          </p>
+        </div>
+        <Photo
+          image={section.image}
+          sizes="(min-width: 1200px) 548px, (min-width: 768px) calc(50vw - 52px), calc(100vw - 40px)"
+        />
       </div>
       <div class="col-6">
         <Form id={formId} subject={form.subject} submit={form.submit} consent={form.consent}>
@@ -62,6 +71,14 @@ const formId = 'kontakt-formularz';
 </section>
 
 <style>
+  /* Lewa kolumna: tekst u góry, zdjęcie na dole, obie kolumny kończą się na tej samej wysokości */
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--block);
+  }
+
   /* Telefon w stylu web-h3 jako link: ink, podkreślenie 1px, hover 2px */
   .contact-phone {
     color: var(--ink);
