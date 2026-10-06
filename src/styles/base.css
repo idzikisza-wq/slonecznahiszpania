@@ -904,6 +904,24 @@ textarea.input {
   text-decoration-thickness: 2px;
 }
 
+/* „Ustawienia cookies” (tylko z Google Analytics): wygląda jak link stopki, pole dotyku 24px */
+.kw-foot-btn {
+  display: inline-block;
+  padding: 2px 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.kw-foot-btn:hover {
+  text-decoration-thickness: 2px;
+}
+
 /* Linki jeden pod drugim (kolumna Kontakt): cel dotyku 24px wysokości (WCAG 2.5.8) */
 .kw-foot-links a {
   display: inline-block;

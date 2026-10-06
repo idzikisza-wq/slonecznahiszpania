@@ -89,7 +89,8 @@ Wszystko w `src/content/site.ts`:
 | `CONTACT` | telefon i e-mail biuro@kwadrat.io | sekcja kontaktu, stopka (kolumna Kontakt), polityka prywatności, schema.org |
 | `COMPANY` | marka Kwadrat Nieruchomości z hasłem „Hiszpania · Costa del Sol · Costa Blanca”, dane spółki: nazwa, adres, NIP, REGON, KRS, sąd, kapitał, www.kwadrat.io | nagłówek, stopka, schema.org |
 | `SOCIAL` | Facebook, YouTube, TikTok | stopka, linki tekstowe |
-| `GOOGLE_RATING`, `GOOGLE_REVIEWS`, `GOOGLE_PROFILE_NAME`, `GOOGLE_READ_DATE`, `GOOGLE_REVIEWS_URL` | ocena, liczba opinii, nazwa wizytówki, data odczytu, link | pasek KPI w hero i kafelek w Opiniach |
+| `GOOGLE_RATING`, `GOOGLE_REVIEWS`, `GOOGLE_PROFILE_NAME`, `GOOGLE_READ_DATE`, `GOOGLE_REVIEWS_URL` | ocena, liczba opinii, nazwa wizytówki, data odczytu, link (wizytówka „Oddział Otwock” z linku w stopce kwadrat.io) | pasek KPI w hero i kafelek w Opiniach |
+| `GA_ID` | identyfikator Google Analytics ze zmiennej `PUBLIC_GA_ID` | baner zgody, Google Analytics, polityka prywatności |
 
 Ocena Google pokazuje się tylko wtedy, gdy wszystkie pięć pól `GOOGLE_*` jest wypełnionych, także link (checklista `WEB.md`: przy liczbie wizytówka, data odczytu i link). Wystarczy wyczyścić jedno, a oba kafelki z oceną znikną, więc link zmieniaj na inny, nie usuwaj. Przy aktualizacji oceny zmień też datę odczytu.
 
@@ -111,7 +112,21 @@ Oba formularze (poradnik i kontakt) wysyłają zgłoszenia przez [Web3Forms](htt
 
 Bez klucza formularze działają w trybie demo: pokazują komunikat sukcesu, a payload trafia do konsoli przeglądarki. Ochrona przed spamem: ukryte pole honeypot, bez CAPTCHA.
 
+## Google Analytics
+
+Google Analytics 4 działa tylko z identyfikatorem pomiaru w zmiennej `PUBLIC_GA_ID`. Bez niego strona nie ładuje nic od Google i nie pokazuje baneru.
+
+Jak działa: z identyfikatorem na górze strony pojawia się baner zgody („Akceptuję”, „Odrzucam”). Google Analytics ładuje się dopiero po „Akceptuję”, bez reklam i Google Signals, z cookies na 13 miesięcy. Wybór zostaje w przeglądarce, a zmienia go przycisk „Ustawienia cookies” w stopce; wycofanie zgody usuwa cookies `_ga`. Strona zapisuje dwa zdarzenia: `generate_lead` (formularz naprawdę wysłany, `form_id` mówi który) i `phone_click` (kliknięcie numeru, `link_location` mówi gdzie).
+
+1. Na analytics.google.com: Administracja, Utwórz, Usługa (strefa czasowa Polska, waluta PLN), potem Strumienie danych, Sieć, adres `https://www.slonecznahiszpania.pl`. Identyfikator pomiaru ma postać `G-XXXXXXXXXX`.
+2. W usłudze: Administracja, Gromadzenie i przechowywanie danych, Przechowywanie danych: 14 miesięcy. Google Signals zostaw wyłączone.
+3. Gdy zdarzenia pojawią się w raportach: Administracja, Zdarzenia kluczowe, oznacz `generate_lead` i `phone_click`.
+4. Przed włączeniem: akceptacja tekstu baneru (`consent` w `src/content/site.ts`) i akapitów o Google Analytics w polityce prywatności (`privacy.cookiesAnalytics`), najlepiej z prawnikiem.
+5. W Cloudflare Pages: Settings, Variables and Secrets, dodaj `PUBLIC_GA_ID` dla Production i Preview, potem ponów wdrożenie. Lokalnie: w `.env`.
+
 ## Cloudflare Pages krok po kroku
+
+Cloudflare Pages to darmowy hosting stron statycznych (konto na cloudflare.com, plan Free wystarczy). Pobiera kod z GitHuba, sam buduje stronę, serwuje ją z serwerów na całym świecie, wystawia certyfikat HTTPS i po każdej zmianie w gałęzi `main` publikuje nową wersję. Dziś strona stoi na Lovable; po przełączeniu domeny będzie stała tutaj.
 
 1. Zaloguj się do panelu Cloudflare, wejdź w Workers & Pages i utwórz nową aplikację typu Pages z opcją połączenia z Gitem (Connect to Git).
 2. Autoryzuj GitHub i wybierz repozytorium `slonecznahiszpania`.
@@ -120,7 +135,7 @@ Bez klucza formularze działają w trybie demo: pokazują komunikat sukcesu, a p
    - Framework preset: Astro
    - Build command: `npm run build`
    - Build output directory: `dist`
-   - Zmienne środowiskowe: `NODE_VERSION` = `22` (Cloudflare czyta też `.nvmrc`), opcjonalnie `PUBLIC_WEB3FORMS_KEY`.
+   - Zmienne środowiskowe: `NODE_VERSION` = `22` (Cloudflare czyta też `.nvmrc`), opcjonalnie `PUBLIC_WEB3FORMS_KEY` i `PUBLIC_GA_ID` (opis niżej).
 4. Save and Deploy. Po buildzie strona jest pod adresem `nazwa-projektu.pages.dev`.
 5. Każdy pull request i każda gałąź dostają automatycznie własny podgląd pod adresem `*.nazwa-projektu.pages.dev`. Podglądy mają nagłówek noindex, nie trafią do Google.
 
@@ -133,5 +148,10 @@ Wykonuje Idzi, po akceptacji podglądu.
 1. Sprawdzić, gdzie trafiają dziś zapytania z formularzy na stronie w Lovable, i wyeksportować dotychczasowe leady.
 2. Podpiąć klucz Web3Forms, wysłać testowe zgłoszenie z obu formularzy, potwierdzić odbiór na biuro@kwadrat.io.
 3. Wgrać docelowe zdjęcia i PDF poradnika, potwierdzić z prawnikiem treść polityki prywatności.
-4. W Cloudflare Pages dodać domenę slonecznahiszpania.pl i www, ustawić rekordy DNS u rejestratora domeny.
+4. Domena, najprościej z DNS w Cloudflare:
+   - w panelu Cloudflare dodać domenę (Add a domain, plan Free) i u rejestratora zmienić serwery nazw na te, które poda Cloudflare;
+   - w projekcie Pages, w zakładce Custom domains, dodać `www.slonecznahiszpania.pl` i `slonecznahiszpania.pl`;
+   - w ustawieniach domeny (Rules, Redirect Rules) włączyć przekierowanie 301 z `slonecznahiszpania.pl` na `https://www.slonecznahiszpania.pl` (szablon „Redirect from root to WWW”). Dziś adres bez www zwraca błąd 502, więc to przekierowanie jest potrzebne.
+
+   Bez przenoszenia DNS da się podpiąć tylko `www` (rekord CNAME u rejestratora na adres `*.pages.dev`), a przekierowanie z adresu bez www trzeba wtedy ustawić u rejestratora.
 5. Po propagacji sprawdzić stronę, formularze i certyfikat, dopiero wtedy odpiąć domenę od projektu w Lovable.

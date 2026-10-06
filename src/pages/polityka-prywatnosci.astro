@@ -2,8 +2,9 @@
 // Polityka prywatności w stylu systemu: etykieta, H1, lead, akapity do 720px, prawa jako lista
 // z szarym kwadracikiem (to nie lista atutów, więc bez czerwieni). Treść w site.ts (privacy):
 // klauzula RODO z kwadrat.io/rodo dostosowana do tej strony. TODO przed produkcją: w site.ts.
+// Z PUBLIC_GA_ID zamiast zdania o cookies stoją akapity o Google Analytics (cookiesAnalytics).
 import Base from '../layouts/Base.astro';
-import { site } from '../content/site';
+import { site, GA_ID } from '../content/site';
 
 const { privacy } = site;
 
@@ -35,6 +36,7 @@ const withEmail = (text: string) => text.split(privacy.email);
           {privacy.rights.map((right) => <li>{right}</li>)}
         </ul>
         {privacy.closing.map((text) => <p>{text}</p>)}
+        {(GA_ID ? privacy.cookiesAnalytics : [privacy.cookies]).map((text) => <p>{text}</p>)}
       </div>
     </div>
   </section>

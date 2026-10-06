@@ -66,7 +66,14 @@ export const GOOGLE_RATING = '4,9';
 export const GOOGLE_REVIEWS = '120';
 export const GOOGLE_PROFILE_NAME = 'Kwadrat Otwock';
 export const GOOGLE_READ_DATE = '01.10.2026';
-export const GOOGLE_REVIEWS_URL = 'https://www.google.com/maps/search/Kwadrat+Nieruchomo%C5%9Bci+Otwock';
+// Wizytówka „Oddział Otwock” z linku w stopce kwadrat.io (prośba Idziego 6.10.2026: link wprost do wizytówki)
+export const GOOGLE_REVIEWS_URL = 'https://maps.app.goo.gl/HnGgjbUpEfx6YWoT6';
+// Google Analytics 4 (decyzja Idziego 6.10.2026): identyfikator pomiaru G-XXXX w zmiennej
+// PUBLIC_GA_ID (jak klucz formularzy, nigdy w repo). Bez niego strona nie ładuje Google Analytics
+// ani baneru zgody. Z nim baner pyta o zgodę, a Google Analytics ładuje się dopiero po „Akceptuję”.
+const GA_RAW = String(import.meta.env.PUBLIC_GA_ID ?? '').trim();
+export const GA_ID = /^G-[A-Z0-9]{4,20}$/.test(GA_RAW) ? GA_RAW : '';
+
 export const HAS_GOOGLE_RATING = [GOOGLE_RATING, GOOGLE_REVIEWS, GOOGLE_PROFILE_NAME, GOOGLE_READ_DATE, GOOGLE_REVIEWS_URL].every(
   (field) => field.trim() !== '',
 );
@@ -538,10 +545,11 @@ const raw = {
       namePlaceholder: 'Jan Kowalski',
       email: 'E-mail',
       emailPlaceholder: 'jan@adres.pl',
-      region: 'Rozważany region',
+      // „(opcjonalnie)” przy polach niewymaganych: decyzja Idziego 6.10.2026
+      region: 'Rozważany region (opcjonalnie)',
       regionPlaceholder: 'Wybierz lub zostaw otwarte',
       regionOptions: ['Costa del Sol', 'Costa Blanca', 'Chcę porównać regiony', 'Inny region Hiszpanii'],
-      message: 'Wiadomość',
+      message: 'Wiadomość (opcjonalnie)',
       messagePlaceholder: 'Budżet, cel, termin...',
       submit: 'Wyślij zapytanie',
       // Nowa strona nie ma tu zgody. Idzi zdecydował, że ma być (3.10.2026): tekst z poprzedniej
@@ -586,6 +594,18 @@ const raw = {
   // o hostingu i obsłudze formularzy, zdanie o cookies, bez odwołania do art. 172 Prawa
   // telekomunikacyjnego (ustawę zastąpiło 10.11.2024 Prawo komunikacji elektronicznej),
   // drobna redakcja bez myślników. Adres e-mail w tekście zamienia się w link.
+  // Baner zgody na Google Analytics (decyzja Idziego 6.10.2026): tylko z PUBLIC_GA_ID.
+  // TODO: teksty baneru i akapity o Google Analytics w polityce (cookiesAnalytics) akceptuje Idzi
+  // i sprawdza prawnik, zanim identyfikator trafi do Cloudflare Pages.
+  consent: {
+    label: 'Zgoda na statystyki',
+    text: 'Za Twoją zgodą korzystamy z Google Analytics, żeby wiedzieć, ile osób odwiedza stronę i wysyła zapytania. Google zapisuje wtedy na Twoim urządzeniu pliki cookies. Zgodę zmienisz w każdej chwili w stopce.',
+    policy: 'Polityka prywatności',
+    accept: 'Akceptuję',
+    reject: 'Odrzucam',
+    settings: 'Ustawienia cookies',
+  },
+
   // TODO: przed produkcją treść sprawdza prawnik, w tym:
   // 1. czy dostawcy formularzy (Web3Forms) i hostingu (Cloudflare) przekazują dane poza EOG
   //    (art. 13 ust. 1 lit. f RODO);
@@ -617,7 +637,14 @@ const raw = {
     closing: [
       'Podanie danych jest dobrowolne, jednak ich niepodanie będzie skutkowało brakiem możliwości udzielenia odpowiedzi na Pani/Pana wiadomość. Wyrażenie zgody jest dobrowolne.',
       'Dane osobowe nie będą wykorzystywane do podejmowania zautomatyzowanych decyzji, w tym profilowania.',
-      'Strona nie korzysta z narzędzi analitycznych ani reklamowych i sama nie zapisuje plików cookies.',
+    ],
+    // Bez PUBLIC_GA_ID (dziś) strona pokazuje zdanie cookies. Z identyfikatorem zamiast niego
+    // akapity cookiesAnalytics: projekt do akceptacji Idziego i prawnika (TODO przy consent).
+    cookies: 'Strona nie korzysta z narzędzi analitycznych ani reklamowych i sama nie zapisuje plików cookies.',
+    cookiesAnalytics: [
+      'Za Pani/Pana zgodą strona korzysta z Google Analytics 4, usługi Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Irlandia), w celu pomiaru liczby odwiedzin i wysłanych zapytań. Podstawą prawną jest zgoda (art. 6 ust. 1 lit. a RODO). Strona nie korzysta z narzędzi reklamowych.',
+      'Google Analytics zapisuje na urządzeniu pliki cookies (_ga i _ga_*), które wygasają po 13 miesiącach. Dane mogą być przekazywane do Google LLC w USA na podstawie decyzji Komisji Europejskiej w sprawie ram ochrony danych między UE a USA (EU-US Data Privacy Framework).',
+      'Zgodę można w każdej chwili wycofać przyciskiem „Ustawienia cookies” w stopce strony. Wycofanie zgody nie wpływa na zgodność z prawem przetwarzania, którego dokonano przed jej wycofaniem. Informację o wyborze strona zapisuje w pamięci przeglądarki, bez plików cookies.',
     ],
   },
 };

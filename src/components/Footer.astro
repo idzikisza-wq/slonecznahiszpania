@@ -2,12 +2,12 @@
 // Stopka (WebFooter): linia 1px ink nad stopką, tekst 13/20px muted, nagłówki kolumn 700 ink.
 // Trzy kolumny 4+4+4 (na telefonie jedna): marka z hasłem i social media tekstem, kontakt
 // (jedyny telefon strony, biuro@kwadrat.io, www.kwadrat.io), dane spółki z REGON i sądem
-// (decyzje Idziego 5.10.2026, jak na live). Pasek dolny za linią 1px line: zastrzeżenie
-// i polityka prywatności. Bez ikon.
-import { site, SOCIAL } from '../content/site';
+// (decyzje Idziego 5.10.2026, jak na live). Pasek dolny za linią 1px line: zastrzeżenie,
+// polityka prywatności i, z Google Analytics, przycisk „Ustawienia cookies”. Bez ikon.
+import { site, SOCIAL, GA_ID } from '../content/site';
 import { typoText } from '../content/typo';
 
-const { footer, company, contact } = site;
+const { footer, company, contact, consent } = site;
 const SEP = ' · ';
 ---
 
@@ -61,7 +61,19 @@ const SEP = ' · ';
     </div>
     <div class="kw-legal">
       <p>{footer.disclaimer}</p>
-      <p><a href={footer.privacy.href}>{footer.privacy.label}</a></p>
+      <p>
+        <a href={footer.privacy.href}>{footer.privacy.label}</a>
+        {
+          GA_ID && (
+            <>
+              {SEP}
+              <button type="button" class="kw-foot-btn" data-zgoda-ustawienia>
+                {consent.settings}
+              </button>
+            </>
+          )
+        }
+      </p>
     </div>
   </div>
 </footer>

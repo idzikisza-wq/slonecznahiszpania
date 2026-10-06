@@ -4,7 +4,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../content/site';
+import Consent from '../components/Consent.astro';
+import { site, GA_ID } from '../content/site';
 import { plainText } from '../content/typo';
 import '../styles/tokens.css';
 import '../styles/base.css';
@@ -39,7 +40,7 @@ const fonts = ['/fonts/Mulish-400.woff2', '/fonts/Mulish-600.woff2', '/fonts/Mul
 ---
 
 <!doctype html>
-<html lang="pl">
+<html lang="pl" data-ga={GA_ID || undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -67,10 +68,20 @@ const fonts = ['/fonts/Mulish-400.woff2', '/fonts/Mulish-600.woff2', '/fonts/Mul
     {fonts.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
 
     <script is:inline>document.documentElement.classList.add('js');</script>
+    {
+      /* Z Google Analytics: baner zgody widoczny przed pierwszym malowaniem, dopóki nie ma decyzji */
+      GA_ID && (
+        <script is:inline>
+          try { var zgoda = localStorage.getItem('kw-zgoda'); } catch (e) {}
+          if (zgoda !== 'tak' && zgoda !== 'nie') document.documentElement.classList.add('zgoda-otwarta');
+        </script>
+      )
+    }
 
     {schema.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
   </head>
   <body>
+    {GA_ID && <Consent />}
     <Header />
     <main id="tresc">
       <slot />

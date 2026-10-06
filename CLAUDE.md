@@ -13,7 +13,7 @@ Jedyne źródło prawdy o projekcie, czytane na starcie każdej sesji. Gdy zadan
 ## Stack
 
 - Astro (najnowsza stabilna), czysty CSS z custom properties, bez frameworka UI i Tailwinda. Jedyna zależność w `package.json`: `astro`.
-- Mulish 400, 600, 700 lokalnie w `public/fonts/` (licencja w `OFL.txt`), `@font-face` z `font-display: swap` w `tokens.css`, preload w `Base.astro`. Strona nie ładuje niczego z zewnątrz.
+- Mulish 400, 600, 700 lokalnie w `public/fonts/` (licencja w `OFL.txt`), `@font-face` z `font-display: swap` w `tokens.css`, preload w `Base.astro`. Strona nie ładuje niczego z zewnątrz, poza Google Analytics po zgodzie (sekcja Analityka).
 - Build statyczny do `dist/`, hosting Cloudflare Pages (podgląd `*.pages.dev`). `vite.build.cssTarget` w `astro.config.mjs` trzyma `max-width:` w media queries dla Safari do 16.3: nie usuwaj.
 - Pliki: strony w `src/pages/`, sekcje w `src/components/`, całe copy i dane w `src/content/site.ts` (twarde spacje dokłada `typo.ts`), style w `src/styles/tokens.css`, `base.css`, `markers.css`.
 - Logo: `public/brand/kwadrat-logo-lockup.svg` (znak z napisem NIERUCHOMOŚCI) w nagłówku, `kwadrat-logo.svg` w stopce i jako favicon, zawsze na białym. Nie rysuj od nowa, nie przekoloruj, skaluj tylko proporcjonalnie; przy optymalizacji usuń blok `<metadata>`, ścieżek nie ruszaj.
@@ -84,7 +84,7 @@ Cyfry tabelaryczne wszędzie. Pogrubienie w tekście (700, ink) tylko dla kluczo
 - Fokus: obrys 2px ink z odsunięciem 3px na każdym elemencie klikanym.
 - Formularz: pola Mulish 16px na bieli, dolna linia 1px `--line`, padding 12px 0, etykieta 13px 600 muted nad polem. Błąd: `small` w ink z kwadracikiem `--line`, bez czerwieni. Dwa krótkie pola w rzędzie (na telefonie pod sobą). Lista wyboru bez natywnego wyglądu, 52px, po prawej znak „›” obrócony w dół. Zgoda w `small` pod przyciskiem, bez checkboxa, przez `aria-describedby`. W trakcie wysyłki `aria-disabled` (nie `disabled`), limit 15 s.
 - FAQ (WebFaq): natywne `<details>`, pierwsze otwarte; linia `--line` nad pierwszym i pod każdym; pytanie 18px 700 ink, padding 24px 52px 24px 0; plus z dwóch kresek 16 × 2px w ink zamiast znaku „+”, pionowa obraca się do 0 (0,2 s, bez animacji przy `prefers-reduced-motion`); odpowiedź 16/27 muted do 720px; bez zmiany koloru na hover i po otwarciu.
-- Stopka (WebFooter): linia ink nad, tekst 13/20 muted, nagłówki 700 ink, kolumny 4+4+4 (na telefonie jedna). Kolumna 1: logo 40px, „Kwadrat Nieruchomości”, hasło „Hiszpania · Costa del Sol · Costa Blanca”, Facebook · YouTube · TikTok jako linki tekstowe. Kolumna 2: „Kontakt”: tel. +48 505 085 001, biuro@kwadrat.io, www.kwadrat.io (linki z celem dotyku 24px). Kolumna 3: dane spółki. Pasek dolny za linią `--line`: zastrzeżenie i „Polityka prywatności”. Kod pocztowy z miastem, NIP, REGON i KRS nie łamią się w środku.
+- Stopka (WebFooter): linia ink nad, tekst 13/20 muted, nagłówki 700 ink, kolumny 4+4+4 (na telefonie jedna). Kolumna 1: logo 40px, „Kwadrat Nieruchomości”, hasło „Hiszpania · Costa del Sol · Costa Blanca”, Facebook · YouTube · TikTok jako linki tekstowe. Kolumna 2: „Kontakt”: tel. +48 505 085 001, biuro@kwadrat.io, www.kwadrat.io (linki z celem dotyku 24px). Kolumna 3: dane spółki. Pasek dolny za linią `--line`: zastrzeżenie, „Polityka prywatności” i, z Google Analytics, przycisk „Ustawienia cookies”. Kod pocztowy z miastem, NIP, REGON i KRS nie łamią się w środku.
 
 ## Dostępność
 
@@ -114,7 +114,7 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 11. Obsługa 360° (#bezpieczenstwo): 4+4+4: `label`, h2, akapit, obok dwie listy atutów po trzy punkty (sześć punktów jak na live).
 12. Opinie (#opinie): `label`, h2, akapit; kafelek oceny (`label` OCENA GOOGLE, 4,9 w czerwieni z „/ 5” 20px w ink, `small` z liczbą opinii, wizytówką i datą odczytu, link „Zobacz wszystkie”) i dwie opinie jako callout. Bez gwiazdek i logo Google.
 13. FAQ (#faq): `label`, h2, cztery pytania, pierwsze otwarte. TODO w `site.ts`: prawo zakupu (prawnik potwierdził według Idziego 3.10.2026, TODO zamyka Idzi) i koszty.
-14. Konsultacja (#kontakt): 6+6. Lewa: `label`, h2, akapit, `label` ZADZWOŃ DO NAS, telefon 20px 700 ink (`tel:`), na dole zdjęcie Piotra i Ani 4:3, wyrównane do dołu formularza, bez podpisu (prawdziwe zdjęcie zespołu). Na telefonie: tekst, zdjęcie, formularz. Prawa: Imię i nazwisko, E-mail, Rozważany region (placeholder „Wybierz lub zostaw otwarte”; Costa del Sol, Costa Blanca, Chcę porównać regiony, Inny region Hiszpanii), Wiadomość, przycisk „Wyślij zapytanie”, zgoda. Placeholdery z live.
+14. Konsultacja (#kontakt): 6+6. Lewa: `label`, h2, akapit, `label` ZADZWOŃ DO NAS, telefon 20px 700 ink (`tel:`), na dole zdjęcie Piotra i Ani 4:3, wyrównane do dołu formularza, bez podpisu (prawdziwe zdjęcie zespołu). Na telefonie: tekst, zdjęcie, formularz. Prawa: Imię i nazwisko, E-mail, Rozważany region (opcjonalnie; placeholder „Wybierz lub zostaw otwarte”; Costa del Sol, Costa Blanca, Chcę porównać regiony, Inny region Hiszpanii), Wiadomość (opcjonalnie), przycisk „Wyślij zapytanie”, zgoda. Placeholdery z live.
 15. Stopka (opis w Komponentach), zastrzeżenie: „Treści na stronie mają charakter informacyjny i nie stanowią porady prawnej, podatkowej ani inwestycyjnej.”
 
 ## Copy
@@ -139,6 +139,14 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 - Zgody: pod poradnikiem z live, pod kontaktem z poprzedniej wersji strony (obie potwierdzone); pod każdym formularzem zdanie z linkiem do `/polityka-prywatnosci`.
 - Polityka prywatności (`privacy` w `site.ts`, strona w stylu systemu): klauzula RODO z https://kwadrat.io/rodo/ dostosowana do formularzy tej strony, lista zmian w komentarzu nad nią. Tekstu prawnego nie zmieniaj bez zgody Idziego; przed produkcją sprawdza go prawnik (TODO), także przekazywanie danych poza EOG.
 
+## Analityka
+
+- Google Analytics 4 tylko z identyfikatorem w `PUBLIC_GA_ID` (zmienna środowiskowa, nigdy w repo, `GA_ID` w `site.ts`). Bez niego strona nie ma ani skryptu Google, ani baneru.
+- Baner zgody (`src/components/Consent.astro`, logika w `src/scripts/analytics.ts`): na samej górze strony w normalnym układzie, nie przyklejony, linia `--line` pod spodem, tekst `small`, dwa równorzędne przyciski w stylu linku drugiego („Akceptuję”, „Odrzucam”). Klasa `zgoda-otwarta` z `<head>` przed malowaniem, więc CLS 0. Wybór w localStorage `kw-zgoda`; „Ustawienia cookies” w stopce otwiera baner ponownie.
+- Google Analytics ładuje się dopiero po zgodzie: bez reklam i Google Signals, cookies na 13 miesięcy. Wycofanie zgody wyłącza wysyłkę i usuwa cookies `_ga`.
+- Zdarzenia: `generate_lead` (formularz naprawdę wysłany, nie w trybie demo; `form_id`) i `phone_click` (link `tel:`; `link_location`).
+- Polityka prywatności: bez identyfikatora zdanie `privacy.cookies`, z nim akapity `privacy.cookiesAnalytics`. Teksty baneru i te akapity akceptuje Idzi i sprawdza prawnik, zanim identyfikator trafi do Cloudflare Pages (TODO w `site.ts`).
+
 ## SEO
 
 - Meta jak na live: title „Kwadrat Nieruchomości | Costa del Sol i Costa Blanca”, og:title i twitter:title „Kwadrat Nieruchomości | Hiszpania”, description, og:description i twitter:description w `site.ts`. og:image i twitter:image: `/img/hero-costa-del-sol-1200.jpg` (1200 × 912), twitter:card `summary_large_image`.
@@ -147,7 +155,7 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 
 ## Czego nie robić
 
-- Tailwind, Bootstrap, biblioteki komponentów i ikon, animacje wejścia, slidery, karuzele, parallax, sticky CTA, pop-upy, własny baner cookies (osobne zadanie), tryb ciemny.
+- Tailwind, Bootstrap, biblioteki komponentów i ikon, animacje wejścia, slidery, karuzele, parallax, sticky CTA, pop-upy i przyklejone banery (jedyny baner to zgoda na Google Analytics z sekcji Analityka), tryb ciemny.
 - Zaokrąglenia, cienie, ramki wokół bloków, karty z tłem, gradienty, ikony poza piktogramem telefonu, emoji, gwiazdki, strzałki między krokami. Znak „›” w liście wyboru nie jest ikoną.
 - Czerwień poza regułą 2, krój inny niż Mulish, waga inna niż 400, 600, 700, kursywa.
 - Zmiana kolejności sekcji i usuwanie treści poza tym, co opisuje ten plik.
@@ -173,3 +181,4 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 - 3.10.2026: oryginałem jest nowa wersja live; Web3Forms; oferty i ceny widoczne; telefon +48 505 085 001; zgoda pod kontaktem z poprzedniej wersji strony; zdjęcia hero i ofert od dewelopera; prawnik potwierdził odpowiedź o prawie zakupu.
 - 4.10.2026: system Kwadrat v2 z warstwą www; polityka prywatności na bazie kwadrat.io/rodo; biuro@kwadrat.io w stopce.
 - 5.10.2026: zdjęcie Piotra i Ani w Kontakcie. Zgodność z live (11 punktów): meta jak na live, pisownia Málaga, marka Kwadrat Nieruchomości, lockup z etykietą w nagłówku, dwa zdjęcia w hero i przycisk „Porównajmy Twój wybór”, sześć punktów Obsługi 360° w dwóch listach, bez noty o wierszu-kotwicy, REGON i sąd w stopce, jeden telefon bez bloku agenta, linki „Porozmawiajmy” w celach, brakujące zdjęcia dublowane na podglądzie. Piktogram telefonu zamiast słowa „Zadzwoń”, bez numeru w nagłówku. Etykieta „Hiszpania · Costa del Sol · Costa Blanca” obok lockupu, nie pod nim.
+- 6.10.2026: „(opcjonalnie)” przy polach Rozważany region i Wiadomość; link „Zobacz wszystkie” wprost do wizytówki (link „Oddział Otwock” ze stopki kwadrat.io); Google Analytics 4 po zgodzie. Rozwiązań z 5.10.2026 przedstawionych do akceptacji Idzi nie przyjął, wrócimy do nich; do tego czasu bez zmian.

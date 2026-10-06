@@ -96,6 +96,8 @@ function initForm(form: HTMLFormElement) {
       });
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error(result.message);
+      // Google Analytics (jeśli włączone i jest zgoda): zapytanie wysłane naprawdę, nie w trybie demo
+      (window as { kwTrack?: (name: string, params?: object) => void }).kwTrack?.('generate_lead', { form_id: form.id });
       done();
     } catch (error) {
       console.error('Wysyłka formularza nie powiodła się:', error);
