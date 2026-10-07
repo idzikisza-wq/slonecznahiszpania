@@ -1,0 +1,30 @@
+---
+// Na miejscu w Hiszpanii (#na-miejscu, prośba Idziego 7.10.2026): rezydenci i lokalni agenci,
+// Sylwia Antczak Baranowska i Gilberto Tejada. 6+6: etykieta, nagłówek, akapit; obok zdjęcie
+// w naturalnych proporcjach (dziś robocze, poglądowe). Na telefonie tekst, potem zdjęcie.
+// Bez ich telefonów i e-maili: na stronie jest jeden numer.
+import SectionHead from './ui/SectionHead.astro';
+import Photo from './ui/Photo.astro';
+import { site } from '../content/site';
+import { typoText } from '../content/typo';
+
+const { team } = site;
+const photoNote = team.photoNote ? typoText(team.photoNote) : '';
+---
+
+<section class="section" id="na-miejscu">
+  <div class="container">
+    <div class="grid">
+      <div class="col-6">
+        <SectionHead label={team.label} title={team.title} text={team.text} />
+      </div>
+      <figure class="col-6">
+        <Photo
+          image={team.image}
+          sizes="(min-width: 1200px) 548px, (min-width: 768px) calc(50vw - 52px), calc(100vw - 40px)"
+        />
+        {photoNote && <figcaption class="small">{photoNote}</figcaption>}
+      </figure>
+    </div>
+  </div>
+</section>

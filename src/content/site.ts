@@ -105,6 +105,15 @@ const IMAGES = {
     alt: 'Piotr i Ania na deptaku w centrum Málagi',
     placeholder: 'Zdjęcie 4:3',
   },
+  // Na miejscu w Hiszpanii: zdjęcie robocze (białe miasteczko z telefonu Idziego), poglądowe.
+  // Docelowo zdjęcie Idziego z Sylwią i Gilbertem: wtedy alt „Idzi Kisza, Sylwia Antczak Baranowska
+  // i Gilberto Tejada” (w kolejności ze zdjęcia), ratio z pliku, a w team.photoNote pusty tekst.
+  team: {
+    name: 'zespol-hiszpania',
+    ratio: [3, 2],
+    alt: 'Białe miasteczko na zboczu gór w Andaluzji',
+    placeholder: 'Zdjęcie 3:2',
+  },
   guideCover: {
     name: 'poradnik-cover',
     ratio: [1354, 1920],
@@ -471,6 +480,17 @@ const raw = {
       ['Wyszukanie i selekcja ofert', 'Weryfikacja dokumentów i obciążeń', 'Koordynacja prawnika i notariusza'],
       ['NIE, rachunek i pełnomocnictwa', 'Wsparcie w finansowaniu', 'Odbiór i opieka po zakupie'],
     ],
+  },
+
+  // Na miejscu w Hiszpanii (prośba Idziego 7.10.2026): rezydenci i lokalni agenci. Bez ich telefonów
+  // i e-maili: na stronie jest jeden numer. TODO: tekst do akceptacji Idziego; zdjęcie robocze.
+  team: {
+    label: 'Na miejscu w Hiszpanii',
+    title: 'Nasi rezydenci i lokalni agenci',
+    text: 'Sylwia Antczak Baranowska i Gilberto Tejada mieszkają w Hiszpanii i pracują z nami na miejscu, także wtedy, gdy Ty jesteś w Polsce.',
+    image: IMAGES.team,
+    // Podpis zdjęcia roboczego; po podmianie na prawdziwe zdjęcie we trójkę pusty tekst (bez podpisu)
+    photoNote: PHOTO_NOTE,
   },
 
   reviews: {
