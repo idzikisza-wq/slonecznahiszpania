@@ -39,7 +39,7 @@ public/
   brand/               logo: lockup z napisem NIERUCHOMOŚCI w nagłówku, sam znak w stopce i jako favicon
   fonts/               Mulish 400, 600, 700 (woff2) i licencja OFL
   img/                 warianty zdjęć (generowane, nie edytować ręcznie)
-  poradnik.pdf         PDF poradnika (teraz placeholder)
+  poradnik.pdf         PDF poradnika z live (24 strony, 6,9 MB)
   sitemap.xml          mapa strony (dwie strony), robots.txt wskazuje na nią
   _headers             nagłówki Cloudflare Pages: cache, bezpieczeństwo, noindex dla PDF
 zdjecia/               pliki źródłowe zdjęć
@@ -97,7 +97,9 @@ Ocena Google pokazuje się tylko wtedy, gdy wszystkie pięć pól `GOOGLE_*` jes
 
 ## Podmiana PDF poradnika
 
-Zastąp `public/poradnik.pdf` docelowym plikiem pod tą samą nazwą i zrób commit. Link po zapisie do poradnika nie wymaga zmian. Wyszukiwarki nie indeksują pliku (nagłówek `X-Robots-Tag: noindex` w `public/_headers`), a `npm run pdf:placeholder` go nie nadpisze. Bez JS formularz poradnika po wysłaniu przekierowuje wprost do PDF (pole `redirect` Web3Forms, tylko gdy jest klucz).
+Zastąp `public/poradnik.pdf` nowym plikiem pod tą samą nazwą i zrób commit. Link po zapisie do poradnika nie wymaga zmian. Wyszukiwarki nie indeksują pliku (nagłówek `X-Robots-Tag: noindex` w `public/_headers`), a `npm run pdf:placeholder` go nie nadpisze. Bez JS formularz poradnika po wysłaniu przekierowuje wprost do PDF (pole `redirect` Web3Forms, tylko gdy jest klucz).
+
+Plik musi mieć mniej niż 25 MiB, bo większego Cloudflare Pages nie przyjmie. Poradnik z live (Canva) miał 30,9 MB, bo zdjęcia były zapisane bezstratnie. Na stronie jest ta sama treść ze zdjęciami przepakowanymi do JPEG (jakość 85): 6,9 MB, wygląd bez widocznej różnicy, a tekst, linki, zakładki i tagi dostępności bez zmian. Nowy, zbyt duży plik trzeba zmniejszyć tak samo.
 
 ## Polityka prywatności
 
@@ -148,7 +150,7 @@ Wykonuje Idzi, po akceptacji podglądu.
 
 1. Sprawdzić, gdzie trafiają dziś zapytania z formularzy na stronie w Lovable, i wyeksportować dotychczasowe leady.
 2. Podpiąć klucz Web3Forms, wysłać testowe zgłoszenie z obu formularzy, potwierdzić odbiór na biuro@kwadrat.io.
-3. Wgrać docelowe zdjęcia i PDF poradnika, potwierdzić z prawnikiem treść polityki prywatności.
+3. Wgrać docelowe zdjęcia (PDF poradnika już jest), potwierdzić z prawnikiem treść polityki prywatności.
 4. Domena, najprościej z DNS w Cloudflare:
    - w panelu Cloudflare dodać domenę (Add a domain, plan Free) i u rejestratora zmienić serwery nazw na te, które poda Cloudflare;
    - w projekcie Pages, w zakładce Custom domains, dodać `www.slonecznahiszpania.pl` i `slonecznahiszpania.pl`;

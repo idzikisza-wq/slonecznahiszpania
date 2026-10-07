@@ -132,7 +132,7 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 - Hero: `hero-costa-del-sol.jpg` i `hero-costa-blanca.jpg` (1200 × 912, od dewelopera, poglądowe), alty „Taras apartamentu z widokiem na wybrzeże Costa del Sol” i „Taras apartamentu z widokiem na Alicante i Costa Blanca”.
 - Oferty: `oferta-malaga.jpg`, `oferta-mijas.jpg`, `oferta-marbella.jpg` (1008 × 752, wizualizacje dewelopera, Idzi podmieni). Poradnik: `poradnik-cover.webp` (1354 × 1920, powstał poza systemem, do wymiany). Kontakt: `kontakt.jpg` (Piotr i Ania, 720 × 960, kadr 4:3 z dołu, `focus` 0,86; do podmiany na oryginał z telefonu). Poza `kontakt.jpg` bez kadrowania.
 - Na miejscu w Hiszpanii: `zespol-hiszpania.jpg`, selfie Idziego z Sylwią i Gilbertem (1500 × 2000, robocze, Idzi może podmienić): `ratio: null`, bez kadru i podpisu (pusty `team.photoNote`), alt z imionami od lewej.
-- PDF poradnika: `public/poradnik.pdf` (dziś placeholder z `npm run pdf:placeholder`), w `public/_headers` `X-Robots-Tag: noindex`.
+- PDF poradnika: `public/poradnik.pdf`, poradnik z live (Canva, 24 strony, marka Słoneczna Hiszpania) ze zdjęciami przepakowanymi do JPEG: 6,9 MB zamiast 30,9 MB, bo Cloudflare Pages przyjmuje pliki do 25 MiB. Treści PDF nie zmieniamy. W `public/_headers` `X-Robots-Tag: noindex`.
 
 ## Formularze
 
@@ -184,4 +184,4 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 - 4.10.2026: system Kwadrat v2 z warstwą www; polityka prywatności na bazie kwadrat.io/rodo; biuro@kwadrat.io w stopce.
 - 5.10.2026: zdjęcie Piotra i Ani w Kontakcie. Zgodność z live (11 punktów): meta jak na live, pisownia Málaga, marka Kwadrat Nieruchomości, lockup z etykietą w nagłówku, dwa zdjęcia w hero i przycisk „Porównajmy Twój wybór”, sześć punktów Obsługi 360° w dwóch listach, bez noty o wierszu-kotwicy, REGON i sąd w stopce, jeden telefon bez bloku agenta, linki „Porozmawiajmy” w celach, brakujące zdjęcia dublowane na podglądzie. Piktogram telefonu zamiast słowa „Zadzwoń”, bez numeru w nagłówku. Etykieta „Hiszpania · Costa del Sol · Costa Blanca” obok lockupu, nie pod nim.
 - 6.10.2026: „(opcjonalnie)” przy polach Rozważany region i Wiadomość; link „Zobacz wszystkie” wprost do wizytówki (link „Oddział Otwock” ze stopki kwadrat.io); Google Analytics 4 po zgodzie. Rozwiązań z 5.10.2026 przedstawionych do akceptacji Idzi nie przyjął, wrócimy do nich; do tego czasu bez zmian.
-- 7.10.2026: sekcja „Na miejscu w Hiszpanii” między Obsługą 360° a Opiniami: Sylwia Antczak Baranowska i Gilberto Tejada, nasi rezydenci i lokalni agenci; zdjęcie robocze: selfie Idziego z nimi.
+- 7.10.2026: sekcja „Na miejscu w Hiszpanii” między Obsługą 360° a Opiniami: Sylwia Antczak Baranowska i Gilberto Tejada, nasi rezydenci i lokalni agenci; zdjęcie robocze: selfie Idziego z nimi. Poradnik PDF z live zamiast placeholdera.
