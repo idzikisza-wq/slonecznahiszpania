@@ -183,8 +183,10 @@ const raw = {
     // H1 w dwóch grubościach (web-display): początek 400, puenta z obietnicą 700. Słowa bez zmian.
     title: { start: 'Dwa wybrzeża.', end: 'Dwie dobre odpowiedzi.' },
     lead: 'Nie sprzedajemy jednego regionu za wszelką cenę. Porównujemy Costa del Sol, Costa Blanca i inne części Hiszpanii, żeby znaleźć miejsce właściwe dla Twojego celu.',
-    ctaPrimary: { label: 'Porównajmy Twój wybór', href: '#kontakt' },
-    ctaSecondary: { label: 'Pobierz poradnik', href: '#poradnik' },
+    // Decyzja Idziego 8.10.2026: pobieranie poradnika na samą górę. Przycisk główny prowadzi
+    // do formularza poradnika, konsultacja zostaje obok jako link drugi. Kolejność sekcji bez zmian.
+    ctaPrimary: { label: 'Pobierz poradnik', href: '#poradnik' },
+    ctaSecondary: { label: 'Porównajmy Twój wybór', href: '#kontakt' },
     note: 'Bez rankingu na siłę. Najlepszy region zależy od celu, budżetu i sposobu użytkowania.',
     directions: [
       {
