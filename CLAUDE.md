@@ -1,212 +1,189 @@
-# slonecznahiszpania.pl: przebudowa w systemie Kwadrat
+# slonecznahiszpania.pl w systemie Kwadrat
 
-Ten plik czyta Claude Code na starcie każdej sesji. To jedyne źródło prawdy o projekcie. Jeśli zadanie jest sprzeczne z tym plikiem, zapytaj w PR, nie zgaduj.
+Jedyne źródło prawdy o projekcie, czytane na starcie każdej sesji. Gdy zadanie jest sprzeczne z tym plikiem, zapytaj w PR, nie zgaduj.
 
-## Cel
+## Projekt
 
-Odtworzyć stronę https://www.slonecznahiszpania.pl (landing Kwadrat Nieruchomości pod zakup nieruchomości w Andaluzji) jako statyczną, szybką stronę w systemie wizualnym Kwadrat Documents. Treść i kolejność sekcji zostają jak w oryginale. Zmienia się forma: typografia, kolor, siatka, rytm.
-
-Właściciel: Idzi Kisza. Język strony: polski (`lang="pl"`).
-
-Obecna strona stoi na Lovable i zostaje nietknięta. To repo jest osobne. Nie łącz go z Lovable, nie kopiuj kodu z repo Lovable. Domenę przepina Idzi dopiero po akceptacji podglądu.
-
-## Zasada nadrzędna
-
-Czytelność ponad efektowność. Odwiedzający w trzy sekundy wie: co to jest, dla kogo, co ma zrobić dalej. Jeśli element tego nie wspiera, wylatuje.
+- Cel: statyczna, szybka wersja https://www.slonecznahiszpania.pl (landing Kwadrat Nieruchomości: Costa del Sol, Costa Blanca i inne regiony Hiszpanii). Treść i kolejność sekcji jak na live, forma (typografia, kolor, siatka, rytm) z systemu Kwadrat.
+- Właściciel: Idzi Kisza. Język strony: polski (`lang="pl"`).
+- Hierarchia źródeł: decyzje Idziego zapisane w tym pliku, potem system Kwadrat v2 z warstwą www (artefakt „Kwadrat Documents”, https://claude.ai/artifact/P7idjpFLkGF93rq3bqeGQj: `project/WEB.md`, `tokens.json`, `components/bundle.css`, komponenty Web*; klasy `kw-*` wolno kopiować 1:1), potem `08_DOKUMENTY_KWADRAT.md` (system pod A4).
+- Strona na Lovable zostaje nietknięta: nie łącz z nią repo, nie kopiuj jej kodu. Domenę przepina Idzi po akceptacji podglądu.
+- Zasada nadrzędna: czytelność ponad efektowność. W trzy sekundy widać, co to jest, od kogo i co zrobić dalej; element, który tego nie wspiera, wylatuje.
 
 ## Stack
 
-- Astro (najnowsza stabilna), bez frameworka UI, bez Tailwinda. Czysty CSS z custom properties.
-- Zero zależności poza Astro i fontem z Google Fonts. Żadnych bibliotek ikon, animacji, sliderów.
-- Build statyczny do `dist/`. Hosting: Cloudflare Pages, podgląd na adresie `*.pages.dev`.
-- Struktura: `src/pages/index.astro`, sekcje w `src/components/`, całe copy w `src/content/site.ts` (poprawka tekstu nie wymaga grzebania w markupie), style w `src/styles/tokens.css`, `src/styles/base.css`, `src/styles/markers.css`.
-- Logo jest już w repo: `public/brand/kwadrat-logo-lockup.svg` (znak z napisem NIERUCHOMOŚCI) i `public/brand/kwadrat-logo.svg` (sam kwadrat). Nie rysuj logo od nowa, nie przekoloruj, nie przeskaluj nieproporcjonalnie. Usuń z plików blok `<metadata>` (c2pa) przy optymalizacji, ścieżek nie ruszaj.
-- Zdjęcia w `public/img/`: WebP plus JPG przez `<picture>`, szerokości 1600 i 800 px, `width` i `height` zawsze ustawione, `loading="lazy"` poza hero.
+- Astro (najnowsza stabilna), czysty CSS z custom properties, bez frameworka UI i Tailwinda. Jedyna zależność w `package.json`: `astro`.
+- Mulish 400, 600, 700 lokalnie w `public/fonts/` (licencja w `OFL.txt`), `@font-face` z `font-display: swap` w `tokens.css`, preload w `Base.astro`. Strona nie ładuje niczego z zewnątrz, poza Google Analytics po zgodzie (sekcja Analityka).
+- Build statyczny do `dist/`, hosting Cloudflare Pages (podgląd `*.pages.dev`). `vite.build.cssTarget` w `astro.config.mjs` trzyma `max-width:` w media queries dla Safari do 16.3: nie usuwaj.
+- Pliki: strony w `src/pages/`, sekcje w `src/components/`, całe copy i dane w `src/content/site.ts` (twarde spacje dokłada `typo.ts`), style w `src/styles/tokens.css`, `base.css`, `markers.css`.
+- Logo: `public/brand/kwadrat-logo-lockup.svg` (znak z napisem NIERUCHOMOŚCI) w nagłówku, `kwadrat-logo.svg` w stopce i jako favicon, zawsze na białym. Nie rysuj od nowa, nie przekoloruj, skaluj tylko proporcjonalnie; przy optymalizacji usuń blok `<metadata>`, ścieżek nie ruszaj.
 
 ## Tokeny
 
-Przenieś 1:1 do `src/styles/tokens.css`. To jedyne miejsce w repo, gdzie wolno zapisać kolor jako hex.
+Wartości są w `src/styles/tokens.css`: jedyne miejsce na kolor w hex i nazwę kroju. Innych kolorów (granat, turkus, `#e72f2f`) nie ma nigdzie.
 
-```css
-:root {
-  --kwadrat-red: #e30613; /* logo, kwadraciki, jedna liczba. Nigdy tło, nigdy dłuższy tekst */
-  --red-tint:    #fdedee; /* tło wiersza-kotwicy w tabeli; na tej stronie nieużywany */
-  --ink:         #1a1a1a; /* tytuły, nagłówki, duże liczby, pogrubienia, linia mocna */
-  --text:        #333333; /* tekst podstawowy, listy, tabele */
-  --muted:       #6f6f6f; /* etykiety, podpisy, uwagi, stopka */
-  --line:        #d9d9d9; /* linie podziału, stopka, krawędź callouta, kwadracik minusów */
-  --line-soft:   #ececec; /* linie między wierszami tabel i FAQ */
-  --surface:     #f5f5f5; /* jedyne szare tło: placeholder zdjęcia, pola formularza */
-  --paper:       #ffffff; /* tło strony */
+| Token | Wartość | Użycie |
+| --- | --- | --- |
+| `--kwadrat-red` | #E30613 | tylko: logo, kwadracik przed h2, kwadraciki list atutów, jedna liczba na ekranie (reguła 2); wyjątek: tło przycisku na okładce poradnika (9.10.2026) |
+| `--red-tint` | #fdedee | tylko wiersz-kotwica tabeli porównania |
+| `--ink` | #1a1a1a | nagłówki, liczby, linki, przycisk główny, linie mocne |
+| `--text` | #333333 | tekst, lead, listy, tabele, hover przycisku |
+| `--muted` | #6f6f6f | etykiety, podpisy, odpowiedzi FAQ, stopka (5,0:1, nie rozjaśniać) |
+| `--line` / `--line-soft` | #d9d9d9 / #ececec | linie lekkie / linie między wierszami tabel |
+| `--surface` / `--paper` | #f5f5f5 / #ffffff | tylko pole zamiast zdjęcia / jedyne tło strony |
 
-  --font-sans: "Mulish", "Helvetica Neue", Arial, sans-serif;
+Rytm: `--container` 1200px (z marginesem), `--side` 40px (20px poniżej 768px), `--gutter` 24px, `--measure` 720px, `--section` 96px (64px), `--block` 40px (32px), `--space-xs/s/m` 8/16/24px, `--rule` 1px, `--marker-section` 12px, `--marker-list` 8px.
 
-  --rule: 1px;            /* każda linia na ekranie */
-  --marker-section: 10px; /* czerwony kwadracik przed h2 */
-  --marker-list: 7px;     /* kwadracik w listach */
+## Sześć reguł systemu
 
-  --space-xs: 8px;
-  --space-s: 16px;
-  --space-m: 32px;
-  --space-l: 48px;
-  --space-xl: 80px;
-  --section: 120px;       /* odstęp między sekcjami; 72px poniżej 760px */
+1. Dużo bieli: na ekran najwyżej cztery bloki (rząd kafelków, lista, zdjęcie, formularz, tabela); podsekcja z własnym h3 to osobna sekcja. Gdy się nie mieści, tnij albo dziel, nie zmniejszaj fontu ani odstępów.
+2. Jeden akcent: czerwień tylko w czterech miejscach z tabeli tokenów. Jedyna czerwona liczba to ocena Google 4,9 (pasek KPI w hero i Opinie), nigdy dwie na jednym ekranie. Nigdy tło (jedyny wyjątek: przycisk na okładce poradnika, decyzja Idziego 9.10.2026), tekst, link, hover, błąd ani otwarte FAQ.
+3. Linie zamiast ramek: mocna 1px ink (nad kafelkiem, krokiem, kierunkiem, stopką, pod nagłówkiem tabeli), lekka 1px `--line` (między sekcjami, pod nagłówkiem strony, w FAQ, pod polami, callout), włosowa 1px `--line-soft` (wiersze tabel). Zero ramek wokół bloków, cieni, zaokrągleń, gradientów i ikon; jedyny wyjątek to piktogram telefonu w nagłówku.
+4. Najpierw wynik: h1, lead i przycisk główny bez przewijania w 1440 × 900 i 390 × 844.
+5. Zdjęcia duże, w naturalnych proporcjach (3:2, 4:3): bez kadrowania do kwadratu, ramek, tekstu, nakładek, gradientów i kart na zdjęciu, logo nigdy na zdjęciu. Poglądowe mają podpis „Zdjęcie poglądowe”. Brak zdjęcia: pole `--surface` z `small` „Zdjęcie 3:2”, a na podglądzie kopia zdjęcia, które już jest w repo. Nigdy obrazek z internetu ani z cudzego hostingu.
+6. Jedna rodzina fontów: hierarchia rozmiarem i grubością, nie kolorem. Wersaliki tylko w stylu `label`.
 
-  --container: 1200px;
-  --side: 76px;           /* margines boczny; 24px poniżej 760px */
-  --gutter: 24px;
-  --measure: 68ch;        /* maksymalna szerokość akapitu */
-}
-```
+## Typografia (www)
 
-Font: Mulish 400, 600, 700 z Google Fonts (z podzbiorem latin-ext, bo copy ma polskie i hiszpańskie znaki: ą, ś, á, é), `display=swap`, preconnect do fonts.gstatic.com. Żadnej innej wagi, żadnej kursywy, żadnego innego kroju.
-
-## Sześć reguł systemu (z Kwadrat Documents, przeniesione na web)
-
-1. Dużo bieli. Około 88% powierzchni to `--paper`. Sekcja ma najwyżej cztery bloki treści (blok: rząd kafelków, lista, zdjęcie, formularz, tabela). Podsekcja z własnym h3 liczy się jako osobna sekcja. Jak coś się nie mieści: tnij albo dziel, nie zmniejszaj fontu ani odstępów.
-2. Jeden akcent. `--kwadrat-red` występuje tylko w: logo, kwadraciku przed każdym h2, kwadracikach list atutów i jednej liczbie na całej stronie (ocena 4,9 w Opiniach). Nigdy jako tło przycisku, sekcji, pola. Nigdy jako kolor tekstu dłuższego niż jedna liczba. Nigdy w hoverze.
-3. Cienkie linie zamiast ramek. Linia mocna: 1px `--ink` nad kafelkiem i pod nagłówkiem tabeli. Linia lekka: 1px `--line` pod nagłówkiem strony, nad stopką, krawędź callouta. Linia włosowa: 1px `--line-soft` między wierszami tabeli i pozycjami FAQ. Zero obramowań wokół bloków, cieni, zaokrągleń, gradientów, ikon.
-4. Najpierw wynik. Hero odpowiada na pytanie odwiedzającego bez przewijania: co, dla kogo, następny krok (CTA).
-5. Zdjęcia duże, w naturalnych proporcjach 3:2 albo 4:3. Bez kadrowania do kwadratu, bez ramek, bez tekstu, nakładek i gradientów na zdjęciu. Logo nigdy na zdjęciu. Brak zdjęcia: pole `--surface` z napisem w `small` „Zdjęcie 3:2", nigdy obrazek z internetu.
-6. Jedna rodzina fontów. Hierarchię buduje rozmiar i grubość, nie kolor. Wersaliki wyłącznie w stylu `label`.
-
-## Rozszerzenie webowe
-
-System jest zaprojektowany pod A4. Poniższe to jedyne dopuszczalne dopowiedzenia pod web. Nie dokładaj własnych.
-
-### Skala typograficzna
-
-| Styl | Waga | Desktop | Mobile (do 760px) | Kolor i uwagi |
+| Styl | Waga | Desktop | Poniżej 768px | Uwagi |
 | --- | --- | --- | --- | --- |
-| h1 (title) | 700 | 44px / 1.15, tracking -0.01em | 32px / 1.2 | ink, jeden na stronie, w hero |
-| h2 (section) | 700 | 28px / 1.25 | 24px / 1.25 | ink, zawsze z czerwonym kwadracikiem `--marker-section` przed tekstem, odstęp 12px, wyrównany do środka pierwszej linii |
-| h3 (subsection) | 700 | 20px / 1.3 | 18px / 1.3 | ink, bez kwadracika |
-| lead | 400 | 20px / 1.5 | 18px / 1.5 | ink, pierwszy akapit pod h1 i pod h2 |
-| body | 400 | 17px / 1.65 | 16px / 1.65 | text, kolumna do `--measure` |
-| small | 400 | 14px / 1.5 | 14px / 1.5 | muted: podpisy, noty, zgody, stopka |
-| label | 600 | 12px / 1.3, wersaliki, tracking 0.08em | 12px | muted: etykieta nad h2 i nad liczbą, nagłówek tabeli, nawigacja (tu w ink) |
-| kpi | 700 | 40px / 1.1, tracking -0.02em | 32px / 1.1 | ink; jedyny wyjątek czerwony: 4,9 |
-| kpi-mid | 700 | 28px / 1.2 | 24px / 1.2 | ink: numery kroków procesu |
-| num2 | 700 | 24px / 1.2 | 21px / 1.2 | ink: ceny ofert, telefon w kontakcie |
+| h1 | 400 i 700 | 48/56, tracking -0.015em | 32/38 | ink, jeden na stronie: początek 400, puenta 700 |
+| h2 | 700 | 32/40 | 26/32 | ink, czerwony kwadracik 12px przed tekstem, odstęp 14px, na linii bazowej |
+| h3 | 700 | 20/28 | 18/26 | ink, bez kwadracika |
+| lead | 400 | 18/30 | 16/27 | text, do 720px, pierwszy akapit pod h1 i h2 |
+| body | 400 | 16/27 | 16/27 | text, do 720px, nigdy mniej niż 16px |
+| pytanie FAQ | 700 | 18/25 | 16/23 | ink |
+| label | 600 | 12/16, wersaliki, tracking 0.08em | bez zmian | muted: nad h2 i liczbą, numer kroku, nagłówek tabeli |
+| small | 400 | 13/20 | bez zmian | muted: podpisy, noty, zgody, stopka |
+| kpi | 700 | 40/44, tracking -0.02em | 32/36 | ink (wyjątek: ocena Google w czerwieni); wartość tekstowa 20px (18px) na linii bazowej liczby |
+| przycisk / menu / etykieta pola | 600 | 16/20 / 15/20 / 13/20 | bez zmian | paper na ink / ink / muted |
 
-Cyfry tabelaryczne wszędzie (`font-variant-numeric: tabular-nums`). Pogrubienie (700, ink) dozwolone w tekście tylko dla kluczowej liczby albo tytułu pozycji listy.
+Cyfry tabelaryczne wszędzie. Pogrubienie w tekście (700, ink) tylko dla kluczowej liczby, tytułu pozycji listy i puenty h1.
 
-### Siatka
+## Siatka
 
-Kontener `--container`, margines `--side`. 12 kolumn, gutter `--gutter`. Dozwolone podziały: 12, 6+6, 4+4+4, 8+4, plus 3+3+3+3 wyłącznie dla rzędu czterech kafelków. Jeden breakpoint: 760px. Poniżej wszystko w jednej kolumnie (rząd czterech kafelków: 2 × 2 do 480px, niżej 1 kolumna). Zdjęcie przy tekście ląduje nad tekstem.
+- 12 kolumn, gutter 24px. Podziały: 12, 6+6, 4+4+4, 8+4, 7+5 oraz rzędy po cztery (pasek KPI, kroki).
+- Progi 768px i 1200px. Telefon: jedna kolumna (pasek KPI w dwóch). Tablet: najwyżej dwie kolumny; 8+4, 7+5 i 4+4+4 w jednej, 6+6 bez zmian, KPI i kroki 2 × 2, w Poradniku opis na całą szerokość, a okładka i formularz 6+6; stopka w trzech kolumnach. Od 1200px pełny układ, menu w jednym rzędzie.
+- Sekcje co `--section`, oddzielone linią 1px `--line`, nigdy kolorowym tłem; bloki co `--block`.
 
-### Komponenty
+## Komponenty
 
-- Etykieta sekcji: `label` nad h2, odstęp `--space-xs`.
-- Kafelek (KpiRow): linia mocna nad, `label`, liczba `kpi`, uwaga `small`, każda część w jednej linii. Rząd kafelków to CSS subgrid, liczby w rzędzie stoją na jednej wysokości. Bez tła, bez ramki.
-- Kafelek tekstowy: jak kafelek, ale zamiast liczby h3 i akapit `body`. Używany w sekcjach z trzema lub czterema argumentami.
-- Lista atutów: czerwony kwadracik `--marker-list`, najwyżej pięć punktów na listę. Lista uwag i ryzyk: kwadracik w `--line`. Kwadracik wyrównany do środka pierwszej linii.
-- Callout: lewa krawędź 1px `--line`, padding-left `--space-s`, bez tła.
-- Tabela danych: dwie kolumny, lewa w `muted` o stałej szerokości, prawa w `text`, linie włosowe między wierszami, bez pionowych linii, bez zebry.
-- CTA główny: prostokąt z tłem `--ink`, tekst `label` w `--paper`, padding 16px 28px, bez zaokrąglenia, bez cienia. Hover: tło `--text`. Focus: outline 2px `--ink` z offsetem 3px. To jedyne ciemne pole na stronie.
-- CTA drugi: tekst `label` w `--ink` z linią 1px `--ink` pod spodem. Hover: kolor `--muted`.
-- Pole formularza: tło `--surface`, brak obramowania, dolna linia 1px `--line`, padding 14px 16px, tekst `body`. Etykieta pola w `label` nad polem. Focus: dolna linia 2px `--ink`. Błąd: komunikat w `small` w `--ink` pod polem, bez koloru czerwonego (czerwień nie sygnalizuje błędów). Checkbox natywny, tekst zgody w `small`.
-- Nagłówek strony: logo lockup po lewej (wysokość 36px desktop, 28px mobile, pole ochronne co najmniej 16px), nawigacja w `label` w ink po prawej, telefon na końcu. Pod nagłówkiem linia lekka. Nie sticky. Na mobile linki chowane pod słowem MENU w `label`, bez ikony.
-- Favicon: `kwadrat-logo.svg`.
+- Etykieta sekcji: `label` nad h2, odstęp 16px.
+- Nagłówek: lockup 148 × 40px, obok niego w jednej linii (odstęp 16px, wyśrodkowany w pionie) `label` „Hiszpania · Costa del Sol · Costa Blanca”, nigdy pod logo; poniżej 768px etykiety nie ma (brak miejsca); menu 15px 600 ink (hover: podkreślenie); na końcu sam piktogram słuchawki 20px w polu 40 × 40px (link `tel:`, `aria-label` „Zadzwoń +48 505 085 001”, hover: linia 1px pod piktogramem). Numer w nagłówku się nie wyświetla. Piktogram: `src/components/ui/PhoneIcon.astro`, własny inline SVG w `currentColor`, ostre krawędzie, `aria-hidden`. Pod paskiem linia 1px `--line`, nie sticky. Poniżej 1200px linki pod tekstowym przyciskiem „Menu”, piktogram obok. Kolejność w HTML to kolejność tabulacji: lockup, piktogram (do 1199px), „Menu”, linki, piktogram (od 1200px; widoczny zawsze jeden). Tab po otwarciu menu wchodzi w linki, Escape zamyka menu i wraca na przycisk, bez JS menu stoi otwarte. Lockup zmniejsza się proporcjonalnie dopiero poniżej 320px.
+- Hero (WebHero): `label`, h1, lead, jeden przycisk główny i jeden link drugi, `small`. Pod spodem dwa kierunki 6+6 (na telefonie jeden pod drugim), na końcu pasek KPI. Zdjęcia zawsze pod przyciskami.
+- Kierunek: zdjęcie z `small` „Zdjęcie poglądowe” (`PHOTO_NOTE`), linia 1px ink, `label` KIERUNEK 01, tytuł w stylu h3 (h2 bez kwadracika), akapit, link drugi na dole kolumny (linki obu kierunków na jednej linii).
+- Pasek KPI (WebStats): 3 do 4 kafelków w subgridzie (wartości na jednej wysokości): linia ink nad, `label`, wartość, `small`. Kafelek 1 to ocena Google z `GOOGLE_RATING`, `GOOGLE_REVIEWS`, `GOOGLE_PROFILE_NAME`, `GOOGLE_READ_DATE` i `GOOGLE_REVIEWS_URL`; gdy któreś pole jest puste, nie renderuje się ani on, ani kafelek oceny w Opiniach (link zmieniaj, nie usuwaj). Wartości wpisuje Idzi, nigdy Claude. Pozostałe kafelki: wartości tekstowe tylko z usług i regionów opisanych na stronie, bez nowych obietnic i liczby oddziałów. Tablet i telefon: dwie kolumny.
+- Kafelek tekstowy: linia ink nad, `label`, h3, akapit, opcjonalnie link drugi na dole.
+- Kroki (WebSteps): rząd po cztery (przy innej liczbie 3+3), linia ink nad, `label` „Krok 01”, h3, jedno do dwóch zdań; zdjęcia 4:3 przy wszystkich krokach albo przy żadnym (dziś przy żadnym); bez strzałek.
+- Listy: atuty z czerwonym kwadracikiem 8px, najwyżej pięć punktów na listę; uwagi i ryzyka z kwadracikiem w `--line`; kwadracik na środku pierwszej linii.
+- Callout: lewa krawędź 1px `--line`, padding-left 16px, bez tła.
+- Tabela danych: dwie kolumny, lewa `muted` o stałej szerokości, prawa `text`, linie włosowe, bez pionowych linii i zebry.
+- Tabela porównania: kryterium w `label`, dwie kolumny regionów, nagłówek w `label` z linią mocną, wiersze z linią włosową; wiersz-kotwica na `--red-tint`, pogrubiony, w ink; pod tabelą nota `small` o gminach, bez zdania o wierszu-kotwicy. Na telefonie wiersz to blok z etykietami regionów.
+- Przycisk główny (kw-btn): tło ink, tekst paper 600 16px, padding 16px 28px, co najmniej 52px wysokości, rogi 0, bez cienia, hover tło `--text`. Jeden na sekcję (wyjątek: przycisk na okładce poradnika), jedyne ciemne pole na stronie.
+- Link drugi (kw-link): ink 600, podkreślenie 1px z odsunięciem 4px, hover 2px.
+- Fokus: obrys 2px ink z odsunięciem 3px na każdym elemencie klikanym.
+- Formularz: pola Mulish 16px na bieli, dolna linia 1px `--line`, padding 12px 0, etykieta 13px 600 muted nad polem. Błąd: `small` w ink z kwadracikiem `--line`, bez czerwieni. Dwa krótkie pola w rzędzie (na telefonie pod sobą). Lista wyboru bez natywnego wyglądu, 52px, po prawej znak „›” obrócony w dół. Zgoda w `small` pod przyciskiem, bez checkboxa, przez `aria-describedby`. W trakcie wysyłki `aria-disabled` (nie `disabled`), limit 15 s.
+- FAQ (WebFaq): natywne `<details>`, pierwsze otwarte; linia `--line` nad pierwszym i pod każdym; pytanie 18px 700 ink, padding 24px 52px 24px 0; plus z dwóch kresek 16 × 2px w ink zamiast znaku „+”, pionowa obraca się do 0 (0,2 s, bez animacji przy `prefers-reduced-motion`); odpowiedź 16/27 muted do 720px; bez zmiany koloru na hover i po otwarciu.
+- Stopka (WebFooter): linia ink nad, tekst 13/20 muted, nagłówki 700 ink, kolumny 4+4+4 (na telefonie jedna). Kolumna 1: logo 40px, „Kwadrat Nieruchomości”, hasło „Hiszpania · Costa del Sol · Costa Blanca”, Facebook · YouTube · TikTok jako linki tekstowe. Kolumna 2: „Kontakt”: tel. +48 505 085 001, biuro@kwadrat.io, www.kwadrat.io (linki z celem dotyku 24px). Kolumna 3: dane spółki. Pasek dolny za linią `--line`: zastrzeżenie, „Polityka prywatności” i, z Google Analytics, przycisk „Ustawienia cookies”. Kod pocztowy z miastem, NIP, REGON i KRS nie łamią się w środku.
 
-### Dostępność
+## Dostępność
 
-Kontrast `ink`, `text` i `muted` na `paper` spełnia AA dla podanych rozmiarów. Focus widoczny na każdym elemencie interaktywnym. Wszystkie zdjęcia z sensownym `alt`. Jeden h1, poprawna hierarchia h2 i h3. Kolejność tabulacji zgodna z kolejnością wizualną.
+Kontrast na paper: ink 17,4:1, text 12,6:1, muted 5,0:1, kwadrat-red 4,9:1 (tylko liczba 40px); każdy tekst co najmniej 4,5:1. Fokus widoczny, sensowne alty, jeden h1, poprawna hierarchia h2 i h3, tabulacja zgodna z kolejnością wizualną, cele dotyku co najmniej 24px, font bez przesunięć układu (CLS 0).
 
-## Marka
+## Marka i dane
 
-- Logo: lockup KWADRAT NIERUCHOMOŚCI w nagłówku (strona to materiał poza dokumentami A4, więc lockup jest właściwą wersją). W stopce brak logo.
-- Nazwa w treści: Kwadrat Nieruchomości, jak na obecnej stronie. Dane spółki w stopce i w sekcji Bezpieczeństwo: GRUPA INWESTYCYJNA KWADRAT Sp. z o.o. Oddział Żoliborz nie występuje nigdzie.
-- Telefon i e-mail: jak na obecnej stronie (+48 505 085 001, biuro@kwadrat.io). DO POTWIERDZENIA przez Idziego, trzymaj w jednej stałej w `site.ts`.
+- W treści, meta, og:site_name i schema.org `name`: „Kwadrat Nieruchomości”, bez odmiany. „Grupa Inwestycyjna Kwadrat Sp. z o.o.” tylko w danych spółki: stopka, administrator w polityce prywatności, schema.org `legalName`. Bez oddziału Żoliborz, „Kwadrat Żoliborz” i liczby oddziałów.
+- Jedyny telefon na stronie: +48 505 085 001 (`CONTACT_PHONE`): piktogram w nagłówku, Konsultacja, stopka, schema.org. Formularze i stopka: biuro@kwadrat.io. Bez bloku agenta i drugiego numeru.
+- Dane spółki (`COMPANY`): Grupa Inwestycyjna Kwadrat Sp. z o.o., ul. Samorządowa 9/1, 05-400 Otwock, NIP 5322092950, REGON 388901030, KRS 0000896911, Sąd Rejonowy dla m.st. Warszawy w Warszawie, XIV Wydział Gospodarczy KRS, kapitał zakładowy 50 000 zł, www.kwadrat.io.
+- Social (`SOCIAL`): Facebook, YouTube, TikTok, tylko linki tekstowe.
 
-## Treść: inwentarz sekcji (kolejność bez zmian)
+## Sekcje (kolejność bez zmian, kotwice w nawiasach)
 
-Całe copy jest już w `docs/copy.md`, przeniesione z obecnej strony i oczyszczone z myślników. Przenieś je 1:1 do `src/content/site.ts`. Nie pobieraj HTML obecnej strony. Poniżej układ każdej sekcji, kotwice w nawiasach.
+Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, nie źródło: nie wracają z niej rząd PL / 360° / 1 plan, „Bez ukrytych kosztów”, stare sekcje o Costa Blanca, lista ryzyk z migracją ani tabela z Lagos. Nie odtwarzaj tekstów z pamięci; live to aplikacja JS, więc czytaj wersję wyrenderowaną przeglądarką.
 
-1. Nagłówek. Logo, obok niego (tylko desktop) `label` HISZPANIA · ANDALUZJA · MÁLAGA, nawigacja: Oferty, Lokalizacje, Dlaczego Hiszpania, Dlaczego Andaluzja, Proces zakupu, Bezpieczeństwo, Poradnik, Opinie, FAQ. Telefon.
-2. Hero (#start). `label` POLSKA OBSŁUGA NA MIEJSCU, h1 z oryginału, `lead` z oryginału, CTA główny UMÓW BEZPŁATNĄ KONSULTACJĘ (#kontakt), CTA drugi JAK WYGLĄDA ZAKUP (#proces). Pod spodem rząd trzech kafelków bez etykiet: liczba `kpi` (PL, 360°, 1 plan), uwaga `small` (obsługa po polsku, wsparcia przy zakupie, od rozmowy do kluczy). Nie dopisuj etykiet, oryginał ich nie ma. Pod kafelkami zdjęcie hero 3:2 na szerokość kontenera, pod nim podpis `small`: „Twój adres na południu. Málaga · Costa del Sol · Andaluzja".
-3. Poradnik (#poradnik). Układ 6+6. Lewa: `label` BEZPŁATNY PORADNIK, h2, akapit, lista atutów z czterema punktami, `small` „PDF · dostęp natychmiast po zapisie". Prawa: okładka poradnika w naturalnych proporcjach, pod nią formularz Imię, Nazwisko, E-mail, CTA główny POBIERZ BEZPŁATNY PORADNIK, zgoda.
-4. Po co kupujesz. `label` DOPASOWANA ŚCIEŻKA, h2, `lead`. Trzy kafelki tekstowe 4+4+4: `label` 01, 02, 03, h3, akapit, CTA drugi POROZMAWIAJMY (#kontakt).
-5. Dlaczego Hiszpania (#dlaczego-hiszpania). `label` PERSPEKTYWA POLSKIEGO INWESTORA, h2, `lead`, trzy kafelki tekstowe 4+4+4. Podsekcja: `label` GEOPOLITYKA I RYZYKA, h3, akapit, lista uwag (szare kwadraciki) z czterema ryzykami: tytuł pogrubiony w ink, po nim opis w `body`.
-6. Dlaczego Andaluzja (#dlaczego-andaluzja). `label` WYBÓR REGIONU, h2, `lead`, cztery kafelki tekstowe w układzie 6+6 (dwa rzędy). Podsekcja: `label` ANDALUZJA VS. COSTA BLANCA, h3, akapit, cztery porównania jako kafelki tekstowe 6+6.
-7. Lokalizacje (#lokalizacje). `label` LOKALNA SPECJALIZACJA, h2, `lead`. Nad tabelą `label` ANDALUZJA. Tabela danych z pięcioma wierszami: miasto (lewa kolumna, pogrubione, ink) i zdanie z oryginału (prawa). Bez zdjęć.
-8. Proces (#proces). `label` JASNY PROCES, h2, `lead`. Rząd czterech kafelków 3+3+3+3: numer w `kpi-mid` (1, 2, 3, 4), h3, zdanie.
-9. Oferty (#oferty). `label` PRZYKŁADOWE KIERUNKI, h2, `small` o orientacyjności cen. Trzy oferty 4+4+4: zdjęcie 4:3, `label` lokalizacja, h3 tytuł, `small` parametry (2 sypialnie · 78 m² · widok na miasto), cena `num2`. Bez ramek, bez przycisków przy ofertach.
-10. Obsługa 360°. `label` OBSŁUGA 360°, h2. Sześć punktów jako dwie listy atutów po trzy w układzie 6+6 (limit pięciu na listę).
-11. Bezpieczeństwo (#bezpieczenstwo). `label` BEZPIECZEŃSTWO FORMALNE, h2, akapit. Tabela danych: Spółka, NIP, KRS z wartościami z oryginału.
-12. Opinie (#opinie). `label` OPINIE KLIENTÓW, h2, akapit. Jeden kafelek: `label` OCENA GOOGLE, liczba 4,9 w `--kwadrat-red` (jedyna czerwona liczba na stronie) z dopiskiem „/ 5" w num2 ink, uwaga `small` z liczbą opinii. Dwie opinie jako bloki callout: cytat w `body` w cudzysłowach „ ", pod nim autor i czas w `small`. CTA drugi ZOBACZ WSZYSTKIE OPINIE (link z oryginału). Chmurę tagów usuń. Bez gwiazdek, bez logo Google.
-13. FAQ (#faq). `label` NAJCZĘSTSZE PYTANIA, h2. Cztery pytania jako natywne `<details>`: `<summary>` w stylu h3, odpowiedź w `body`, linia włosowa między pozycjami, bez ikon plus i minus.
-14. Kontakt (#kontakt). Układ 6+6. Lewa: `label` BEZPŁATNA KONSULTACJA, h2, akapit, `label` ZADZWOŃ DO NAS, telefon w `num2` jako link `tel:`, CTA drugi POZNAJ KWADRAT NIERUCHOMOŚCI (kwadrat.io). Prawa: formularz Imię i nazwisko, E-mail, Co Cię interesuje (select z trzema opcjami z oryginału), Wiadomość, CTA główny WYŚLIJ ZAPYTANIE, zgoda.
-15. Stopka. Linia lekka nad. W `small`: pełne dane rejestrowe spółki z oryginału, www.kwadrat.io, biuro@kwadrat.io, link Polityka prywatności.
+1. Nagłówek: lockup, etykieta, menu (Porównanie, Regiony, Proces, Oferty, Poradnik, Opinie, FAQ; Oferty znika przy `SHOW_OFFERS = false`), piktogram telefonu.
+2. Hero (#start): `label` PRZEWODNIK PO HISZPAŃSKIM RYNKU, h1 „Dwa wybrzeża.” (400) / „Dwie dobre odpowiedzi.” (700), lead, przycisk „Pobierz poradnik” (#poradnik), link „Porównajmy Twój wybór” (#kontakt), `small` „Bez rankingu na siłę. ...”. Kierunki Costa del Sol i Costa Blanca ze zdjęciami tarasów i linkiem „Zobacz mocne strony i kompromisy” (#porownanie). Pasek KPI: Ocena Google, Regiony, Obsługa, Weryfikacja.
+3. Porównanie (#porownanie): `label`, h2, lead, tabela (Charakter, Budżet, Życie poza sezonem, Dostępność, Dla kogo jako kotwica), pod nią nota o różnicach między gminami.
+4. Regiony (#regiony): `label`, h2, lead, sześć kafelków 4+4+4 (`label` 01 do 06, `label` z miejscowościami, h3, akapit).
+5. Poradnik (#poradnik): 4+4+4: opis (`label`, h2, akapit, lista atutów z czterema punktami, `small` „PDF · dostęp po zapisie”), okładka bez ramki i cienia z czerwonym przyciskiem „Pobierz darmowy poradnik” obok napisu „Słoneczna Hiszpania” (prowadzi do formularza, fokus na pierwszym polu, po zapisie na linku do PDF; hover ink), formularz od góry kolumny (Imię i Nazwisko w rzędzie, E-mail, przycisk, zgoda).
+6. Po co kupujesz (#cele): `label`, h2, lead, trzy kafelki 4+4+4 z linkiem „Porozmawiajmy” (#kontakt); bez przycisku głównego pod rzędem.
+7. Dlaczego Hiszpania (#dlaczego-hiszpania): `label`, h2, lead, trzy kafelki, pod nimi callout z h3 „Ryzyka nazywamy wprost” i akapitem.
+8. Od Málagi po Alicante (#lokalizacje): `label`, h2, lead, dwie tabele danych 6+6 (Costa del Sol i Axarquía, Costa Blanca), po cztery miejscowości pogrubione w ink.
+9. Proces (#proces): `label`, h2, lead, cztery kroki „Krok 01” do „Krok 04”.
+10. Przykładowe nieruchomości (#oferty, przełącznik `SHOW_OFFERS`): „Przykłady z Costa del Sol”, trzy oferty 4+4+4: zdjęcie z `small` „Wizualizacja” (`OFFER_PHOTO_NOTE`), `label` lokalizacja, h3, `small` parametry, cena w stylu `kpi`, opcjonalny link `href`.
+11. Obsługa 360° (#bezpieczenstwo): 4+4+4: `label`, h2, akapit, obok dwie listy atutów po trzy punkty (sześć punktów jak na live).
+12. Na miejscu w Hiszpanii (#na-miejscu): 6+6: `label`, h2 „Nasi rezydenci i lokalni agenci”, akapit o Sylwii Antczak Baranowskiej i Gilberto Tejadzie (rezydenci i lokalni agenci); obok zdjęcie Idziego z Sylwią i Gilbertem (selfie, robocze) bez podpisu, imiona w alcie. Bez ich telefonów i e-maili.
+13. Opinie (#opinie): `label`, h2, akapit; kafelek oceny (`label` OCENA GOOGLE, 4,9 w czerwieni z „/ 5” 20px w ink, `small` z liczbą opinii, wizytówką i datą odczytu, link „Zobacz wszystkie”) i dwie opinie jako callout. Bez gwiazdek i logo Google.
+14. FAQ (#faq): `label`, h2, cztery pytania, pierwsze otwarte. TODO w `site.ts`: prawo zakupu (prawnik potwierdził według Idziego 3.10.2026, TODO zamyka Idzi) i koszty.
+15. Konsultacja (#kontakt): 6+6. Lewa: `label`, h2, akapit, `label` ZADZWOŃ DO NAS, telefon 20px 700 ink (`tel:`), na dole zdjęcie Piotra i Ani 4:3, wyrównane do dołu formularza, bez podpisu (prawdziwe zdjęcie zespołu). Na telefonie: tekst, zdjęcie, formularz. Prawa: Imię i nazwisko, E-mail, Rozważany region (opcjonalnie; placeholder „Wybierz lub zostaw otwarte”; Costa del Sol, Costa Blanca, Chcę porównać regiony, Inny region Hiszpanii), Wiadomość (opcjonalnie), przycisk „Wyślij zapytanie”, zgoda. Placeholdery z live.
+16. Stopka (opis w Komponentach), zastrzeżenie: „Treści na stronie mają charakter informacyjny i nie stanowią porady prawnej, podatkowej ani inwestycyjnej.”
 
-## Copy: zasady przenoszenia
+## Copy
 
-- `docs/copy.md` jest już bez długich myślników. Nie wprowadzaj ich z powrotem. Pauzę zastępuje kropka, przecinek albo dwukropek.
-- Nie dopisuj copy, nie „ulepszaj" zdań. Każde skrócenie zgłoś w PR jako osobny punkt do akceptacji.
-- Liczby: spacja w tysiącach (389 000 €), przecinek dziesiętny (4,9), zakresy słowem „do", kropka środkowa między faktami.
-- Wersaliki tylko w etykietach. Bez wykrzykników, bez emoji.
+- Bez pauz i półpauz, także w altach, meta i zgodach; zamiast nich kropka, przecinek albo dwukropek.
+- Nie dopisuj copy i nie „ulepszaj” zdań; każde skrócenie zgłoś w PR do akceptacji.
+- Liczby: spacja w tysiącach (389 000 €), przecinek dziesiętny (4,9), zakresy słowem „do”, kropka środkowa między faktami, daty w zapisie 01.10.2026.
+- Wersaliki tylko w `label`; przyciski, linki i menu zwykłą pisownią. Bez wykrzykników i emoji (poza cytatami klientów).
+- Pisownia: Málaga, Málagi, Máladze; Torre del Mar, Caleta de Vélez, Dénia, Cádiz, Axarquía po hiszpańsku.
 
-## Zdjęcia
+## Zdjęcia i PDF
 
-- Docelowe zdjęcia i PDF poradnika dostarcza Idzi do `public/img/` i `public/poradnik.pdf`.
-- Do podglądu pobierz zdjęcia z listy na końcu `docs/copy.md` do `public/img/` i dodaj w PR listę z adnotacją „tymczasowe, do akceptacji". Jeśli pobranie się nie uda (brak sieci) albo zdjęcie jest wyraźnie stockowe lub generowane, wstaw placeholder `--surface` „Zdjęcie 3:2" i zgłoś to w PR.
-- Okładka poradnika z obecnej strony powstała poza tym systemem: oznacz ją w PR jako do wymiany.
-- Nigdy nie linkuj zdjęć z cudzego hostingu.
+- Źródła w `zdjecia/` pod nazwą miejsca; `npm run zdjecia` zapisuje WebP i JPG 800 i 1600px (mniejsze źródło w pełnej szerokości) do `public/img/`; proporcje i kadr w `scripts/zdjecia.mjs`. Na stronie `<picture>`, zawsze `width` i `height`, `loading="lazy"` poza hero.
+- Hero: `hero-costa-del-sol.jpg` i `hero-costa-blanca.jpg` (1200 × 912, od dewelopera, poglądowe), alty „Taras apartamentu z widokiem na wybrzeże Costa del Sol” i „Taras apartamentu z widokiem na Alicante i Costa Blanca”.
+- Oferty: `oferta-malaga.jpg`, `oferta-mijas.jpg`, `oferta-marbella.jpg` (1008 × 752, wizualizacje dewelopera, Idzi podmieni). Poradnik: `poradnik-cover.png`, pierwsza strona PDF poradnika (A4, 1654 × 2339, decyzja Idziego 9.10.2026); przy nowym PDF podmienić razem z nim. Kontakt: `kontakt.jpg` (Piotr i Ania, 720 × 960, kadr 4:3 z dołu, `focus` 0,86; do podmiany na oryginał z telefonu). Poza `kontakt.jpg` bez kadrowania.
+- Na miejscu w Hiszpanii: `zespol-hiszpania.jpg`, selfie Idziego z Sylwią i Gilbertem (1500 × 2000, robocze, Idzi może podmienić): `ratio: null`, bez kadru i podpisu (pusty `team.photoNote`), alt z imionami od lewej.
+- PDF poradnika: `public/poradnik.pdf`, wersja od Idziego z 9.10.2026 (22 strony A4 w stylu Kwadrat, 0,8 MB); Cloudflare Pages przyjmuje pliki do 25 MiB, większy plik trzeba zmniejszyć (zdjęcia do JPEG). Treści PDF nie zmieniamy. W `public/_headers` `X-Robots-Tag: noindex`.
 
 ## Formularze
 
-Dwa formularze: poradnik i kontakt. Dostawca domyślny: Web3Forms (DO POTWIERDZENIA), wysyłka na biuro@kwadrat.io. Klucz w zmiennej `PUBLIC_WEB3FORMS_KEY`, nigdy w repo, `.env` w `.gitignore`. Bez klucza formularz działa w trybie demo: komunikat sukcesu i log payloadu w konsoli.
+- Poradnik i kontakt przez Web3Forms na biuro@kwadrat.io. Klucz `PUBLIC_WEB3FORMS_KEY` tylko w zmiennych środowiskowych, nigdy w repo (`.env` w `.gitignore`). Bez klucza tryb demo: komunikat sukcesu i payload w konsoli.
+- Honeypot, bez CAPTCHA. Po zapisie na poradnik komunikat i link do PDF.
+- Zgody: pod poradnikiem z live, pod kontaktem z poprzedniej wersji strony (obie potwierdzone); pod każdym formularzem zdanie z linkiem do `/polityka-prywatnosci`.
+- Polityka prywatności (`privacy` w `site.ts`, strona w stylu systemu): klauzula RODO z https://kwadrat.io/rodo/ dostosowana do formularzy tej strony, lista zmian w komentarzu nad nią. Tekstu prawnego nie zmieniaj bez zgody Idziego; przed produkcją sprawdza go prawnik (TODO), także przekazywanie danych poza EOG.
 
-- Honeypot przeciw spamowi, bez CAPTCHA.
-- Po wysłaniu poradnika: komunikat w `body` i link do `public/poradnik.pdf`. Do czasu dostarczenia pliku: jednostronicowy placeholder PDF wygenerowany w repo.
-- Pod każdym formularzem zgoda z oryginału plus zdanie z linkiem do `/polityka-prywatnosci`.
-- Strona `/polityka-prywatnosci`: szablon w stylu systemu z nagłówkiem i stopką, treść to wyłącznie „Treść w przygotowaniu." Nie pisz tekstu prawnego. Treść dostarczy Idzi.
+## Analityka
 
-## SEO i meta
+- Google Analytics 4 tylko z identyfikatorem w `PUBLIC_GA_ID` (zmienna środowiskowa, nigdy w repo, `GA_ID` w `site.ts`). Bez niego strona nie ma ani skryptu Google, ani baneru.
+- Baner zgody (`src/components/Consent.astro`, logika w `src/scripts/analytics.ts`): na samej górze strony w normalnym układzie, nie przyklejony, linia `--line` pod spodem, tekst `small`, dwa równorzędne przyciski w stylu linku drugiego („Akceptuję”, „Odrzucam”). Klasa `zgoda-otwarta` z `<head>` przed malowaniem, więc CLS 0. Wybór w localStorage `kw-zgoda`; „Ustawienia cookies” w stopce otwiera baner ponownie.
+- Google Analytics ładuje się dopiero po zgodzie: bez reklam i Google Signals, cookies na 13 miesięcy. Wycofanie zgody wyłącza wysyłkę i usuwa cookies `_ga`.
+- Zdarzenia: `generate_lead` (formularz naprawdę wysłany, nie w trybie demo; `form_id`) i `phone_click` (link `tel:`; `link_location`).
+- Polityka prywatności: bez identyfikatora zdanie `privacy.cookies`, z nim akapity `privacy.cookiesAnalytics`. Teksty baneru i te akapity akceptuje Idzi i sprawdza prawnik, zanim identyfikator trafi do Cloudflare Pages (TODO w `site.ts`).
 
-- Title: „Kwadrat Nieruchomości | Andaluzja i Málaga". Description i og:tagi z oryginału, bez myślników. og:image: zdjęcie hero.
-- Kotwice sekcji jak w inwentarzu.
-- Schema.org: RealEstateAgent (dane spółki, telefon, adres) i FAQPage z czterema pytaniami.
-- Lighthouse: Performance, Accessibility, Best Practices, SEO po 95 lub więcej. Font to jedyny zewnętrzny zasób.
+## SEO
+
+- Meta jak na live: title „Kwadrat Nieruchomości | Costa del Sol i Costa Blanca”, og:title i twitter:title „Kwadrat Nieruchomości | Hiszpania”, description, og:description i twitter:description w `site.ts`. og:image i twitter:image: `/img/hero-costa-del-sol-1200.jpg` (1200 × 912), twitter:card `summary_large_image`.
+- schema.org: RealEstateAgent (name, legalName, NIP, REGON, KRS, telefon, adres, logo `kwadrat-logo.svg`) i FAQPage. Kotwice jak w sekcjach.
+- `public/sitemap.xml` (dwie strony) i `Sitemap:` w `robots.txt`.
 
 ## Czego nie robić
 
-- Tailwind, Bootstrap, biblioteki komponentów, ikon, animacji, slidery, karuzele, parallax, animacje wejścia.
-- Tryb ciemny. Tło jest jedno: `--paper`.
-- Zaokrąglenia, cienie, ramki wokół bloków, karty z tłem, gradienty, ikony, emoji, gwiazdki.
-- Czerwony jako tło czegokolwiek, kolor hovera, kolor błędu, kolor linku.
-- Krój inny niż Mulish, waga inna niż 400, 600, 700, kursywa.
-- Sticky CTA, pop-upy, własny baner cookies (jeśli potrzebny, osobne zadanie).
-- Zmiana kolejności sekcji i usuwanie treści poza miejscami wskazanymi w inwentarzu.
-- Commitowanie kluczy i `.env`. Jakiekolwiek połączenie z repo Lovable.
+- Tailwind, Bootstrap, biblioteki komponentów i ikon, animacje wejścia, slidery, karuzele, parallax, sticky CTA, pop-upy i przyklejone banery (jedyny baner to zgoda na Google Analytics z sekcji Analityka), tryb ciemny.
+- Zaokrąglenia, cienie, ramki wokół bloków, karty z tłem, gradienty, ikony poza piktogramem telefonu, emoji, gwiazdki, strzałki między krokami. Znak „›” w liście wyboru nie jest ikoną.
+- Czerwień poza regułą 2, krój inny niż Mulish, waga inna niż 400, 600, 700, kursywa.
+- Zmiana kolejności sekcji i usuwanie treści poza tym, co opisuje ten plik.
+- Z kwadrat.io: czerwień `#e72f2f` i czerwony hover albo otwarte FAQ, ceny bez spacji („439000 PLN”), długie myślniki, karuzele, ikony, liczba oddziałów, ocena Google bez wizytówki i daty odczytu.
+- Commit kluczy i `.env`, jakiekolwiek połączenie z repo Lovable.
 
-## Strażnik systemu
+## Strażnik
 
-Dodaj `npm run lint:kwadrat` (skrypt Node w `scripts/`), uruchamiany przed `build`. Wywala build, gdy w `src/`:
-
-1. Pojawia się kolor hex poza `src/styles/tokens.css`.
-2. `--kwadrat-red` jest użyty poza `tokens.css` i `markers.css` (w `markers.css` siedzą wyłącznie kwadraciki h2 i list, ocena 4,9 dostaje klasę z tego pliku).
-3. `border-radius` ma wartość inną niż 0, występuje `box-shadow`, `linear-gradient` albo `radial-gradient`.
-4. `font-weight` ma wartość inną niż 400, 600, 700, występuje `font-style: italic` albo `font-family` inne niż `var(--font-sans)`.
-5. W `site.ts` albo w markupie występuje znak U+2014 (pauza) albo U+2013 (półpauza).
+`npm run lint:kwadrat` (`scripts/lint-kwadrat.mjs`) działa przed `build` i przerywa go, gdy w `src/` znajdzie: kolor poza `tokens.css` (hex, `%23`, `rgb()`, `hsl()`, `color-mix()`, nazwany kolor, redefinicja tokenu); `--kwadrat-red` poza `tokens.css` i czterema regułami `markers.css` (kwadracik h2, kwadracik listy atutów, `.kpi--accent`, `.cta.guide-cover-cta`); zaokrąglenie (`border-radius`, `clip-path`, `rx`/`ry`), cień albo gradient; wagę spoza 400, 600, 700, `font-variation-settings`, kursywę, `font-family` inne niż `var(--font-sans)` lub `inherit`, skrót `font:` inny niż `font: inherit`; pauzę lub półpauzę (znak, encja, sekwencja ucieczki, także w komentarzach); bibliotekę ikon albo zależność spoza `astro`. Szczegóły w skrypcie.
 
 ## Definition of done
 
-1. `npm run build` przechodzi, `lint:kwadrat` przechodzi.
-2. Zrzuty ekranu całej strony w szerokościach 390, 768, 1280 i 1600 px (Playwright) zapisane w `docs/screenshots/` i podlinkowane w opisie PR.
-3. Lighthouse 95 lub więcej w każdej kategorii, wynik w PR. Jeśli środowisko nie pozwala uruchomić Playwrighta albo Lighthouse, napisz to w PR wprost, nie pomijaj po cichu.
-4. Konfiguracja pod Cloudflare Pages gotowa (build command, output dir, wersja Node w README). Podglądy budują się automatycznie po podpięciu repo przez Idziego.
-5. README: uruchomienie lokalne, podmiana zdjęć i PDF, podpięcie klucza formularza, podpięcie repo do Cloudflare Pages krok po kroku, oraz checklista przełączenia domeny (poniżej).
-6. Lista otwartych punktów w PR: tymczasowe zdjęcia, skrócone zdania, wszystko oznaczone DO POTWIERDZENIA.
+1. `npm run build` i `lint:kwadrat` przechodzą.
+2. Zrzuty Playwright w `docs/screenshots/`: cała strona 390, 768, 1280, 1440 i 1600px, pierwszy ekran 1440 × 900 i 390 × 844; linki w opisie PR.
+3. Lighthouse co najmniej 95 w każdej kategorii, wynik w PR. Gdy środowisko nie pozwala zmierzyć, napisz to w PR wprost.
+4. Checklisty „Checklista przed publikacją strony” (`WEB.md`) i „Checklista przed wysyłką” (`08_DOKUMENTY_KWADRAT.md`) przechodzą, wynik w PR.
+5. Konfiguracja Cloudflare Pages gotowa (build command, output dir, wersja Node w README).
+6. README: uruchomienie lokalne, podmiana zdjęć i PDF, klucz formularza, Cloudflare Pages krok po kroku, checklista przełączenia domeny (wykonuje Idzi).
+7. W PR lista otwartych punktów: tymczasowe zdjęcia, skrócone zdania, TODO w kodzie, sprawy do potwierdzenia przez Idziego.
 
-## Checklista przełączenia domeny (do README, wykonuje Idzi)
+## Dziennik decyzji Idziego
 
-1. Sprawdzić, gdzie trafiają dziś zapytania z formularzy na stronie w Lovable, i wyeksportować dotychczasowe leady.
-2. Podpiąć klucz Web3Forms, wysłać testowe zgłoszenie z obu formularzy, potwierdzić odbiór na biuro@kwadrat.io.
-3. Wgrać docelowe zdjęcia, PDF poradnika i treść polityki prywatności.
-4. W Cloudflare Pages dodać domenę slonecznahiszpania.pl i www, ustawić rekordy DNS u rejestratora domeny.
-5. Po propagacji sprawdzić stronę, formularze i certyfikat, dopiero wtedy odpiąć domenę od projektu w Lovable.
-
-## Prompt startowy (pierwsza sesja)
-
-Przeczytaj CLAUDE.md i docs/copy.md w całości. Postaw projekt Astro zgodnie z sekcją Stack. Zaimplementuj tokeny, style bazowe i markers.css, potem komponenty z sekcji Rozszerzenie webowe, potem wszystkie sekcje z inwentarza w kolejności, z treścią z docs/copy.md przeniesioną 1:1 do src/content/site.ts. Pobierz zdjęcia według sekcji Zdjęcia. Formularze w trybie demo. Dodaj strażnika lint:kwadrat. Pracuj na gałęzi i otwórz PR do main. W opisie PR: zrzuty ekranu w czterech szerokościach, wynik Lighthouse i lista otwartych punktów. Jeśli którejś reguły z CLAUDE.md nie da się spełnić, nie obchodź jej: opisz problem w PR i zaproponuj dwie opcje.
+- 3.10.2026: oryginałem jest nowa wersja live; Web3Forms; oferty i ceny widoczne; telefon +48 505 085 001; zgoda pod kontaktem z poprzedniej wersji strony; zdjęcia hero i ofert od dewelopera; prawnik potwierdził odpowiedź o prawie zakupu.
+- 4.10.2026: system Kwadrat v2 z warstwą www; polityka prywatności na bazie kwadrat.io/rodo; biuro@kwadrat.io w stopce.
+- 5.10.2026: zdjęcie Piotra i Ani w Kontakcie. Zgodność z live (11 punktów): meta jak na live, pisownia Málaga, marka Kwadrat Nieruchomości, lockup z etykietą w nagłówku, dwa zdjęcia w hero i przycisk „Porównajmy Twój wybór”, sześć punktów Obsługi 360° w dwóch listach, bez noty o wierszu-kotwicy, REGON i sąd w stopce, jeden telefon bez bloku agenta, linki „Porozmawiajmy” w celach, brakujące zdjęcia dublowane na podglądzie. Piktogram telefonu zamiast słowa „Zadzwoń”, bez numeru w nagłówku. Etykieta „Hiszpania · Costa del Sol · Costa Blanca” obok lockupu, nie pod nim.
+- 6.10.2026: „(opcjonalnie)” przy polach Rozważany region i Wiadomość; link „Zobacz wszystkie” wprost do wizytówki (link „Oddział Otwock” ze stopki kwadrat.io); Google Analytics 4 po zgodzie. Rozwiązań z 5.10.2026 przedstawionych do akceptacji Idzi nie przyjął, wrócimy do nich; do tego czasu bez zmian.
+- 7.10.2026: sekcja „Na miejscu w Hiszpanii” między Obsługą 360° a Opiniami: Sylwia Antczak Baranowska i Gilberto Tejada, nasi rezydenci i lokalni agenci; zdjęcie robocze: selfie Idziego z nimi. Poradnik PDF z live zamiast placeholdera.
+- 8.10.2026: pobieranie poradnika na górę: w hero przycisk główny „Pobierz poradnik”, a „Porównajmy Twój wybór” jako link obok; kolejność sekcji bez zmian.
+- 9.10.2026: nowy, poprawiony poradnik PDF (22 strony A4 w stylu Kwadrat) zamiast wersji z live; okładka przy formularzu to jego pierwsza strona. Na okładce przycisk „Pobierz darmowy poradnik”, czerwony w kolorze Kwadratu, obok napisu „Słoneczna Hiszpania”: świadomy wyjątek od reguł 2 (czerwone tło) i 5 (nic na zdjęciu) oraz od jednego przycisku głównego na sekcję, tylko w Poradniku.

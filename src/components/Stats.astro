@@ -1,0 +1,57 @@
+---
+// Pasek KPI pod hero (WebStats): 3 do 4 kafelków, linia 1px ink nad każdym, etykieta, wartość,
+// uwaga. Kafelki to subgrid, wartości stoją na jednej wysokości. Kafelek 1: ocena Google
+// z konfiguracji GOOGLE_* (jedyna czerwona liczba na ekranie). Renderuje się tylko wtedy,
+// gdy wszystkie pięć pól jest wypełnionych (z linkiem, jak w checkliście WEB.md).
+// Pozostałe kafelki: wartości tekstowe z treści strony.
+import {
+  site,
+  GOOGLE_RATING,
+  GOOGLE_REVIEWS,
+  GOOGLE_PROFILE_NAME,
+  GOOGLE_READ_DATE,
+  GOOGLE_REVIEWS_URL,
+  HAS_GOOGLE_RATING,
+} from '../content/site';
+import { typoText } from '../content/typo';
+
+const { stats } = site;
+const count = stats.items.length + (HAS_GOOGLE_RATING ? 1 : 0);
+const reviews = typoText(`${GOOGLE_REVIEWS} ${stats.rating.reviews}`);
+---
+
+<div class="kw-stats" style={`--stats: ${count}`}>
+  {
+    HAS_GOOGLE_RATING && (
+      <div class="kw-stat">
+        <p class="label">{stats.rating.label}</p>
+        <p class="kw-value">
+          <span class="kpi--accent">{GOOGLE_RATING}</span>{' '}<span class="kw-scale">{stats.rating.scale}</span>
+        </p>
+        <p class="small">
+          {reviews}{' · '}<a class="nowrap" href={GOOGLE_REVIEWS_URL}>{GOOGLE_PROFILE_NAME}</a>{`, ${GOOGLE_READ_DATE}`}
+        </p>
+      </div>
+    )
+  }
+  {
+    stats.items.map((item) => (
+      <div class="kw-stat">
+        <p class="label">{item.label}</p>
+        <p class="kw-value kw-value--text">{item.value}</p>
+        <p class="small">{item.note}</p>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .kw-stat .small a {
+    color: var(--ink);
+    text-underline-offset: 3px;
+  }
+
+  .kw-stat .small a:hover {
+    text-decoration-thickness: 2px;
+  }
+</style>

@@ -1,0 +1,27 @@
+---
+// Obsługa 360° (#bezpieczenstwo): 4+4+4. Etykieta, nagłówek i akapit, obok dwie listy atutów
+// po trzy punkty: sześć punktów jak na live (decyzja Idziego 5.10.2026), a lista ma najwyżej pięć.
+// Tablet i telefon: wszystko w jednej kolumnie. Sekcja oddzielona cienką linią (dawny pas).
+import SectionHead from './ui/SectionHead.astro';
+import List from './ui/List.astro';
+import { site } from '../content/site';
+
+const { service } = site;
+---
+
+<section class="section" id="bezpieczenstwo">
+  <div class="container">
+    <div class="grid">
+      <div class="col-4">
+        <SectionHead label={service.label} title={service.title} text={service.text} />
+      </div>
+      {
+        service.lists.map((items) => (
+          <div class="col-4">
+            <List items={items} variant="plus" />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

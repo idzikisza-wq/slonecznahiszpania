@@ -1,0 +1,97 @@
+---
+// Konsultacja (#kontakt): 6+6. Lewa: opis, telefon, a na dole zdjęcie Piotra i Ani (4:3)
+// wyrównane do dołu formularza. Prawa: formularz. Na telefonie ta sama kolejność: tekst,
+// zdjęcie, formularz (zdjęcie nie stoi nad nagłówkiem sekcji).
+import SectionHead from './ui/SectionHead.astro';
+import Photo from './ui/Photo.astro';
+import Form from './ui/Form.astro';
+import Field from './ui/Field.astro';
+import { site } from '../content/site';
+
+const { contactSection: section, contact } = site;
+const { form } = section;
+const formId = 'kontakt-formularz';
+---
+
+<section class="section" id="kontakt">
+  <div class="container">
+    <div class="grid">
+      <div class="col-6 contact-info">
+        <div>
+          <SectionHead label={section.label} title={section.title} text={section.text} />
+          <p class="label mt-l">{section.phoneLabel}</p>
+          <p class="mt-xs">
+            <a class="contact-phone" href={contact.phoneHref}>{contact.phone}</a>
+          </p>
+        </div>
+        <Photo
+          image={section.image}
+          sizes="(min-width: 1200px) 548px, (min-width: 768px) calc(50vw - 52px), calc(100vw - 40px)"
+        />
+      </div>
+      <div class="col-6">
+        <Form id={formId} subject={form.subject} submit={form.submit} consent={form.consent}>
+          <Field
+            form={formId}
+            name="name"
+            label={form.name}
+            placeholder={form.namePlaceholder}
+            required
+            autocomplete="name"
+          />
+          <Field
+            form={formId}
+            name="email"
+            label={form.email}
+            placeholder={form.emailPlaceholder}
+            type="email"
+            required
+            autocomplete="email"
+          />
+          <Field
+            form={formId}
+            name="region"
+            label={form.region}
+            type="select"
+            placeholderOption={form.regionPlaceholder}
+            options={form.regionOptions}
+          />
+          <Field
+            form={formId}
+            name="wiadomosc"
+            label={form.message}
+            placeholder={form.messagePlaceholder}
+            type="textarea"
+          />
+          <p slot="success">{form.success}</p>
+        </Form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Lewa kolumna: tekst u góry, zdjęcie na dole, obie kolumny kończą się na tej samej wysokości */
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--block);
+  }
+
+  /* Telefon w stylu web-h3 jako link: ink, podkreślenie 1px, hover 2px */
+  .contact-phone {
+    color: var(--ink);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    white-space: nowrap;
+  }
+
+  .contact-phone:hover {
+    text-decoration-thickness: 2px;
+  }
+</style>

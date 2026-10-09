@@ -1,0 +1,80 @@
+---
+// Opinie (#opinie): 4+4+4. Kafelek z oceną Google z konfiguracji GOOGLE_* (jedyna czerwona liczba
+// na ekranie; bez kompletu danych kafelek się nie renderuje) i dwie opinie jako callout.
+// Uwaga pod liczbą w jednej linii, nazwa wizytówki i data odczytu w osobnej linii pod nią.
+// Bez kafelka z oceną opinie stoją 6+6. Bez gwiazdek i bez logo Google.
+import SectionHead from './ui/SectionHead.astro';
+import {
+  site,
+  GOOGLE_RATING,
+  GOOGLE_REVIEWS,
+  GOOGLE_PROFILE_NAME,
+  GOOGLE_READ_DATE,
+  HAS_GOOGLE_RATING,
+} from '../content/site';
+import { typoText } from '../content/typo';
+
+const { reviews } = site;
+const { rating } = reviews;
+const note = typoText(`${GOOGLE_REVIEWS} ${rating.note}`);
+const source = `„${GOOGLE_PROFILE_NAME}”, `;
+const quoteSpan = HAS_GOOGLE_RATING ? 'col-4' : 'col-6';
+---
+
+<section class="section" id="opinie">
+  <div class="container">
+    <SectionHead label={reviews.label} title={reviews.title} text={reviews.text} />
+    <div class="grid mt-l">
+      {
+        HAS_GOOGLE_RATING && (
+          <div class="col-4 rating">
+            <p class="label">{rating.label}</p>
+            <p class="kpi mt-xs">
+              <span class="kpi--accent">{GOOGLE_RATING}</span>{' '}<span class="rating-scale">{rating.scale}</span>
+            </p>
+            <p class="small mt-xs">{note}</p>
+            <p class="small">
+              {source}<span class="nowrap">{`${rating.readPrefix} ${GOOGLE_READ_DATE}`}</span>
+            </p>
+            <p class="mt-s">
+              <a class="cta-2" href={reviews.cta.href}>
+                {reviews.cta.label}
+              </a>
+            </p>
+          </div>
+        )
+      }
+      {
+        reviews.quotes.map((quote) => (
+          <figure class:list={[quoteSpan, 'callout']}>
+            <blockquote>
+              <p>„{quote.text}”</p>
+            </blockquote>
+            <figcaption class="small mt-s">
+              {quote.author}{'\u00a0· '}{quote.meta}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .rating {
+    border-top: var(--rule) solid var(--ink);
+    padding-top: 14px;
+  }
+
+  .rating-scale {
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  @media (max-width: 767.98px) {
+    .rating-scale {
+      font-size: 18px;
+    }
+  }
+</style>

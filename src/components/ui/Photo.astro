@@ -1,0 +1,51 @@
+---
+// Zdjęcie w naturalnych proporcjach: <picture> z WebP i JPG, width i height zawsze ustawione.
+// Szerokości wykrywa z plików w public/img. Brak plików: szare pole z podpisem w small.
+import fs from 'node:fs';
+import path from 'node:path';
+import type { Img } from '../../content/site';
+
+interface Props {
+  image: Img;
+  sizes: string;
+  eager?: boolean;
+}
+
+const { image, sizes, eager = false } = Astro.props;
+const [rw, rh] = image.ratio;
+
+const dir = path.join(process.cwd(), 'public', 'img');
+const files = fs.existsSync(dir) ? fs.readdirSync(dir) : [];
+const pattern = new RegExp(`^${image.name}-(\\d+)\\.jpg$`);
+const widths = files
+  .map((file) => Number(file.match(pattern)?.[1]))
+  .filter((w) => w && files.includes(`${image.name}-${w}.webp`))
+  .sort((a, b) => a - b);
+
+const largest = widths.at(-1) ?? 0;
+const url = (w: number, ext: string) => `/img/${image.name}-${w}.${ext}`;
+const srcset = (ext: string) => widths.map((w) => `${url(w, ext)} ${w}w`).join(', ');
+---
+
+{
+  largest ? (
+    <picture class="photo">
+      <source type="image/webp" srcset={srcset('webp')} sizes={sizes} />
+      <img
+        src={url(largest, 'jpg')}
+        srcset={srcset('jpg')}
+        sizes={sizes}
+        width={largest}
+        height={Math.round((largest * rh) / rw)}
+        alt={image.alt}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding={eager ? undefined : 'async'}
+        fetchpriority={eager ? 'high' : undefined}
+      />
+    </picture>
+  ) : (
+    <div class="placeholder" style={`--ratio: ${rw} / ${rh}`}>
+      <span class="small">{image.placeholder}</span>
+    </div>
+  )
+}

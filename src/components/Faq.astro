@@ -1,0 +1,28 @@
+---
+// FAQ (#faq, WebFaq): natywne <details> i <summary>, pierwsze pytanie otwarte. Linia 1px line nad
+// pierwszym pytaniem i pod każdym. Plus z dwóch kresek 16 × 2px w ink (pseudo-elementy, nie znak
+// i nie ikona), pionowa obraca się do zera po otwarciu. Odpowiedź 16/27px w muted, do 720px.
+// Bez zmiany koloru na hover i po otwarciu (świadoma różnica wobec kwadrat.io).
+import SectionHead from './ui/SectionHead.astro';
+import { site } from '../content/site';
+
+const { faq } = site;
+---
+
+<section class="section" id="faq">
+  <div class="container">
+    <SectionHead label={faq.label} title={faq.title} />
+    <div class="kw-faq mt-l">
+      {
+        faq.items.map((item, index) => (
+          <details open={index === 0}>
+            <summary>{item.question}</summary>
+            <div class="kw-answer">
+              <p>{item.answer}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

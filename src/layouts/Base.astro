@@ -1,0 +1,91 @@
+---
+// Szkielet strony: meta, font Mulish hostowany lokalnie, style systemu, nagłówek i stopka.
+import fs from 'node:fs';
+import path from 'node:path';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Consent from '../components/Consent.astro';
+import { site, GA_ID } from '../content/site';
+import { plainText } from '../content/typo';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/markers.css';
+
+interface Props {
+  title: string;
+  description: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  schema?: object[];
+}
+
+const props = Astro.props;
+const title = plainText(props.title);
+const description = plainText(props.description);
+const ogTitle = plainText(props.ogTitle ?? props.title);
+const ogDescription = plainText(props.ogDescription ?? props.description);
+const schema = props.schema ?? [];
+const pathname = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/');
+const canonical = new URL(pathname, Astro.site).href;
+
+// og:image z konfiguracji (site.meta.ogImage), jeśli plik jest w public/
+const ogImageFile = site.meta.ogImage.replace(/^\//, '');
+const ogImage = fs.existsSync(path.join(process.cwd(), 'public', ogImageFile))
+  ? new URL(`/${ogImageFile}`, Astro.site).href
+  : undefined;
+
+// Mulish 400, 600, 700 z public/fonts (pliki z design systemu). Preload, żeby font był gotowy
+// przed pierwszym malowaniem i nie przesuwał treści po podmianie.
+const fonts = ['/fonts/Mulish-400.woff2', '/fonts/Mulish-600.woff2', '/fonts/Mulish-700.woff2'];
+---
+
+<!doctype html>
+<html lang="pl" data-ga={GA_ID || undefined}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={plainText(site.meta.author)} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/brand/kwadrat-logo.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content={plainText(site.company.brand)} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta property="og:image:width" content={String(site.meta.ogImageSize[0])} />}
+    {ogImage && <meta property="og:image:height" content={String(site.meta.ogImageSize[1])} />}
+    {ogImage && <meta property="og:image:alt" content={plainText(site.meta.ogImageAlt)} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    {fonts.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
+
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    {
+      /* Z Google Analytics: baner zgody widoczny przed pierwszym malowaniem, dopóki nie ma decyzji */
+      GA_ID && (
+        <script is:inline>
+          try { var zgoda = localStorage.getItem('kw-zgoda'); } catch (e) {}
+          if (zgoda !== 'tak' && zgoda !== 'nie') document.documentElement.classList.add('zgoda-otwarta');
+        </script>
+      )
+    }
+
+    {schema.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+  </head>
+  <body>
+    {GA_ID && <Consent />}
+    <Header />
+    <main id="tresc">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

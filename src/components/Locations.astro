@@ -1,0 +1,24 @@
+---
+// Lokalizacje (#lokalizacje): dwa obszary obok siebie, 6+6. Każdy to tabela danych
+// z etykietą nad nią (linia mocna pod etykietą), miejscowość pogrubiona w ink.
+import SectionHead from './ui/SectionHead.astro';
+import DataTable from './ui/DataTable.astro';
+import { site } from '../content/site';
+
+const { locations } = site;
+---
+
+<section class="section" id="lokalizacje">
+  <div class="container">
+    <SectionHead label={locations.label} title={locations.title} lead={locations.lead} />
+    <div class="grid mt-l">
+      {
+        locations.groups.map((group) => (
+          <div class="col-6">
+            <DataTable rows={group.rows} caption={group.label} strongKeys />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

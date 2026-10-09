@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Comparison from '../components/Comparison.astro';
+import Regions from '../components/Regions.astro';
+import Guide from '../components/Guide.astro';
+import Purpose from '../components/Purpose.astro';
+import WhySpain from '../components/WhySpain.astro';
+import Locations from '../components/Locations.astro';
+import Process from '../components/Process.astro';
+import Offers from '../components/Offers.astro';
+import Service from '../components/Service.astro';
+import Team from '../components/Team.astro';
+import Reviews from '../components/Reviews.astro';
+import Faq from '../components/Faq.astro';
+import Contact from '../components/Contact.astro';
+import { site, SHOW_OFFERS } from '../content/site';
+import { plainText as plain } from '../content/typo';
+
+const { meta, company, contact, faq } = site;
+const origin = Astro.site!.origin;
+
+const realEstateAgent = {
+  '@context': 'https://schema.org',
+  '@type': 'RealEstateAgent',
+  name: plain(company.brand),
+  legalName: plain(company.legalName),
+  url: `${origin}/`,
+  logo: `${origin}/brand/kwadrat-logo.svg`,
+  telephone: plain(contact.phone),
+  email: contact.email,
+  taxID: company.nip,
+  identifier: [
+    { '@type': 'PropertyValue', propertyID: 'REGON', value: company.regon },
+    { '@type': 'PropertyValue', propertyID: 'KRS', value: company.krs },
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: plain(company.street),
+    postalCode: company.postalCode,
+    addressLocality: company.city,
+    addressCountry: 'PL',
+  },
+  areaServed: ['Costa del Sol', 'Costa Blanca', 'Hiszpania'],
+  sameAs: [company.website],
+};
+
+const faqPage = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.items.map((item) => ({
+    '@type': 'Question',
+    name: plain(item.question),
+    acceptedAnswer: { '@type': 'Answer', text: plain(item.answer) },
+  })),
+};
+---
+
+<Base
+  title={meta.title}
+  description={meta.description}
+  ogTitle={meta.ogTitle}
+  ogDescription={meta.ogDescription}
+  schema={[realEstateAgent, faqPage]}
+>
+  <Hero />
+  <Comparison />
+  <Regions />
+  <Guide />
+  <Purpose />
+  <WhySpain />
+  <Locations />
+  <Process />
+  {SHOW_OFFERS && <Offers />}
+  <Service />
+  <Team />
+  <Reviews />
+  <Faq />
+  <Contact />
+</Base>

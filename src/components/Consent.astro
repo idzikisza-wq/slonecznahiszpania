@@ -1,0 +1,83 @@
+---
+// Baner zgody na Google Analytics (decyzja Idziego 6.10.2026). Renderuje się tylko z PUBLIC_GA_ID.
+// Stoi na samej górze strony w normalnym układzie: nie jest przyklejony i nie zasłania treści.
+// Widać go, dopóki nie ma decyzji: skrypt w <head> dodaje klasę zgoda-otwarta przed pierwszym
+// malowaniem, więc nic nie przeskakuje (CLS 0). Bez JS baneru nie ma, a Google Analytics się
+// nie ładuje. Dwa równorzędne przyciski w stylu linku drugiego: odrzucić jest tak samo łatwo
+// jak się zgodzić.
+import { site } from '../content/site';
+
+const { consent, forms } = site;
+---
+
+<section class="zgoda" aria-label={consent.label}>
+  <div class="container zgoda-inner">
+    <p class="small zgoda-text">
+      {consent.text}{' '}<a href={forms.privacyHref}>{consent.policy}</a>
+    </p>
+    <div class="zgoda-actions">
+      <button type="button" class="zgoda-btn" data-zgoda="tak">{consent.accept}</button>
+      <button type="button" class="zgoda-btn" data-zgoda="nie">{consent.reject}</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .zgoda {
+    display: none;
+    border-bottom: var(--rule) solid var(--line);
+  }
+
+  :global(.zgoda-otwarta) .zgoda {
+    display: block;
+  }
+
+  .zgoda-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--gutter);
+    padding-block: var(--space-s);
+  }
+
+  .zgoda-text {
+    max-width: var(--measure);
+  }
+
+  .zgoda-text a {
+    color: var(--ink);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .zgoda-actions {
+    display: flex;
+    gap: var(--gutter);
+  }
+
+  /* Styl linku drugiego (kw-link), pole dotyku 44px wysokości */
+  .zgoda-btn {
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    cursor: pointer;
+  }
+
+  .zgoda-btn:hover {
+    text-decoration-thickness: 2px;
+  }
+</style>
+
+<script>
+  import '../scripts/analytics';
+</script>
