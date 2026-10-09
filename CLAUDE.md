@@ -130,7 +130,7 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 
 - Źródła w `zdjecia/` pod nazwą miejsca; `npm run zdjecia` zapisuje WebP i JPG 800 i 1600px (mniejsze źródło w pełnej szerokości) do `public/img/`; proporcje i kadr w `scripts/zdjecia.mjs`. Na stronie `<picture>`, zawsze `width` i `height`, `loading="lazy"` poza hero.
 - Hero: `hero-costa-del-sol.jpg` i `hero-costa-blanca.jpg` (1200 × 912, od dewelopera, poglądowe), alty „Taras apartamentu z widokiem na wybrzeże Costa del Sol” i „Taras apartamentu z widokiem na Alicante i Costa Blanca”.
-- Oferty: `oferta-malaga.jpg`, `oferta-mijas.jpg`, `oferta-marbella.jpg` (1008 × 752, wizualizacje dewelopera, Idzi podmieni). Poradnik: `poradnik-cover.webp` (1354 × 1920, powstał poza systemem, do wymiany). Kontakt: `kontakt.jpg` (Piotr i Ania, 720 × 960, kadr 4:3 z dołu, `focus` 0,86; do podmiany na oryginał z telefonu). Poza `kontakt.jpg` bez kadrowania.
+- Oferty: `oferta-malaga.jpg`, `oferta-mijas.jpg`, `oferta-marbella.jpg` (1008 × 752, wizualizacje dewelopera, Idzi podmieni). Poradnik: `poradnik-cover.png`, pierwsza strona PDF poradnika (A4, 1654 × 2339, decyzja Idziego 9.10.2026); przy nowym PDF podmienić razem z nim. Kontakt: `kontakt.jpg` (Piotr i Ania, 720 × 960, kadr 4:3 z dołu, `focus` 0,86; do podmiany na oryginał z telefonu). Poza `kontakt.jpg` bez kadrowania.
 - Na miejscu w Hiszpanii: `zespol-hiszpania.jpg`, selfie Idziego z Sylwią i Gilbertem (1500 × 2000, robocze, Idzi może podmienić): `ratio: null`, bez kadru i podpisu (pusty `team.photoNote`), alt z imionami od lewej.
 - PDF poradnika: `public/poradnik.pdf`, wersja od Idziego z 9.10.2026 (22 strony A4 w stylu Kwadrat, 0,8 MB); Cloudflare Pages przyjmuje pliki do 25 MiB, większy plik trzeba zmniejszyć (zdjęcia do JPEG). Treści PDF nie zmieniamy. W `public/_headers` `X-Robots-Tag: noindex`.
 
@@ -186,4 +186,4 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 - 6.10.2026: „(opcjonalnie)” przy polach Rozważany region i Wiadomość; link „Zobacz wszystkie” wprost do wizytówki (link „Oddział Otwock” ze stopki kwadrat.io); Google Analytics 4 po zgodzie. Rozwiązań z 5.10.2026 przedstawionych do akceptacji Idzi nie przyjął, wrócimy do nich; do tego czasu bez zmian.
 - 7.10.2026: sekcja „Na miejscu w Hiszpanii” między Obsługą 360° a Opiniami: Sylwia Antczak Baranowska i Gilberto Tejada, nasi rezydenci i lokalni agenci; zdjęcie robocze: selfie Idziego z nimi. Poradnik PDF z live zamiast placeholdera.
 - 8.10.2026: pobieranie poradnika na górę: w hero przycisk główny „Pobierz poradnik”, a „Porównajmy Twój wybór” jako link obok; kolejność sekcji bez zmian.
-- 9.10.2026: nowy, poprawiony poradnik PDF (22 strony A4 w stylu Kwadrat) zamiast wersji z live.
+- 9.10.2026: nowy, poprawiony poradnik PDF (22 strony A4 w stylu Kwadrat) zamiast wersji z live; okładka przy formularzu to jego pierwsza strona.

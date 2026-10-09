@@ -58,7 +58,7 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 | --- | --- | --- |
 | `hero-costa-del-sol.jpg` | hero, kierunek Costa del Sol; wariant 1200 px to też og:image | naturalne (dziś 1200 × 912) |
 | `hero-costa-blanca.jpg` | hero, kierunek Costa Blanca | naturalne (dziś 1200 × 912) |
-| `poradnik-cover.webp` | okładka przy formularzu poradnika | naturalne |
+| `poradnik-cover.png` | okładka przy formularzu poradnika: pierwsza strona `public/poradnik.pdf` | naturalne (A4, dziś 1654 × 2339) |
 | `oferta-malaga.jpg` | oferta Málaga Centro | naturalne (dziś 1008 × 752) |
 | `oferta-mijas.jpg` | oferta Mijas | naturalne |
 | `oferta-marbella.jpg` | oferta Marbella | naturalne |
@@ -100,6 +100,8 @@ Ocena Google pokazuje się tylko wtedy, gdy wszystkie pięć pól `GOOGLE_*` jes
 Zastąp `public/poradnik.pdf` nowym plikiem pod tą samą nazwą i zrób commit. Link po zapisie do poradnika nie wymaga zmian. Wyszukiwarki nie indeksują pliku (nagłówek `X-Robots-Tag: noindex` w `public/_headers`), a `npm run pdf:placeholder` go nie nadpisze. Bez JS formularz poradnika po wysłaniu przekierowuje wprost do PDF (pole `redirect` Web3Forms, tylko gdy jest klucz).
 
 Plik musi mieć mniej niż 25 MiB, bo większego Cloudflare Pages nie przyjmie. Obecny poradnik (wersja od Idziego z 9.10.2026) ma 0,8 MB. Poprzedni, z live (Canva), miał 30,9 MB, bo zdjęcia były zapisane bezstratnie; po przepakowaniu zdjęć do JPEG (jakość 85) miał 6,9 MB. Nowy, zbyt duży plik trzeba zmniejszyć tak samo.
+
+Okładka przy formularzu to pierwsza strona PDF. Przy nowym PDF wyrenderuj ją do PNG (na przykład `pdftoppm -r 200 -f 1 -l 1 -png public/poradnik.pdf okladka`), zapisz jako `zdjecia/poradnik-cover.png`, uruchom `npm run zdjecia` i popraw `ratio` przy `guideCover` w `src/content/site.ts`, jeśli zmienił się format strony.
 
 ## Polityka prywatności
 

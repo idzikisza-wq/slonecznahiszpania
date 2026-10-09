@@ -114,9 +114,11 @@ const IMAGES = {
     alt: 'Od lewej: Idzi Kisza, Sylwia Antczak Baranowska i Gilberto Tejada przed apartamentowcem z palmami',
     placeholder: 'Zdjęcie 3:4',
   },
+  // Okładka poradnika: pierwsza strona PDF z 9.10.2026 (public/poradnik.pdf), wyrenderowana do PNG
+  // (A4, 1654 × 2339). Przy nowym PDF podmienić ją tak samo (README, sekcja o PDF).
   guideCover: {
     name: 'poradnik-cover',
-    ratio: [1354, 1920],
+    ratio: [1600, 2263],
     alt: 'Okładka bezpłatnego poradnika o inwestowaniu w nieruchomości w Hiszpanii',
     placeholder: 'Okładka poradnika',
   },
