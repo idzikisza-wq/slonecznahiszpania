@@ -79,7 +79,7 @@ Cyfry tabelaryczne wszędzie. Pogrubienie w tekście (700, ink) tylko dla kluczo
 - Callout: lewa krawędź 1px `--line`, padding-left 16px, bez tła.
 - Tabela danych: dwie kolumny, lewa `muted` o stałej szerokości, prawa `text`, linie włosowe, bez pionowych linii i zebry.
 - Tabela porównania: kryterium w `label`, dwie kolumny regionów, nagłówek w `label` z linią mocną, wiersze z linią włosową; wiersz-kotwica na `--red-tint`, pogrubiony, w ink; pod tabelą nota `small` o gminach, bez zdania o wierszu-kotwicy. Na telefonie wiersz to blok z etykietami regionów.
-- Przycisk główny (kw-btn): tło ink, tekst paper 600 16px, padding 16px 28px, co najmniej 52px wysokości, rogi 0, bez cienia, hover tło `--text`. Jeden na sekcję, jedyne ciemne pole na stronie.
+- Przycisk główny (kw-btn): tło ink, tekst paper 600 16px, padding 16px 28px, co najmniej 52px wysokości, rogi 0, bez cienia, hover tło `--text`. Jeden na sekcję (wyjątek: przycisk na okładce poradnika), jedyne ciemne pole na stronie.
 - Link drugi (kw-link): ink 600, podkreślenie 1px z odsunięciem 4px, hover 2px.
 - Fokus: obrys 2px ink z odsunięciem 3px na każdym elemencie klikanym.
 - Formularz: pola Mulish 16px na bieli, dolna linia 1px `--line`, padding 12px 0, etykieta 13px 600 muted nad polem. Błąd: `small` w ink z kwadracikiem `--line`, bez czerwieni. Dwa krótkie pola w rzędzie (na telefonie pod sobą). Lista wyboru bez natywnego wyglądu, 52px, po prawej znak „›” obrócony w dół. Zgoda w `small` pod przyciskiem, bez checkboxa, przez `aria-describedby`. W trakcie wysyłki `aria-disabled` (nie `disabled`), limit 15 s.
@@ -105,7 +105,7 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 2. Hero (#start): `label` PRZEWODNIK PO HISZPAŃSKIM RYNKU, h1 „Dwa wybrzeża.” (400) / „Dwie dobre odpowiedzi.” (700), lead, przycisk „Pobierz poradnik” (#poradnik), link „Porównajmy Twój wybór” (#kontakt), `small` „Bez rankingu na siłę. ...”. Kierunki Costa del Sol i Costa Blanca ze zdjęciami tarasów i linkiem „Zobacz mocne strony i kompromisy” (#porownanie). Pasek KPI: Ocena Google, Regiony, Obsługa, Weryfikacja.
 3. Porównanie (#porownanie): `label`, h2, lead, tabela (Charakter, Budżet, Życie poza sezonem, Dostępność, Dla kogo jako kotwica), pod nią nota o różnicach między gminami.
 4. Regiony (#regiony): `label`, h2, lead, sześć kafelków 4+4+4 (`label` 01 do 06, `label` z miejscowościami, h3, akapit).
-5. Poradnik (#poradnik): 4+4+4: opis (`label`, h2, akapit, lista atutów z czterema punktami, `small` „PDF · dostęp po zapisie”), okładka bez ramki i cienia, formularz od góry kolumny (Imię i Nazwisko w rzędzie, E-mail, przycisk, zgoda).
+5. Poradnik (#poradnik): 4+4+4: opis (`label`, h2, akapit, lista atutów z czterema punktami, `small` „PDF · dostęp po zapisie”), okładka bez ramki i cienia z przyciskiem głównym „Pobierz darmowy poradnik” na środku (prowadzi do formularza, fokus na pierwszym polu, po zapisie na linku do PDF), formularz od góry kolumny (Imię i Nazwisko w rzędzie, E-mail, przycisk, zgoda).
 6. Po co kupujesz (#cele): `label`, h2, lead, trzy kafelki 4+4+4 z linkiem „Porozmawiajmy” (#kontakt); bez przycisku głównego pod rzędem.
 7. Dlaczego Hiszpania (#dlaczego-hiszpania): `label`, h2, lead, trzy kafelki, pod nimi callout z h3 „Ryzyka nazywamy wprost” i akapitem.
 8. Od Málagi po Alicante (#lokalizacje): `label`, h2, lead, dwie tabele danych 6+6 (Costa del Sol i Axarquía, Costa Blanca), po cztery miejscowości pogrubione w ink.
@@ -186,4 +186,4 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 - 6.10.2026: „(opcjonalnie)” przy polach Rozważany region i Wiadomość; link „Zobacz wszystkie” wprost do wizytówki (link „Oddział Otwock” ze stopki kwadrat.io); Google Analytics 4 po zgodzie. Rozwiązań z 5.10.2026 przedstawionych do akceptacji Idzi nie przyjął, wrócimy do nich; do tego czasu bez zmian.
 - 7.10.2026: sekcja „Na miejscu w Hiszpanii” między Obsługą 360° a Opiniami: Sylwia Antczak Baranowska i Gilberto Tejada, nasi rezydenci i lokalni agenci; zdjęcie robocze: selfie Idziego z nimi. Poradnik PDF z live zamiast placeholdera.
 - 8.10.2026: pobieranie poradnika na górę: w hero przycisk główny „Pobierz poradnik”, a „Porównajmy Twój wybór” jako link obok; kolejność sekcji bez zmian.
-- 9.10.2026: nowy, poprawiony poradnik PDF (22 strony A4 w stylu Kwadrat) zamiast wersji z live; okładka przy formularzu to jego pierwsza strona.
+- 9.10.2026: nowy, poprawiony poradnik PDF (22 strony A4 w stylu Kwadrat) zamiast wersji z live; okładka przy formularzu to jego pierwsza strona. Na środku okładki przycisk „Pobierz darmowy poradnik”: świadomy wyjątek od reguły 5 (nic na zdjęciu) i od jednego przycisku głównego na sekcję, tylko w Poradniku.

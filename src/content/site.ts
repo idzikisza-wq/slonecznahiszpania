@@ -322,6 +322,8 @@ const raw = {
     ],
     note: 'PDF · dostęp po zapisie',
     image: IMAGES.guideCover,
+    // Przycisk na środku okładki (prośba Idziego 9.10.2026, jego słowa)
+    coverCta: 'Pobierz darmowy poradnik',
     form: {
       firstName: 'Imię',
       firstNamePlaceholder: 'Jan',

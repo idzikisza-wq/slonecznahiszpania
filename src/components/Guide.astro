@@ -2,6 +2,9 @@
 // Poradnik (#poradnik): 4+4+4. Opis z listą atutów, okładka w naturalnych proporcjach
 // (bez ramki i cienia), formularz od góry kolumny. Na tablecie opis na całą szerokość,
 // a okładka i formularz 6+6. Na telefonie kolejność bez zmian.
+// Na środku okładki przycisk główny „Pobierz darmowy poradnik” (decyzja Idziego 9.10.2026,
+// świadomy wyjątek od reguły 5 i od jednego przycisku głównego na sekcję). Prowadzi do
+// formularza i ustawia fokus na pierwszym polu, a po zapisie na linku do PDF. Bez JS zwykła kotwica.
 import SectionHead from './ui/SectionHead.astro';
 import List from './ui/List.astro';
 import Photo from './ui/Photo.astro';
@@ -25,11 +28,12 @@ const formId = 'poradnik-formularz';
         <p class="small mt-m">{guide.note}</p>
       </div>
 
-      <div class="col-4 guide-side">
+      <div class="col-4 guide-side guide-cover">
         <Photo
           image={guide.image}
           sizes="(min-width: 1200px) 357px, (min-width: 768px) calc(50vw - 52px), calc(100vw - 40px)"
         />
+        <a class="cta guide-cover-cta" href={`#${formId}`} data-cover-cta={formId}>{guide.coverCta}</a>
       </div>
 
       <div class="col-4 guide-side">
@@ -80,6 +84,20 @@ const formId = 'poradnik-formularz';
 </section>
 
 <style>
+  .guide-cover {
+    position: relative;
+    align-self: start;
+  }
+
+  /* Przycisk na środku okładki, w jednej linii */
+  .guide-cover-cta {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+
   /* Tablet: okładka i formularz obok siebie pod opisem */
   @media (min-width: 768px) and (max-width: 1199.98px) {
     .grid > .guide-side {
@@ -87,3 +105,22 @@ const formId = 'poradnik-formularz';
     }
   }
 </style>
+
+<script>
+  // Przycisk na okładce: przewija do formularza i daje fokus pierwszemu polu, a po zapisie linkowi do PDF
+  document.querySelectorAll<HTMLAnchorElement>('[data-cover-cta]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const id = link.dataset.coverCta ?? '';
+      const success = document.querySelector<HTMLElement>(`[data-success-for="${id}"]`);
+      const target =
+        success && !success.hidden
+          ? success.querySelector<HTMLElement>('a')
+          : document.getElementById(id)?.querySelector<HTMLElement>('.input');
+      if (!target) return;
+      event.preventDefault();
+      const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      target.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'auto' });
+      target.focus({ preventScroll: true });
+    });
+  });
+</script>
