@@ -39,7 +39,7 @@ public/
   brand/               logo: lockup z napisem NIERUCHOMOŚCI w nagłówku, sam znak w stopce i jako favicon
   fonts/               Mulish 400, 600, 700 (woff2) i licencja OFL
   img/                 warianty zdjęć (generowane, nie edytować ręcznie)
-  poradnik.pdf         PDF poradnika z live (24 strony, 6,9 MB)
+  poradnik.pdf         PDF poradnika (22 strony A4, 0,8 MB, wersja z 9.10.2026)
   sitemap.xml          mapa strony (dwie strony), robots.txt wskazuje na nią
   _headers             nagłówki Cloudflare Pages: cache, bezpieczeństwo, noindex dla PDF
 zdjecia/               pliki źródłowe zdjęć
@@ -99,7 +99,7 @@ Ocena Google pokazuje się tylko wtedy, gdy wszystkie pięć pól `GOOGLE_*` jes
 
 Zastąp `public/poradnik.pdf` nowym plikiem pod tą samą nazwą i zrób commit. Link po zapisie do poradnika nie wymaga zmian. Wyszukiwarki nie indeksują pliku (nagłówek `X-Robots-Tag: noindex` w `public/_headers`), a `npm run pdf:placeholder` go nie nadpisze. Bez JS formularz poradnika po wysłaniu przekierowuje wprost do PDF (pole `redirect` Web3Forms, tylko gdy jest klucz).
 
-Plik musi mieć mniej niż 25 MiB, bo większego Cloudflare Pages nie przyjmie. Poradnik z live (Canva) miał 30,9 MB, bo zdjęcia były zapisane bezstratnie. Na stronie jest ta sama treść ze zdjęciami przepakowanymi do JPEG (jakość 85): 6,9 MB, wygląd bez widocznej różnicy, a tekst, linki, zakładki i tagi dostępności bez zmian. Nowy, zbyt duży plik trzeba zmniejszyć tak samo.
+Plik musi mieć mniej niż 25 MiB, bo większego Cloudflare Pages nie przyjmie. Obecny poradnik (wersja od Idziego z 9.10.2026) ma 0,8 MB. Poprzedni, z live (Canva), miał 30,9 MB, bo zdjęcia były zapisane bezstratnie; po przepakowaniu zdjęć do JPEG (jakość 85) miał 6,9 MB. Nowy, zbyt duży plik trzeba zmniejszyć tak samo.
 
 ## Polityka prywatności
 
