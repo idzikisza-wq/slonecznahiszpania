@@ -20,6 +20,8 @@ const RED_USES = new Set([
   'h2:not(.h3)::before|background',
   '.list--plus > li::before|background',
   '.kpi--accent|color',
+  // Wyjątek z decyzji Idziego 9.10.2026: przycisk na okładce poradnika
+  '.cta.guide-cover-cta|background',
 ]);
 
 // Tokeny z CLAUDE.md: definiuje je wyłącznie tokens.css
@@ -234,7 +236,7 @@ function stripComments(text, ext) {
   return out;
 }
 
-// markers.css: czerwień tylko w trzech regułach z RED_USES, jako var(--kwadrat-red)
+// markers.css: czerwień tylko w regułach z RED_USES, jako var(--kwadrat-red)
 function checkMarkers(text, file, problems) {
   for (const block of text.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
     const selector = block[1].trim().replace(/\s+/g, ' ');

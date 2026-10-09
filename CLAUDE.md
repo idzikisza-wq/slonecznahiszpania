@@ -24,7 +24,7 @@ Wartości są w `src/styles/tokens.css`: jedyne miejsce na kolor w hex i nazwę 
 
 | Token | Wartość | Użycie |
 | --- | --- | --- |
-| `--kwadrat-red` | #E30613 | tylko: logo, kwadracik przed h2, kwadraciki list atutów, jedna liczba na ekranie (reguła 2) |
+| `--kwadrat-red` | #E30613 | tylko: logo, kwadracik przed h2, kwadraciki list atutów, jedna liczba na ekranie (reguła 2); wyjątek: tło przycisku na okładce poradnika (9.10.2026) |
 | `--red-tint` | #fdedee | tylko wiersz-kotwica tabeli porównania |
 | `--ink` | #1a1a1a | nagłówki, liczby, linki, przycisk główny, linie mocne |
 | `--text` | #333333 | tekst, lead, listy, tabele, hover przycisku |
@@ -37,7 +37,7 @@ Rytm: `--container` 1200px (z marginesem), `--side` 40px (20px poniżej 768px), 
 ## Sześć reguł systemu
 
 1. Dużo bieli: na ekran najwyżej cztery bloki (rząd kafelków, lista, zdjęcie, formularz, tabela); podsekcja z własnym h3 to osobna sekcja. Gdy się nie mieści, tnij albo dziel, nie zmniejszaj fontu ani odstępów.
-2. Jeden akcent: czerwień tylko w czterech miejscach z tabeli tokenów. Jedyna czerwona liczba to ocena Google 4,9 (pasek KPI w hero i Opinie), nigdy dwie na jednym ekranie. Nigdy tło, tekst, link, hover, błąd ani otwarte FAQ.
+2. Jeden akcent: czerwień tylko w czterech miejscach z tabeli tokenów. Jedyna czerwona liczba to ocena Google 4,9 (pasek KPI w hero i Opinie), nigdy dwie na jednym ekranie. Nigdy tło (jedyny wyjątek: przycisk na okładce poradnika, decyzja Idziego 9.10.2026), tekst, link, hover, błąd ani otwarte FAQ.
 3. Linie zamiast ramek: mocna 1px ink (nad kafelkiem, krokiem, kierunkiem, stopką, pod nagłówkiem tabeli), lekka 1px `--line` (między sekcjami, pod nagłówkiem strony, w FAQ, pod polami, callout), włosowa 1px `--line-soft` (wiersze tabel). Zero ramek wokół bloków, cieni, zaokrągleń, gradientów i ikon; jedyny wyjątek to piktogram telefonu w nagłówku.
 4. Najpierw wynik: h1, lead i przycisk główny bez przewijania w 1440 × 900 i 390 × 844.
 5. Zdjęcia duże, w naturalnych proporcjach (3:2, 4:3): bez kadrowania do kwadratu, ramek, tekstu, nakładek, gradientów i kart na zdjęciu, logo nigdy na zdjęciu. Poglądowe mają podpis „Zdjęcie poglądowe”. Brak zdjęcia: pole `--surface` z `small` „Zdjęcie 3:2”, a na podglądzie kopia zdjęcia, które już jest w repo. Nigdy obrazek z internetu ani z cudzego hostingu.
@@ -105,7 +105,7 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 2. Hero (#start): `label` PRZEWODNIK PO HISZPAŃSKIM RYNKU, h1 „Dwa wybrzeża.” (400) / „Dwie dobre odpowiedzi.” (700), lead, przycisk „Pobierz poradnik” (#poradnik), link „Porównajmy Twój wybór” (#kontakt), `small` „Bez rankingu na siłę. ...”. Kierunki Costa del Sol i Costa Blanca ze zdjęciami tarasów i linkiem „Zobacz mocne strony i kompromisy” (#porownanie). Pasek KPI: Ocena Google, Regiony, Obsługa, Weryfikacja.
 3. Porównanie (#porownanie): `label`, h2, lead, tabela (Charakter, Budżet, Życie poza sezonem, Dostępność, Dla kogo jako kotwica), pod nią nota o różnicach między gminami.
 4. Regiony (#regiony): `label`, h2, lead, sześć kafelków 4+4+4 (`label` 01 do 06, `label` z miejscowościami, h3, akapit).
-5. Poradnik (#poradnik): 4+4+4: opis (`label`, h2, akapit, lista atutów z czterema punktami, `small` „PDF · dostęp po zapisie”), okładka bez ramki i cienia z przyciskiem głównym „Pobierz darmowy poradnik” na środku (prowadzi do formularza, fokus na pierwszym polu, po zapisie na linku do PDF), formularz od góry kolumny (Imię i Nazwisko w rzędzie, E-mail, przycisk, zgoda).
+5. Poradnik (#poradnik): 4+4+4: opis (`label`, h2, akapit, lista atutów z czterema punktami, `small` „PDF · dostęp po zapisie”), okładka bez ramki i cienia z czerwonym przyciskiem „Pobierz darmowy poradnik” obok napisu „Słoneczna Hiszpania” (prowadzi do formularza, fokus na pierwszym polu, po zapisie na linku do PDF; hover ink), formularz od góry kolumny (Imię i Nazwisko w rzędzie, E-mail, przycisk, zgoda).
 6. Po co kupujesz (#cele): `label`, h2, lead, trzy kafelki 4+4+4 z linkiem „Porozmawiajmy” (#kontakt); bez przycisku głównego pod rzędem.
 7. Dlaczego Hiszpania (#dlaczego-hiszpania): `label`, h2, lead, trzy kafelki, pod nimi callout z h3 „Ryzyka nazywamy wprost” i akapitem.
 8. Od Málagi po Alicante (#lokalizacje): `label`, h2, lead, dwie tabele danych 6+6 (Costa del Sol i Axarquía, Costa Blanca), po cztery miejscowości pogrubione w ink.
@@ -166,7 +166,7 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 
 ## Strażnik
 
-`npm run lint:kwadrat` (`scripts/lint-kwadrat.mjs`) działa przed `build` i przerywa go, gdy w `src/` znajdzie: kolor poza `tokens.css` (hex, `%23`, `rgb()`, `hsl()`, `color-mix()`, nazwany kolor, redefinicja tokenu); `--kwadrat-red` poza `tokens.css` i trzema regułami `markers.css` (kwadracik h2, kwadracik listy atutów, `.kpi--accent`); zaokrąglenie (`border-radius`, `clip-path`, `rx`/`ry`), cień albo gradient; wagę spoza 400, 600, 700, `font-variation-settings`, kursywę, `font-family` inne niż `var(--font-sans)` lub `inherit`, skrót `font:` inny niż `font: inherit`; pauzę lub półpauzę (znak, encja, sekwencja ucieczki, także w komentarzach); bibliotekę ikon albo zależność spoza `astro`. Szczegóły w skrypcie.
+`npm run lint:kwadrat` (`scripts/lint-kwadrat.mjs`) działa przed `build` i przerywa go, gdy w `src/` znajdzie: kolor poza `tokens.css` (hex, `%23`, `rgb()`, `hsl()`, `color-mix()`, nazwany kolor, redefinicja tokenu); `--kwadrat-red` poza `tokens.css` i czterema regułami `markers.css` (kwadracik h2, kwadracik listy atutów, `.kpi--accent`, `.cta.guide-cover-cta`); zaokrąglenie (`border-radius`, `clip-path`, `rx`/`ry`), cień albo gradient; wagę spoza 400, 600, 700, `font-variation-settings`, kursywę, `font-family` inne niż `var(--font-sans)` lub `inherit`, skrót `font:` inny niż `font: inherit`; pauzę lub półpauzę (znak, encja, sekwencja ucieczki, także w komentarzach); bibliotekę ikon albo zależność spoza `astro`. Szczegóły w skrypcie.
 
 ## Definition of done
 
@@ -186,4 +186,4 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 - 6.10.2026: „(opcjonalnie)” przy polach Rozważany region i Wiadomość; link „Zobacz wszystkie” wprost do wizytówki (link „Oddział Otwock” ze stopki kwadrat.io); Google Analytics 4 po zgodzie. Rozwiązań z 5.10.2026 przedstawionych do akceptacji Idzi nie przyjął, wrócimy do nich; do tego czasu bez zmian.
 - 7.10.2026: sekcja „Na miejscu w Hiszpanii” między Obsługą 360° a Opiniami: Sylwia Antczak Baranowska i Gilberto Tejada, nasi rezydenci i lokalni agenci; zdjęcie robocze: selfie Idziego z nimi. Poradnik PDF z live zamiast placeholdera.
 - 8.10.2026: pobieranie poradnika na górę: w hero przycisk główny „Pobierz poradnik”, a „Porównajmy Twój wybór” jako link obok; kolejność sekcji bez zmian.
-- 9.10.2026: nowy, poprawiony poradnik PDF (22 strony A4 w stylu Kwadrat) zamiast wersji z live; okładka przy formularzu to jego pierwsza strona. Na środku okładki przycisk „Pobierz darmowy poradnik”: świadomy wyjątek od reguły 5 (nic na zdjęciu) i od jednego przycisku głównego na sekcję, tylko w Poradniku.
+- 9.10.2026: nowy, poprawiony poradnik PDF (22 strony A4 w stylu Kwadrat) zamiast wersji z live; okładka przy formularzu to jego pierwsza strona. Na okładce przycisk „Pobierz darmowy poradnik”, czerwony w kolorze Kwadratu, obok napisu „Słoneczna Hiszpania”: świadomy wyjątek od reguł 2 (czerwone tło) i 5 (nic na zdjęciu) oraz od jednego przycisku głównego na sekcję, tylko w Poradniku.

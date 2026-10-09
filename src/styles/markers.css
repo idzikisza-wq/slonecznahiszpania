@@ -1,6 +1,7 @@
 /* Jedyny plik poza tokens.css, w którym wolno użyć --kwadrat-red.
-   Tylko: kwadracik przed H2 (12px), kwadraciki list atutów (8px) i jedna liczba na ekranie
-   (ocena Google, klasa .kpi--accent). Nigdzie więcej: ani w tekście, ani w tle, ani w hoverze. */
+   Tylko: kwadracik przed H2 (12px), kwadraciki list atutów (8px), jedna liczba na ekranie
+   (ocena Google, klasa .kpi--accent) i przycisk na okładce poradnika (wyjątek z decyzji Idziego
+   9.10.2026). Nigdzie więcej: ani w tekście, ani w innym tle, ani w hoverze. */
 
 /* Kwadracik przed H2 sekcji (kw-h2): 12 × 12px, odstęp 14px, na linii bazowej pierwszego wiersza.
    h2 w stylu h3 (tytuły kierunków pod hero) jest bez kwadracika. */
@@ -32,4 +33,11 @@ h2:not(.h3)::before {
 /* Jedna czerwona liczba na ekranie: ocena Google */
 .kpi--accent {
   color: var(--kwadrat-red);
+}
+
+/* Wyjątek (decyzja Idziego 9.10.2026): przycisk „Pobierz darmowy poradnik” na okładce poradnika
+   w czerwieni Kwadratu, obok napisu „Słoneczna Hiszpania”. Biały tekst na czerwieni: 4,9:1.
+   Hover w ink (Guide.astro), nigdy czerwony. */
+.cta.guide-cover-cta {
+  background: var(--kwadrat-red);
 }

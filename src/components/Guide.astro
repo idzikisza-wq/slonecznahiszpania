@@ -2,9 +2,10 @@
 // Poradnik (#poradnik): 4+4+4. Opis z listą atutów, okładka w naturalnych proporcjach
 // (bez ramki i cienia), formularz od góry kolumny. Na tablecie opis na całą szerokość,
 // a okładka i formularz 6+6. Na telefonie kolejność bez zmian.
-// Na środku okładki przycisk główny „Pobierz darmowy poradnik” (decyzja Idziego 9.10.2026,
-// świadomy wyjątek od reguły 5 i od jednego przycisku głównego na sekcję). Prowadzi do
-// formularza i ustawia fokus na pierwszym polu, a po zapisie na linku do PDF. Bez JS zwykła kotwica.
+// Na okładce, obok napisu „Słoneczna Hiszpania”, czerwony przycisk „Pobierz darmowy poradnik”
+// (decyzje Idziego 9.10.2026: świadomy wyjątek od reguł 2 i 5 i od jednego przycisku głównego na
+// sekcję; czerwone tło w markers.css). Prowadzi do formularza i ustawia fokus na pierwszym polu,
+// a po zapisie na linku do PDF. Bez JS zwykła kotwica.
 import SectionHead from './ui/SectionHead.astro';
 import List from './ui/List.astro';
 import Photo from './ui/Photo.astro';
@@ -89,13 +90,21 @@ const formId = 'poradnik-formularz';
     align-self: start;
   }
 
-  /* Przycisk na środku okładki, w jednej linii */
+  /* Przycisk na okładce obok napisu „Słoneczna Hiszpania”: pionowo na środku napisu (16,5% wysokości
+     strony A4), przy prawym brzegu strony, nie szerszy niż miejsce za logo. Na komputerze w jednej
+     linii, przy węższej okładce tekst łamie się na dwie. Czerwone tło w markers.css. */
   .guide-cover-cta {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
+    top: 16.5%;
+    right: 5%;
+    max-width: 68%;
+    padding: 10px 14px;
+    text-align: center;
+    transform: translateY(-50%);
+  }
+
+  .guide-cover-cta:hover {
+    background: var(--ink);
   }
 
   /* Tablet: okładka i formularz obok siebie pod opisem */
