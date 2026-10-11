@@ -56,7 +56,7 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 
 | Plik źródłowy w `zdjecia/` | Miejsce | Proporcje |
 | --- | --- | --- |
-| `hero-costa-del-sol.jpg` | hero, kierunek Costa del Sol; wariant 1200 px to też og:image | naturalne (dziś 1200 × 912) |
+| `hero-costa-del-sol.jpg` | hero, kierunek Costa del Sol (prawdziwe zdjęcie wybrzeża od Idziego); wariant 1600 px to też og:image | kadr do 1200 × 912, proporcji zdjęcia Costa Blanca (dziś źródło 2000 × 1500) |
 | `hero-costa-blanca.jpg` | hero, kierunek Costa Blanca | naturalne (dziś 1200 × 912) |
 | `poradnik-cover.png` | okładka przy formularzu poradnika: pierwsza strona `public/poradnik.pdf` | naturalne (A4, dziś 1654 × 2339) |
 | `oferta-malaga.jpg` | oferta Málaga Centro | naturalne (dziś 1008 × 752) |
@@ -70,11 +70,11 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 3. Jeśli zmieniły się proporcje, popraw `ratio` przy danym zdjęciu w `src/content/site.ts`. Tam też są teksty alternatywne (`alt`).
 4. Zrób commit plików z `zdjecia/` i `public/img/`.
 
-Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Na podglądzie zamiast szarego pola daj kopię zdjęcia, które już jest (decyzja Idziego 5.10.2026): skopiuj plik źródłowy w `zdjecia/` pod nazwą brakującego miejsca i uruchom `npm run zdjecia`. Dziś każde miejsce ma swoje zdjęcie. Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę.
+Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Na podglądzie zamiast szarego pola daj kopię zdjęcia, które już jest (decyzja Idziego 5.10.2026): skopiuj plik źródłowy w `zdjecia/` pod nazwą brakującego miejsca i uruchom `npm run zdjecia`. Dziś każde miejsce ma swoje zdjęcie. Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę: w `zdjecia/do-decyzji/` czekają zdjęcia od Idziego bez miejsca na stronie (dziś `ogrod-z-hamakiem.jpg`, ogród osiedla z tarasu, 1500 × 2000).
 
 Podpis „Zdjęcie poglądowe" pod zdjęciami w hero to stała `PHOTO_NOTE` w `site.ts`, a podpis „Wizualizacja" pod zdjęciami ofert to stała `OFFER_PHOTO_NOTE`. Pusty tekst ukrywa podpis, np. po podmianie wizualizacji na zdjęcia.
 
-Obraz do udostępniania linku (og:image i twitter:image, karta `summary_large_image`) to zdjęcie hero Costa del Sol w wariancie 1200 px: `/img/hero-costa-del-sol-1200.jpg`, 1200 × 912 (decyzja Idziego 5.10.2026). Ustawiają go `meta.ogImage` i `meta.ogImageSize` w `site.ts`. Po podmianie zdjęcia hero i `npm run zdjecia` obraz zmienia się sam; przy innych proporcjach popraw `ogImageSize`.
+Obraz do udostępniania linku (og:image i twitter:image, karta `summary_large_image`) to zdjęcie hero Costa del Sol w wariancie 1600 px: `/img/hero-costa-del-sol-1600.jpg`, 1600 × 1216 (decyzja Idziego 5.10.2026). Ustawiają go `meta.ogImage` i `meta.ogImageSize` w `site.ts`. Po podmianie zdjęcia hero i `npm run zdjecia` obraz zmienia się sam; przy innych proporcjach albo źródle węższym niż 1600 px popraw `ogImage` i `ogImageSize`.
 
 ## Oferty
 

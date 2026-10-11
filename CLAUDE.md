@@ -102,7 +102,7 @@ Kontrast na paper: ink 17,4:1, text 12,6:1, muted 5,0:1, kwadrat-red 4,9:1 (tylk
 Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, nie źródło: nie wracają z niej rząd PL / 360° / 1 plan, „Bez ukrytych kosztów”, stare sekcje o Costa Blanca, lista ryzyk z migracją ani tabela z Lagos. Nie odtwarzaj tekstów z pamięci; live to aplikacja JS, więc czytaj wersję wyrenderowaną przeglądarką.
 
 1. Nagłówek: lockup, etykieta, menu (Porównanie, Regiony, Proces, Oferty, Poradnik, Opinie, FAQ; Oferty znika przy `SHOW_OFFERS = false`), piktogram telefonu.
-2. Hero (#start): `label` PRZEWODNIK PO HISZPAŃSKIM RYNKU, h1 „Dwa wybrzeża.” (400) / „Dwie dobre odpowiedzi.” (700), lead, przycisk „Pobierz poradnik” (#poradnik), link „Porównajmy Twój wybór” (#kontakt), `small` „Bez rankingu na siłę. ...”. Kierunki Costa del Sol i Costa Blanca ze zdjęciami tarasów i linkiem „Zobacz mocne strony i kompromisy” (#porownanie). Pasek KPI: Ocena Google, Regiony, Obsługa, Weryfikacja.
+2. Hero (#start): `label` PRZEWODNIK PO HISZPAŃSKIM RYNKU, h1 „Dwa wybrzeża.” (400) / „Dwie dobre odpowiedzi.” (700), lead, przycisk „Pobierz poradnik” (#poradnik), link „Porównajmy Twój wybór” (#kontakt), `small` „Bez rankingu na siłę. ...”. Kierunki Costa del Sol (wybrzeże) i Costa Blanca (taras) ze zdjęciami i linkiem „Zobacz mocne strony i kompromisy” (#porownanie). Pasek KPI: Ocena Google, Regiony, Obsługa, Weryfikacja.
 3. Porównanie (#porownanie): `label`, h2, lead, tabela (Charakter, Budżet, Życie poza sezonem, Dostępność, Dla kogo jako kotwica), pod nią nota o różnicach między gminami.
 4. Regiony (#regiony): `label`, h2, lead, sześć kafelków 4+4+4 (`label` 01 do 06, `label` z miejscowościami, h3, akapit).
 5. Poradnik (#poradnik): 4+4+4: opis (`label`, h2, akapit, lista atutów z czterema punktami, `small` „PDF · dostęp po zapisie”), okładka bez ramki i cienia z czerwonym przyciskiem „Pobierz darmowy poradnik” obok napisu „Słoneczna Hiszpania” (prowadzi do formularza, fokus na pierwszym polu, po zapisie na linku do PDF; hover ink), formularz od góry kolumny (Imię i Nazwisko w rzędzie, E-mail, przycisk, zgoda).
@@ -129,8 +129,8 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 ## Zdjęcia i PDF
 
 - Źródła w `zdjecia/` pod nazwą miejsca; `npm run zdjecia` zapisuje WebP i JPG 800 i 1600px (mniejsze źródło w pełnej szerokości) do `public/img/`; proporcje i kadr w `scripts/zdjecia.mjs`. Na stronie `<picture>`, zawsze `width` i `height`, `loading="lazy"` poza hero.
-- Hero: `hero-costa-del-sol.jpg` i `hero-costa-blanca.jpg` (1200 × 912, od dewelopera, poglądowe), alty „Taras apartamentu z widokiem na wybrzeże Costa del Sol” i „Taras apartamentu z widokiem na Alicante i Costa Blanca”.
-- Oferty: `oferta-malaga.jpg`, `oferta-mijas.jpg`, `oferta-marbella.jpg` (1008 × 752, wizualizacje dewelopera, Idzi podmieni). Poradnik: `poradnik-cover.png`, pierwsza strona PDF poradnika (A4, 1654 × 2339, decyzja Idziego 9.10.2026); przy nowym PDF podmienić razem z nim. Kontakt: `kontakt.jpg` (Piotr i Ania, 720 × 960, kadr 4:3 z dołu, `focus` 0,86; do podmiany na oryginał z telefonu). Poza `kontakt.jpg` bez kadrowania.
+- Hero: `hero-costa-del-sol.jpg` (prawdziwe zdjęcie wybrzeża od Idziego, 2000 × 1500, kadr do 1200:912 o 1,3% szerokości, żeby kierunki miały równą wysokość) i `hero-costa-blanca.jpg` (1200 × 912, od dewelopera); oba z podpisem „Zdjęcie poglądowe”. Alty „Złote niebo nad wybrzeżem Costa del Sol: falochrony, plaża i promenada z palmami” i „Taras apartamentu z widokiem na Alicante i Costa Blanca”. Zdjęcia od Idziego bez miejsca na stronie czekają w `zdjecia/do-decyzji/`.
+- Oferty: `oferta-malaga.jpg`, `oferta-mijas.jpg`, `oferta-marbella.jpg` (1008 × 752, wizualizacje dewelopera, Idzi podmieni). Poradnik: `poradnik-cover.png`, pierwsza strona PDF poradnika (A4, 1654 × 2339, decyzja Idziego 9.10.2026); przy nowym PDF podmienić razem z nim. Kontakt: `kontakt.jpg` (Piotr i Ania, 720 × 960, kadr 4:3 z dołu, `focus` 0,86; do podmiany na oryginał z telefonu). Poza `kontakt.jpg` i wyrównaniem `hero-costa-del-sol.jpg` bez kadrowania.
 - Na miejscu w Hiszpanii: `zespol-hiszpania.jpg`, selfie Idziego z Sylwią i Gilbertem (1500 × 2000, robocze, Idzi może podmienić): `ratio: null`, bez kadru i podpisu (pusty `team.photoNote`), alt z imionami od lewej.
 - PDF poradnika: `public/poradnik.pdf`, wersja od Idziego z 9.10.2026 (22 strony A4 w stylu Kwadrat, 0,8 MB); Cloudflare Pages przyjmuje pliki do 25 MiB, większy plik trzeba zmniejszyć (zdjęcia do JPEG). Treści PDF nie zmieniamy. W `public/_headers` `X-Robots-Tag: noindex`.
 
@@ -151,7 +151,7 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 
 ## SEO
 
-- Meta jak na live: title „Kwadrat Nieruchomości | Costa del Sol i Costa Blanca”, og:title i twitter:title „Kwadrat Nieruchomości | Hiszpania”, description, og:description i twitter:description w `site.ts`. og:image i twitter:image: `/img/hero-costa-del-sol-1200.jpg` (1200 × 912), twitter:card `summary_large_image`.
+- Meta jak na live: title „Kwadrat Nieruchomości | Costa del Sol i Costa Blanca”, og:title i twitter:title „Kwadrat Nieruchomości | Hiszpania”, description, og:description i twitter:description w `site.ts`. og:image i twitter:image: `/img/hero-costa-del-sol-1600.jpg` (1600 × 1216), twitter:card `summary_large_image`.
 - schema.org: RealEstateAgent (name, legalName, NIP, REGON, KRS, telefon, adres, logo `kwadrat-logo.svg`) i FAQPage. Kotwice jak w sekcjach.
 - `public/sitemap.xml` (dwie strony) i `Sitemap:` w `robots.txt`.
 
@@ -187,3 +187,4 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 - 7.10.2026: sekcja „Na miejscu w Hiszpanii” między Obsługą 360° a Opiniami: Sylwia Antczak Baranowska i Gilberto Tejada, nasi rezydenci i lokalni agenci; zdjęcie robocze: selfie Idziego z nimi. Poradnik PDF z live zamiast placeholdera.
 - 8.10.2026: pobieranie poradnika na górę: w hero przycisk główny „Pobierz poradnik”, a „Porównajmy Twój wybór” jako link obok; kolejność sekcji bez zmian.
 - 9.10.2026: nowy, poprawiony poradnik PDF (22 strony A4 w stylu Kwadrat) zamiast wersji z live; okładka przy formularzu to jego pierwsza strona. Na okładce przycisk „Pobierz darmowy poradnik”, czerwony w kolorze Kwadratu, obok napisu „Słoneczna Hiszpania”: świadomy wyjątek od reguł 2 (czerwone tło) i 5 (nic na zdjęciu) oraz od jednego przycisku głównego na sekcję, tylko w Poradniku.
+- 11.10.2026: Idzi przysłał prawdziwe zdjęcia: wybrzeże o złotej godzinie trafia do hero przy Costa del Sol zamiast zdjęcia od dewelopera (miejsce zdjęcia i jego region do potwierdzenia), ogród z hamakiem czeka w `zdjecia/do-decyzji/`.

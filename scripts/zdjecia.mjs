@@ -21,7 +21,9 @@ const WIDTHS = [800, 1600];
 // focus [x, y]: gdzie leży kadr w nadmiarze zdjęcia, od 0 (lewo, góra) do 1 (prawo, dół).
 const SLOTS = {
   // Hero: zdjęcie przy każdym kierunku (decyzja Idziego 5.10.2026, jak na live)
-  'hero-costa-del-sol': { ratio: null },
+  // Costa del Sol: prawdziwe zdjęcie wybrzeża od Idziego (11.10.2026), 4:3 przycięte o 1,3% szerokości
+  // do proporcji zdjęcia Costa Blanca (1200 × 912), żeby oba kierunki miały tę samą wysokość.
+  'hero-costa-del-sol': { ratio: [1200, 912] },
   'hero-costa-blanca': { ratio: null },
   'poradnik-cover': { ratio: null },
   'oferta-malaga': { ratio: null },
