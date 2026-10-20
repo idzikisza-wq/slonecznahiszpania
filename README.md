@@ -129,7 +129,7 @@ Oba formularze (poradnik i kontakt) wysyłają zgłoszenia przez [Web3Forms](htt
 2. Lokalnie: skopiuj `.env.example` do `.env` i wpisz `PUBLIC_WEB3FORMS_KEY=twój-klucz`. Plik `.env` jest w `.gitignore`, nigdy nie trafia do repo.
 3. W Cloudflare Pages: Settings, Variables and Secrets (zmienne środowiskowe), dodaj `PUBLIC_WEB3FORMS_KEY` dla Production i Preview, potem ponów wdrożenie (klucz jest wstawiany w czasie buildu).
 
-Bez klucza formularze działają w trybie demo: pokazują komunikat sukcesu, a payload trafia do konsoli przeglądarki. Ochrona przed spamem: ukryte pole honeypot, bez CAPTCHA.
+Bez klucza formularze działają w trybie demo: pokazują komunikat sukcesu, a payload trafia do konsoli przeglądarki. Tak jest lokalnie i na podglądach gałęzi; build produkcyjny na Cloudflare Pages (gałąź `main`) bez klucza się przerywa, żeby strona nigdy nie udawała wysyłki. Ochrona przed spamem: ukryte pole honeypot, bez CAPTCHA.
 
 ## Google Analytics
 
@@ -143,6 +143,16 @@ Jak działa: z identyfikatorem na górze strony pojawia się baner zgody („Akc
 4. Przed włączeniem: akceptacja tekstu baneru (`consent` w `src/content/site.ts`) i akapitów o Google Analytics w polityce prywatności (`privacy.cookiesAnalytics`), najlepiej z prawnikiem.
 5. W Cloudflare Pages: Settings, Variables and Secrets, dodaj `PUBLIC_GA_ID` dla Production i Preview, potem ponów wdrożenie. Lokalnie: w `.env`.
 
+## Publikacja w trzech krokach
+
+Strona jest gotowa i scalona do gałęzi `main`. Zostały trzy kroki, które wymagają kont Idziego (Claude nie ma do nich dostępu):
+
+1. **Klucz formularzy** (2 minuty): na [web3forms.com](https://web3forms.com) wpisz biuro@kwadrat.io, klucz przyjdzie mailem. Bez klucza wersja produkcyjna się nie zbuduje (zabezpieczenie w `astro.config.mjs`), bo formularz pokazywałby „wysłano”, a zgłoszenie by przepadło.
+2. **Cloudflare Pages** (10 minut): projekt połączony z tym repozytorium, z kluczem w zmiennych (kroki niżej). Po buildzie strona działa pod adresem `nazwa-projektu.pages.dev`: tam sprawdź ją i wyślij testowe zgłoszenie z obu formularzy.
+3. **Domena**: podepnij `www.slonecznahiszpania.pl` do projektu Pages (checklista niżej).
+
+**Kopia zapasowa starej strony:** projekt w Lovable zostaje nietknięty i opublikowany pod swoim adresem w Lovable (zapisz go przed przełączeniem: w Lovable, Publish, adres `*.lovable.app`). Powrót do starej strony to ponowne podpięcie domeny w Lovable (albo przywrócenie poprzednich rekordów DNS). Cloudflare Pages sam przechowuje każde wdrożenie nowej strony: w zakładce Deployments każdą wcześniejszą wersję przywraca się przyciskiem Rollback.
+
 ## Cloudflare Pages krok po kroku
 
 Cloudflare Pages to darmowy hosting stron statycznych (konto na cloudflare.com, plan Free wystarczy). Pobiera kod z GitHuba, sam buduje stronę, serwuje ją z serwerów na całym świecie, wystawia certyfikat HTTPS i po każdej zmianie w gałęzi `main` publikuje nową wersję. Dziś strona stoi na Lovable; po przełączeniu domeny będzie stała tutaj.
@@ -154,7 +164,7 @@ Cloudflare Pages to darmowy hosting stron statycznych (konto na cloudflare.com, 
    - Framework preset: Astro
    - Build command: `npm run build`
    - Build output directory: `dist`
-   - Zmienne środowiskowe: `NODE_VERSION` = `22` (Cloudflare czyta też `.nvmrc`), opcjonalnie `PUBLIC_WEB3FORMS_KEY` i `PUBLIC_GA_ID` (opis niżej).
+   - Zmienne środowiskowe (typ Text, dla Production i Preview): `NODE_VERSION` = `22` (Cloudflare czyta też `.nvmrc`), `PUBLIC_WEB3FORMS_KEY` (wymagany dla gałęzi `main`, bez niego build produkcyjny się przerwie z instrukcją), opcjonalnie `PUBLIC_GA_ID` (opis wyżej).
 4. Save and Deploy. Po buildzie strona jest pod adresem `nazwa-projektu.pages.dev`.
 5. Każdy pull request i każda gałąź dostają automatycznie własny podgląd pod adresem `*.nazwa-projektu.pages.dev`. Podglądy mają nagłówek noindex, nie trafią do Google.
 
@@ -162,8 +172,9 @@ Nagłówki cache i bezpieczeństwa są w `public/_headers`.
 
 ## Checklista przełączenia domeny
 
-Wykonuje Idzi, po akceptacji podglądu.
+Wykonuje Idzi (podgląd zaakceptowany 20.10.2026).
 
+0. Zapisać adres strony w Lovable (`*.lovable.app`): to kopia zapasowa starej strony. Projektu w Lovable nie usuwać.
 1. Sprawdzić, gdzie trafiają dziś zapytania z formularzy na stronie w Lovable, i wyeksportować dotychczasowe leady.
 2. Podpiąć klucz Web3Forms, wysłać testowe zgłoszenie z obu formularzy, potwierdzić odbiór na biuro@kwadrat.io.
 3. Wgrać docelowe zdjęcia (PDF poradnika już jest), potwierdzić z prawnikiem treść polityki prywatności.
@@ -173,4 +184,5 @@ Wykonuje Idzi, po akceptacji podglądu.
    - w ustawieniach domeny (Rules, Redirect Rules) włączyć przekierowanie 301 z `slonecznahiszpania.pl` na `https://www.slonecznahiszpania.pl` (szablon „Redirect from root to WWW”). Dziś adres bez www zwraca błąd 502, więc to przekierowanie jest potrzebne.
 
    Bez przenoszenia DNS da się podpiąć tylko `www` (rekord CNAME u rejestratora na adres `*.pages.dev`), a przekierowanie z adresu bez www trzeba wtedy ustawić u rejestratora.
-5. Po propagacji sprawdzić stronę, formularze i certyfikat, dopiero wtedy odpiąć domenę od projektu w Lovable.
+5. Po propagacji sprawdzić stronę, formularze i certyfikat, dopiero wtedy odpiąć domenę od projektu w Lovable. Sam projekt w Lovable zostaje opublikowany pod swoim adresem jako kopia zapasowa.
+6. Gdyby coś poszło źle: domenę z powrotem w Lovable (albo poprzednie rekordy DNS) i stara strona wraca; nowa zostaje pod `*.pages.dev`.

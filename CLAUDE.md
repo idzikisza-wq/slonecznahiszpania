@@ -7,7 +7,7 @@ Jedyne źródło prawdy o projekcie, czytane na starcie każdej sesji. Gdy zadan
 - Cel: statyczna, szybka wersja https://www.slonecznahiszpania.pl (landing Kwadrat Nieruchomości: Costa del Sol, Costa Blanca i inne regiony Hiszpanii). Treść i kolejność sekcji jak na live, forma (typografia, kolor, siatka, rytm) z systemu Kwadrat.
 - Właściciel: Idzi Kisza. Język strony: polski (`lang="pl"`).
 - Hierarchia źródeł: decyzje Idziego zapisane w tym pliku, potem system Kwadrat v2 z warstwą www (artefakt „Kwadrat Documents”, https://claude.ai/artifact/P7idjpFLkGF93rq3bqeGQj: `project/WEB.md`, `tokens.json`, `components/bundle.css`, komponenty Web*; klasy `kw-*` wolno kopiować 1:1), potem `08_DOKUMENTY_KWADRAT.md` (system pod A4).
-- Strona na Lovable zostaje nietknięta: nie łącz z nią repo, nie kopiuj jej kodu. Domenę przepina Idzi po akceptacji podglądu.
+- Strona na Lovable zostaje nietknięta: nie łącz z nią repo, nie kopiuj jej kodu. Po przełączeniu domeny zostaje opublikowana pod swoim adresem w Lovable jako kopia zapasowa (decyzja Idziego 20.10.2026). Domenę przepina Idzi (podgląd zaakceptowany 20.10.2026, instrukcja w README: „Publikacja w trzech krokach”).
 - Zasada nadrzędna: czytelność ponad efektowność. W trzy sekundy widać, co to jest, od kogo i co zrobić dalej; element, który tego nie wspiera, wylatuje.
 
 ## Stack
@@ -136,7 +136,7 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 
 ## Formularze
 
-- Poradnik i kontakt przez Web3Forms na biuro@kwadrat.io. Klucz `PUBLIC_WEB3FORMS_KEY` tylko w zmiennych środowiskowych, nigdy w repo (`.env` w `.gitignore`). Bez klucza tryb demo: komunikat sukcesu i payload w konsoli.
+- Poradnik i kontakt przez Web3Forms na biuro@kwadrat.io. Klucz `PUBLIC_WEB3FORMS_KEY` tylko w zmiennych środowiskowych, nigdy w repo (`.env` w `.gitignore`). Bez klucza tryb demo: komunikat sukcesu i payload w konsoli (lokalnie i na podglądach). Build produkcyjny na Cloudflare Pages (`CF_PAGES_BRANCH` = `main`) bez klucza przerywa się w `astro.config.mjs`: nie usuwaj tego zabezpieczenia.
 - Honeypot, bez CAPTCHA. Po zapisie na poradnik komunikat i link do PDF.
 - Zgody: pod poradnikiem z live, pod kontaktem z poprzedniej wersji strony (obie potwierdzone); pod każdym formularzem zdanie z linkiem do `/polityka-prywatnosci`.
 - Polityka prywatności (`privacy` w `site.ts`, strona w stylu systemu): klauzula RODO z https://kwadrat.io/rodo/ dostosowana do formularzy tej strony, lista zmian w komentarzu nad nią. Tekstu prawnego nie zmieniaj bez zgody Idziego; przed produkcją sprawdza go prawnik (TODO), także przekazywanie danych poza EOG.
@@ -189,3 +189,4 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 - 9.10.2026: nowy, poprawiony poradnik PDF (22 strony A4 w stylu Kwadrat) zamiast wersji z live; okładka przy formularzu to jego pierwsza strona. Na okładce przycisk „Pobierz darmowy poradnik”, czerwony w kolorze Kwadratu, obok napisu „Słoneczna Hiszpania”: świadomy wyjątek od reguł 2 (czerwone tło) i 5 (nic na zdjęciu) oraz od jednego przycisku głównego na sekcję, tylko w Poradniku.
 - 11.10.2026: Idzi przysłał prawdziwe zdjęcia: wybrzeże o złotej godzinie trafia do hero przy Costa del Sol zamiast zdjęcia od dewelopera (miejsce zdjęcia i jego region do potwierdzenia), ogród z hamakiem czeka w `zdjecia/do-decyzji/`.
 - 20.10.2026: Idzi przysłał pięć zdjęć z plaż Costa del Sol do wyboru. W hero przy Costa del Sol zostaje zachód słońca („to z czerwonym zachodem lubiłem”, zrobione w Algarrobo); przy Costa Blanca jedno z tych zdjęć zamiast tarasu od dewelopera (gaj palmowy, bo nie ma na nim miejsc charakterystycznych dla Andaluzji). Taras i reszta czekają w `zdjecia/do-decyzji/`. Strona octavia-malaga-residence.peterwojda.chatgpt.site była zablokowana w sieci środowiska; Idzi przysłał jej zdjęcia w czacie („żebyś sobie podmienił zdjęcia apartamentów”): trzy z nich zastępują wizualizacje w ofertach, podpis „Zdjęcie poglądowe” zamiast „Wizualizacja”; dane ofert bez zmian.
+- 20.10.2026 (później): „pracuj aż będzie wszystko gotowe, podejmuj decyzje, przechodź przez proces aż do publikacji strony w internecie, zachowaj tamtą jako backup na serwerze”. PR scalony do `main`; build produkcyjny bez klucza Web3Forms się przerywa; łatka `npm audit fix` (vite, tylko serwer deweloperski). Strona w Lovable zostaje kopią zapasową. Klucz Web3Forms, projekt Cloudflare Pages i domenę podpina Idzi (Claude nie ma dostępu do tych kont).
