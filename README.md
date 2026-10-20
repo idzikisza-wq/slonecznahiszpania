@@ -59,9 +59,9 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 | `hero-costa-del-sol.jpg` | hero, kierunek Costa del Sol (zachód słońca w Algarrobo, od Idziego); wariant 1600 px to też og:image | naturalne (dziś 2000 × 1500, 4:3) |
 | `hero-costa-blanca.jpg` | hero, kierunek Costa Blanca (gaj palmowy od Idziego, spoza Costa Blanca, do podmiany na zdjęcie z Costa Blanca) | naturalne (dziś 2000 × 1500, 4:3) |
 | `poradnik-cover.png` | okładka przy formularzu poradnika: pierwsza strona `public/poradnik.pdf` | naturalne (A4, dziś 1654 × 2339) |
-| `oferta-malaga.jpg` | oferta Málaga Centro | naturalne (dziś 1008 × 752) |
-| `oferta-mijas.jpg` | oferta Mijas | naturalne |
-| `oferta-marbella.jpg` | oferta Marbella | naturalne |
+| `oferta-malaga.webp` | oferta Málaga Centro (sypialnia apartamentu Octavia) | naturalne (dziś 1448 × 1086, 4:3); wszystkie trzy oferty w tych samych proporcjach |
+| `oferta-mijas.webp` | oferta Mijas (salon apartamentu Octavia) | naturalne |
+| `oferta-marbella.webp` | oferta Marbella (jadalnia z tarasem apartamentu Octavia) | naturalne |
 | `kontakt.jpg` | Kontakt, pod telefonem (Piotr i Ania) | kadr 4:3 z pionowego zdjęcia (dziś 720 × 960) |
 | `zespol-hiszpania.jpg` | Na miejscu w Hiszpanii (Idzi z Sylwią i Gilbertem, bez podpisu) | naturalne (dziś selfie 1500 × 2000, robocze); przy podmianie popraw alt z imionami od lewej (`IMAGES.team` w `site.ts`) |
 
@@ -75,6 +75,9 @@ Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 
 | Plik w `zdjecia/do-decyzji/` | Co pokazuje | Wymiary |
 | --- | --- | --- |
 | `costa-blanca-taras-deweloper.jpg` | taras apartamentu z widokiem na Alicante (od dewelopera, do 20.10.2026 w hero przy Costa Blanca, alt „Taras apartamentu z widokiem na Alicante i Costa Blanca”) | 1200 × 912 |
+| `oferta-malaga-wizualizacja.jpg`, `oferta-mijas-wizualizacja.jpg`, `oferta-marbella-wizualizacja.jpg` | wizualizacje dewelopera, do 20.10.2026 w ofertach (proporcje 1008 × 752; przy powrocie `ratio` w `site.ts` i podpis „Wizualizacja”) | 1008 × 752 |
+| `octavia-basen-na-dachu.webp` | basen na dachu apartamentowca Octavia z widokiem na morze | 1448 × 1086 |
+| `octavia-jadalnia.webp` | jadalnia apartamentu Octavia z tarasem i widokiem na morze | 1447 × 1087 |
 | `plaza-parasole-latarnia.jpg` | plaża z palmami i słomianymi parasolami, w tle latarnia i góry | 2000 × 1500 |
 | `torre-del-mar-lodzie.jpg` | łodzie wiosłowe na plaży w Torre del Mar, z bliska | 2000 × 1500 |
 | `torre-del-mar-lodzie-latarnia.jpg` | te same łodzie szerzej, w tle latarnia i góry | 2000 × 1500 |
@@ -83,7 +86,7 @@ Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 
 
 Żeby dać któreś z nich do hero, skopiuj je jako `zdjecia/hero-costa-del-sol.jpg` albo `zdjecia/hero-costa-blanca.jpg`, uruchom `npm run zdjecia` i popraw alt w `IMAGES.heroSol` (wtedy też `meta.ogImageAlt`) albo `IMAGES.heroBlanca` w `site.ts`. Oba zdjęcia w hero muszą mieć te same proporcje; inaczej ustaw `ratio` przy obu w `scripts/zdjecia.mjs` i w `site.ts`.
 
-Podpis „Zdjęcie poglądowe" pod zdjęciami w hero to stała `PHOTO_NOTE` w `site.ts`, a podpis „Wizualizacja" pod zdjęciami ofert to stała `OFFER_PHOTO_NOTE`. Pusty tekst ukrywa podpis, np. po podmianie wizualizacji na zdjęcia.
+Podpis „Zdjęcie poglądowe" pod zdjęciami w hero to stała `PHOTO_NOTE` w `site.ts`, a podpis pod zdjęciami ofert to stała `OFFER_PHOTO_NOTE` (od 20.10.2026 „Zdjęcie poglądowe”, bo zdjęcia apartamentu Octavia nie pokazują tych konkretnych ofert). Pusty tekst ukrywa podpis, np. po podmianie na zdjęcia samych ofert.
 
 Obraz do udostępniania linku (og:image i twitter:image, karta `summary_large_image`) to zdjęcie hero Costa del Sol w wariancie 1600 px: `/img/hero-costa-del-sol-1600.jpg`, 1600 × 1200 (decyzja Idziego 5.10.2026). Ustawiają go `meta.ogImage` i `meta.ogImageSize` w `site.ts`. Po podmianie zdjęcia hero i `npm run zdjecia` obraz zmienia się sam; przy innych proporcjach albo źródle węższym niż 1600 px popraw `ogImage` i `ogImageSize`.
 

@@ -16,9 +16,10 @@ export const SHOW_OFFERS = true;
 // Zdjęcie poglądowe (DANE): podpis pod zdjęciem w hero. Pusty tekst ukrywa podpis.
 export const PHOTO_NOTE = 'Zdjęcie poglądowe';
 
-// Zdjęcia ofert to wizualizacje dewelopera (Idzi, 3.10.2026): podpis pod każdym zdjęciem oferty.
-// Pusty tekst ukrywa podpis, np. po podmianie na zdjęcia nieruchomości.
-export const OFFER_PHOTO_NOTE = 'Wizualizacja';
+// Podpis pod każdym zdjęciem oferty. Od 20.10.2026 zdjęcia ofert to prawdziwe zdjęcia apartamentu Octavia
+// od Idziego (zamiast wizualizacji dewelopera), nie zdjęcia tych konkretnych ofert, więc „Zdjęcie poglądowe”.
+// Po podmianie na zdjęcia samych ofert: pusty tekst ukrywa podpis.
+export const OFFER_PHOTO_NOTE = 'Zdjęcie poglądowe';
 
 // Jedyny telefon na całej stronie (nagłówek, Konsultacja, stopka, schema.org): numer z nowej strony,
 // potwierdzony przez Idziego 3.10 i 5.10.2026.
@@ -124,22 +125,24 @@ const IMAGES = {
     alt: 'Okładka bezpłatnego poradnika o inwestowaniu w nieruchomości w Hiszpanii',
     placeholder: 'Okładka poradnika',
   },
+  // Oferty: od 20.10.2026 zdjęcia apartamentu Octavia od Idziego (1448 × 1086, 4:3), dobrane do opisu
+  // oferty: sypialnia z widokiem na miasto, salon, taras z panoramą. Alty opisują zdjęcie.
   offerMalaga: {
     name: 'oferta-malaga',
-    ratio: [1008, 752],
-    alt: 'Apartament z tarasem, Málaga Centro',
+    ratio: [4, 3],
+    alt: 'Sypialnia z garderobą za szklanymi drzwiami i widokiem na miasto i morze',
     placeholder: 'Zdjęcie 4:3',
   },
   offerMijas: {
     name: 'oferta-mijas',
-    ratio: [1008, 752],
-    alt: 'Willa pośród wzgórz, Mijas',
+    ratio: [4, 3],
+    alt: 'Przestronny salon z narożną sofą, jadalnią i kuchnią w otwartym układzie',
     placeholder: 'Zdjęcie 4:3',
   },
   offerMarbella: {
     name: 'oferta-marbella',
-    ratio: [1008, 752],
-    alt: 'Penthouse z panoramą, Marbella',
+    ratio: [4, 3],
+    alt: 'Jadalnia z wyjściem na duży taras z widokiem na morze',
     placeholder: 'Zdjęcie 4:3',
   },
 };
