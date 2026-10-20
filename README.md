@@ -56,7 +56,7 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 
 | Plik źródłowy w `zdjecia/` | Miejsce | Proporcje |
 | --- | --- | --- |
-| `hero-costa-del-sol.jpg` | hero, kierunek Costa del Sol (prawdziwe zdjęcie wybrzeża od Idziego); wariant 1600 px to też og:image | kadr do 1200 × 912, proporcji zdjęcia Costa Blanca (dziś źródło 2000 × 1500) |
+| `hero-costa-del-sol.jpg` | hero, kierunek Costa del Sol (prawdziwe zdjęcie plaży od Idziego); wariant 1600 px to też og:image | kadr do 1200 × 912, proporcji zdjęcia Costa Blanca (dziś źródło 2000 × 1500) |
 | `hero-costa-blanca.jpg` | hero, kierunek Costa Blanca | naturalne (dziś 1200 × 912) |
 | `poradnik-cover.png` | okładka przy formularzu poradnika: pierwsza strona `public/poradnik.pdf` | naturalne (A4, dziś 1654 × 2339) |
 | `oferta-malaga.jpg` | oferta Málaga Centro | naturalne (dziś 1008 × 752) |
@@ -70,7 +70,18 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 3. Jeśli zmieniły się proporcje, popraw `ratio` przy danym zdjęciu w `src/content/site.ts`. Tam też są teksty alternatywne (`alt`).
 4. Zrób commit plików z `zdjecia/` i `public/img/`.
 
-Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Na podglądzie zamiast szarego pola daj kopię zdjęcia, które już jest (decyzja Idziego 5.10.2026): skopiuj plik źródłowy w `zdjecia/` pod nazwą brakującego miejsca i uruchom `npm run zdjecia`. Dziś każde miejsce ma swoje zdjęcie. Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę: w `zdjecia/do-decyzji/` czekają zdjęcia od Idziego bez miejsca na stronie (dziś `ogrod-z-hamakiem.jpg`, ogród osiedla z tarasu, 1500 × 2000).
+Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Na podglądzie zamiast szarego pola daj kopię zdjęcia, które już jest (decyzja Idziego 5.10.2026): skopiuj plik źródłowy w `zdjecia/` pod nazwą brakującego miejsca i uruchom `npm run zdjecia`. Dziś każde miejsce ma swoje zdjęcie. Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę: w `zdjecia/do-decyzji/` czekają zdjęcia od Idziego bez miejsca na stronie:
+
+| Plik w `zdjecia/do-decyzji/` | Co pokazuje | Wymiary |
+| --- | --- | --- |
+| `wybrzeze-zachod-slonca.jpg` | zachód słońca nad wybrzeżem z falochronami i promenadą (od 11.10.2026 do 20.10.2026 w hero) | 2000 × 1500 |
+| `torre-del-mar-lodzie.jpg` | łodzie wiosłowe na plaży w Torre del Mar, z bliska | 2000 × 1500 |
+| `torre-del-mar-lodzie-latarnia.jpg` | te same łodzie szerzej, w tle latarnia i góry | 2000 × 1500 |
+| `plaza-promenada-wieza-ratownika.jpg` | plaża z promenadą, palmami i wieżą ratownika | 2000 × 1500 |
+| `plaza-gaj-palmowy.jpg` | gaj palmowy na piaszczystej plaży | 2000 × 1500 |
+| `ogrod-z-hamakiem.jpg` | ogród osiedla z tarasu z hamakiem | 1500 × 2000 |
+
+Żeby dać któreś z nich do hero, skopiuj je jako `zdjecia/hero-costa-del-sol.jpg`, uruchom `npm run zdjecia` i popraw alt w `IMAGES.heroSol` i `meta.ogImageAlt` w `site.ts`.
 
 Podpis „Zdjęcie poglądowe" pod zdjęciami w hero to stała `PHOTO_NOTE` w `site.ts`, a podpis „Wizualizacja" pod zdjęciami ofert to stała `OFFER_PHOTO_NOTE`. Pusty tekst ukrywa podpis, np. po podmianie wizualizacji na zdjęcia.
 

@@ -82,7 +82,7 @@ export const HAS_GOOGLE_RATING = [GOOGLE_RATING, GOOGLE_REVIEWS, GOOGLE_PROFILE_
 // (generuje npm run zdjecia). ratio to naturalne proporcje pliku, bez kadrowania.
 // Brak plików = szare pole z podpisem.
 // Źródło zdjęć w ofertach i przy Costa Blanca: deweloper (potwierdził Idzi 3.10.2026).
-// Przy Costa del Sol prawdziwe zdjęcie wybrzeża od Idziego (11.10.2026, miejsce do potwierdzenia).
+// Przy Costa del Sol prawdziwe zdjęcie plaży od Idziego (20.10.2026, miejsce do potwierdzenia).
 // Hero: dwa zdjęcia, po jednym przy każdym kierunku (decyzja Idziego 5.10.2026, jak na live).
 // Alt Costa Blanca jak na live. Podpis „Zdjęcie poglądowe” (PHOTO_NOTE) zostaje: zdjęcie pokazuje region,
 // nie konkretną ofertę.
@@ -90,7 +90,7 @@ const IMAGES = {
   heroSol: {
     name: 'hero-costa-del-sol',
     ratio: [1200, 912],
-    alt: 'Złote niebo nad wybrzeżem Costa del Sol: falochrony, plaża i promenada z palmami',
+    alt: 'Plaża na Costa del Sol: palmy, słomiane parasole i góry nad wybrzeżem',
     placeholder: 'Zdjęcie 4:3',
   },
   heroBlanca: {
@@ -158,7 +158,7 @@ const raw = {
     // og:image: zdjęcie hero Costa del Sol (decyzja Idziego 5.10.2026), największy wariant: 1600 px
     ogImage: '/img/hero-costa-del-sol-1600.jpg',
     ogImageSize: [1600, 1216],
-    ogImageAlt: 'Złote niebo nad wybrzeżem Costa del Sol: falochrony, plaża i promenada z palmami',
+    ogImageAlt: 'Plaża na Costa del Sol: palmy, słomiane parasole i góry nad wybrzeżem',
     author: 'Kwadrat Nieruchomości',
   },
 
