@@ -56,8 +56,8 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 
 | Plik źródłowy w `zdjecia/` | Miejsce | Proporcje |
 | --- | --- | --- |
-| `hero-costa-del-sol.jpg` | hero, kierunek Costa del Sol (prawdziwe zdjęcie plaży od Idziego); wariant 1600 px to też og:image | kadr do 1200 × 912, proporcji zdjęcia Costa Blanca (dziś źródło 2000 × 1500) |
-| `hero-costa-blanca.jpg` | hero, kierunek Costa Blanca | naturalne (dziś 1200 × 912) |
+| `hero-costa-del-sol.jpg` | hero, kierunek Costa del Sol (zachód słońca w Algarrobo, od Idziego); wariant 1600 px to też og:image | naturalne (dziś 2000 × 1500, 4:3) |
+| `hero-costa-blanca.jpg` | hero, kierunek Costa Blanca (gaj palmowy od Idziego, spoza Costa Blanca, do podmiany na zdjęcie z Costa Blanca) | naturalne (dziś 2000 × 1500, 4:3) |
 | `poradnik-cover.png` | okładka przy formularzu poradnika: pierwsza strona `public/poradnik.pdf` | naturalne (A4, dziś 1654 × 2339) |
 | `oferta-malaga.jpg` | oferta Málaga Centro | naturalne (dziś 1008 × 752) |
 | `oferta-mijas.jpg` | oferta Mijas | naturalne |
@@ -70,22 +70,22 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 3. Jeśli zmieniły się proporcje, popraw `ratio` przy danym zdjęciu w `src/content/site.ts`. Tam też są teksty alternatywne (`alt`).
 4. Zrób commit plików z `zdjecia/` i `public/img/`.
 
-Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Na podglądzie zamiast szarego pola daj kopię zdjęcia, które już jest (decyzja Idziego 5.10.2026): skopiuj plik źródłowy w `zdjecia/` pod nazwą brakującego miejsca i uruchom `npm run zdjecia`. Dziś każde miejsce ma swoje zdjęcie. Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę: w `zdjecia/do-decyzji/` czekają zdjęcia od Idziego bez miejsca na stronie:
+Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Na podglądzie zamiast szarego pola daj kopię zdjęcia, które już jest (decyzja Idziego 5.10.2026): skopiuj plik źródłowy w `zdjecia/` pod nazwą brakującego miejsca i uruchom `npm run zdjecia`. Dziś każde miejsce ma swoje zdjęcie. Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę: w `zdjecia/do-decyzji/` czekają zdjęcia bez miejsca na stronie:
 
 | Plik w `zdjecia/do-decyzji/` | Co pokazuje | Wymiary |
 | --- | --- | --- |
-| `wybrzeze-zachod-slonca.jpg` | zachód słońca nad wybrzeżem z falochronami i promenadą (od 11.10.2026 do 20.10.2026 w hero) | 2000 × 1500 |
+| `costa-blanca-taras-deweloper.jpg` | taras apartamentu z widokiem na Alicante (od dewelopera, do 20.10.2026 w hero przy Costa Blanca, alt „Taras apartamentu z widokiem na Alicante i Costa Blanca”) | 1200 × 912 |
+| `plaza-parasole-latarnia.jpg` | plaża z palmami i słomianymi parasolami, w tle latarnia i góry | 2000 × 1500 |
 | `torre-del-mar-lodzie.jpg` | łodzie wiosłowe na plaży w Torre del Mar, z bliska | 2000 × 1500 |
 | `torre-del-mar-lodzie-latarnia.jpg` | te same łodzie szerzej, w tle latarnia i góry | 2000 × 1500 |
 | `plaza-promenada-wieza-ratownika.jpg` | plaża z promenadą, palmami i wieżą ratownika | 2000 × 1500 |
-| `plaza-gaj-palmowy.jpg` | gaj palmowy na piaszczystej plaży | 2000 × 1500 |
 | `ogrod-z-hamakiem.jpg` | ogród osiedla z tarasu z hamakiem | 1500 × 2000 |
 
-Żeby dać któreś z nich do hero, skopiuj je jako `zdjecia/hero-costa-del-sol.jpg`, uruchom `npm run zdjecia` i popraw alt w `IMAGES.heroSol` i `meta.ogImageAlt` w `site.ts`.
+Żeby dać któreś z nich do hero, skopiuj je jako `zdjecia/hero-costa-del-sol.jpg` albo `zdjecia/hero-costa-blanca.jpg`, uruchom `npm run zdjecia` i popraw alt w `IMAGES.heroSol` (wtedy też `meta.ogImageAlt`) albo `IMAGES.heroBlanca` w `site.ts`. Oba zdjęcia w hero muszą mieć te same proporcje; inaczej ustaw `ratio` przy obu w `scripts/zdjecia.mjs` i w `site.ts`.
 
 Podpis „Zdjęcie poglądowe" pod zdjęciami w hero to stała `PHOTO_NOTE` w `site.ts`, a podpis „Wizualizacja" pod zdjęciami ofert to stała `OFFER_PHOTO_NOTE`. Pusty tekst ukrywa podpis, np. po podmianie wizualizacji na zdjęcia.
 
-Obraz do udostępniania linku (og:image i twitter:image, karta `summary_large_image`) to zdjęcie hero Costa del Sol w wariancie 1600 px: `/img/hero-costa-del-sol-1600.jpg`, 1600 × 1216 (decyzja Idziego 5.10.2026). Ustawiają go `meta.ogImage` i `meta.ogImageSize` w `site.ts`. Po podmianie zdjęcia hero i `npm run zdjecia` obraz zmienia się sam; przy innych proporcjach albo źródle węższym niż 1600 px popraw `ogImage` i `ogImageSize`.
+Obraz do udostępniania linku (og:image i twitter:image, karta `summary_large_image`) to zdjęcie hero Costa del Sol w wariancie 1600 px: `/img/hero-costa-del-sol-1600.jpg`, 1600 × 1200 (decyzja Idziego 5.10.2026). Ustawiają go `meta.ogImage` i `meta.ogImageSize` w `site.ts`. Po podmianie zdjęcia hero i `npm run zdjecia` obraz zmienia się sam; przy innych proporcjach albo źródle węższym niż 1600 px popraw `ogImage` i `ogImageSize`.
 
 ## Oferty
 

@@ -81,22 +81,22 @@ export const HAS_GOOGLE_RATING = [GOOGLE_RATING, GOOGLE_REVIEWS, GOOGLE_PROFILE_
 // Zdjęcia: źródła w zdjecia/, warianty w public/img/{name}-{szerokość}.webp i .jpg
 // (generuje npm run zdjecia). ratio to naturalne proporcje pliku, bez kadrowania.
 // Brak plików = szare pole z podpisem.
-// Źródło zdjęć w ofertach i przy Costa Blanca: deweloper (potwierdził Idzi 3.10.2026).
-// Przy Costa del Sol prawdziwe zdjęcie plaży od Idziego (20.10.2026, miejsce do potwierdzenia).
-// Hero: dwa zdjęcia, po jednym przy każdym kierunku (decyzja Idziego 5.10.2026, jak na live).
-// Alt Costa Blanca jak na live. Podpis „Zdjęcie poglądowe” (PHOTO_NOTE) zostaje: zdjęcie pokazuje region,
-// nie konkretną ofertę.
+// Źródło zdjęć w ofertach: deweloper (potwierdził Idzi 3.10.2026).
+// Hero: dwa zdjęcia, po jednym przy każdym kierunku (decyzja Idziego 5.10.2026, jak na live), od 20.10.2026
+// oba prawdziwe, od Idziego: przy Costa del Sol zachód słońca w Algarrobo, przy Costa Blanca gaj palmowy
+// z jego zdjęć spoza Costa Blanca (zgoda Idziego), więc alt nie nazywa go Costa Blanca.
+// TODO: prawdziwe zdjęcie z Costa Blanca, gdy będzie. Podpis „Zdjęcie poglądowe” (PHOTO_NOTE) zostaje.
 const IMAGES = {
   heroSol: {
     name: 'hero-costa-del-sol',
-    ratio: [1200, 912],
-    alt: 'Plaża na Costa del Sol: palmy, słomiane parasole i góry nad wybrzeżem',
+    ratio: [4, 3],
+    alt: 'Zachód słońca w Algarrobo na Costa del Sol: falochrony, plaża i promenada z palmami',
     placeholder: 'Zdjęcie 4:3',
   },
   heroBlanca: {
     name: 'hero-costa-blanca',
-    ratio: [1200, 912],
-    alt: 'Taras apartamentu z widokiem na Alicante i Costa Blanca',
+    ratio: [4, 3],
+    alt: 'Gaj palmowy na szerokiej, piaszczystej plaży nad morzem',
     placeholder: 'Zdjęcie 4:3',
   },
   // Piotr i Ania (zdjęcie od Idziego), w Kontakcie pod telefonem. Prawdziwe zdjęcie zespołu,
@@ -157,8 +157,8 @@ const raw = {
       'Costa del Sol czy Costa Blanca? Pomagamy wybrać region dopasowany do Twojego celu, budżetu i stylu życia.',
     // og:image: zdjęcie hero Costa del Sol (decyzja Idziego 5.10.2026), największy wariant: 1600 px
     ogImage: '/img/hero-costa-del-sol-1600.jpg',
-    ogImageSize: [1600, 1216],
-    ogImageAlt: 'Plaża na Costa del Sol: palmy, słomiane parasole i góry nad wybrzeżem',
+    ogImageSize: [1600, 1200],
+    ogImageAlt: 'Zachód słońca w Algarrobo na Costa del Sol: falochrony, plaża i promenada z palmami',
     author: 'Kwadrat Nieruchomości',
   },
 
