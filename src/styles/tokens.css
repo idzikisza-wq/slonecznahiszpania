@@ -1,0 +1,65 @@
+/* Tokeny systemu Kwadrat Documents, wersja 2 z warstwą www (artefakt „Kwadrat Documents”,
+   pliki project/tokens.json i project/WEB.md). Jedyne miejsce w repo, gdzie wolno zapisać
+   kolor jako hex i nazwę kroju. */
+
+/* Mulish 400, 600, 700 hostowany lokalnie (pliki z design systemu, z polskimi znakami). */
+@font-face {
+  font-family: "Mulish";
+  src: url("/fonts/Mulish-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mulish";
+  src: url("/fonts/Mulish-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mulish";
+  src: url("/fonts/Mulish-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --kwadrat-red: #E30613;  /* logo, kwadracik przed H2, jedna liczba na ekranie, kwadraciki list */
+  --red-tint: #fdedee;     /* tylko kotwica tabeli */
+  --ink: #1a1a1a;          /* nagłówki, liczby, przycisk główny, linie mocne */
+  --text: #333333;         /* tekst */
+  --muted: #6f6f6f;        /* etykiety, podpisy, odpowiedzi FAQ, stopka */
+  --line: #d9d9d9;         /* linie między sekcjami i w FAQ */
+  --line-soft: #ececec;    /* linie między wierszami tabel */
+  --surface: #f5f5f5;      /* jedyne szare tło: placeholder zdjęcia, blok wyróżnienia */
+  --paper: #ffffff;
+  --font-sans: "Mulish", "Helvetica Neue", Arial, sans-serif;
+
+  --rule: 1px;             /* każda linia na ekranie (web-rule-strong i web-rule-hair) */
+  --marker-section: 12px;  /* czerwony kwadracik przed H2 (web-marker-section) */
+  --marker-list: 8px;      /* kwadracik w listach */
+
+  --container: 1200px;     /* web-container, razem z bocznym marginesem */
+  --side: 40px;            /* web-pad-desktop; 20px poniżej 768px */
+  --gutter: 24px;          /* web-space-item */
+  --measure: 720px;        /* web-measure: tekst ciągły, lead, odpowiedzi FAQ */
+
+  --section: 96px;         /* web-space-section; 64px poniżej 768px */
+  --block: 40px;           /* web-space-block; 32px poniżej 768px */
+  --space-xs: 8px;
+  --space-s: 16px;
+  --space-m: 24px;
+}
+
+/* Telefon: poniżej 768px (web-bp-tablet) */
+@media (max-width: 767.98px) {
+  :root {
+    --side: 20px;
+    --section: 64px;
+    --block: 32px;
+  }
+}

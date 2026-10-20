@@ -1,0 +1,25 @@
+---
+// Tabela danych: dwie kolumny, lewa o stałej szerokości, linie włosowe między wierszami.
+// caption w stylu label działa jak nagłówek: pod nim linia mocna.
+interface Props {
+  rows: { key: string; value: string }[];
+  caption?: string;
+  strongKeys?: boolean;
+}
+
+const { rows, caption, strongKeys = false } = Astro.props;
+---
+
+<table class:list={['data-table', { 'data-table--head': caption, 'data-table--keys': strongKeys }]}>
+  {caption && <caption class="label">{caption}</caption>}
+  <tbody>
+    {
+      rows.map((row) => (
+        <tr>
+          <th scope="row">{row.key}</th>
+          <td>{row.value}</td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>

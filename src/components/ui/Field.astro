@@ -1,0 +1,60 @@
+---
+// Pole formularza: etykieta 13px 600 nad polem, pole na bieli z dolną linią 1px line, placeholder w muted.
+// Lista wyboru bez natywnego wyglądu (Safari podmienia w niej font na systemowy),
+// po prawej znak tekstowy w Mulish. Komunikat błędu (small, ink) wstawia skrypt formularza.
+interface Props {
+  form: string;
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'tel' | 'textarea' | 'select';
+  required?: boolean;
+  autocomplete?: string;
+  placeholder?: string;
+  placeholderOption?: string;
+  options?: string[];
+}
+
+const {
+  form,
+  name,
+  label,
+  type = 'text',
+  required = false,
+  autocomplete,
+  placeholder,
+  placeholderOption,
+  options = [],
+} = Astro.props;
+const id = `${form}-${name}`;
+---
+
+<div class="field">
+  <label class="field-label" for={id}>{label}</label>
+  {
+    type === 'textarea' ? (
+      <textarea class="input" id={id} name={name} rows="5" required={required} placeholder={placeholder} />
+    ) : type === 'select' ? (
+      <div class="select">
+        <select class="input" id={id} name={name} required={required}>
+          <option value="" selected disabled={required}>
+            {placeholderOption}
+          </option>
+          {options.map((option) => (
+            <option value={option}>{option}</option>
+          ))}
+        </select>
+      </div>
+    ) : (
+      <input
+        class="input"
+        id={id}
+        name={name}
+        type={type}
+        required={required}
+        autocomplete={autocomplete}
+        placeholder={placeholder}
+      />
+    )
+  }
+  <p class="small field-error" id={`${id}-error`} hidden></p>
+</div>

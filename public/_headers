@@ -1,0 +1,20 @@
+# Cloudflare Pages: nagłówki odpowiedzi
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/brand/*
+  Cache-Control: public, max-age=604800
+
+/fonts/*
+  Cache-Control: public, max-age=2592000
+
+/img/*
+  Cache-Control: public, max-age=86400
+
+# Poradnik jest „dostępny po zapisie”: wyszukiwarki nie indeksują pliku
+/poradnik.pdf
+  X-Robots-Tag: noindex

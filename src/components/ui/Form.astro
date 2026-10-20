@@ -1,0 +1,65 @@
+---
+// Formularz: pola ze slotu, honeypot, CTA główny, pod nim zgoda (jeśli jest) i zdanie o polityce prywatności.
+// Z kluczem PUBLIC_WEB3FORMS_KEY skrypt wysyła zgłoszenie do Web3Forms i pokazuje komunikat sukcesu.
+// Bez JS formularz trafia wprost do Web3Forms: wtedy pole redirect (jeśli jest) prowadzi po wysyłce
+// pod podany adres, a bez niego Web3Forms pokazuje własną stronę z podziękowaniem.
+// Bez klucza tryb demo: komunikat sukcesu i payload w konsoli (bez JS wysyłka nie działa).
+// Przycisk wskazuje zgodę przez aria-describedby, bo zgoda stoi pod nim.
+import { site } from '../../content/site';
+
+interface Props {
+  id: string;
+  subject: string;
+  submit: string;
+  consent: string;
+  redirect?: string;
+}
+
+const { id, subject, submit, consent, redirect } = Astro.props;
+const { forms } = site;
+const key = import.meta.env.PUBLIC_WEB3FORMS_KEY;
+---
+
+<form
+  class="form"
+  id={id}
+  method="post"
+  action={key ? 'https://api.web3forms.com/submit' : undefined}
+  data-form
+  data-error-required={forms.errorRequired}
+  data-error-email={forms.errorEmail}
+  data-error-send={forms.errorSend}
+>
+  {key && <input type="hidden" name="access_key" value={key} />}
+  <input type="hidden" name="subject" value={subject} />
+  <input type="hidden" name="from_name" value="slonecznahiszpania.pl" />
+  <input type="hidden" name="formularz" value={id} />
+  {key && redirect && <input type="hidden" name="redirect" value={redirect} />}
+
+  <slot />
+
+  <div class="hp" aria-hidden="true">
+    <label>
+      botcheck
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" />
+    </label>
+  </div>
+
+  <button class="cta form-submit" type="submit" aria-describedby={consent ? `${id}-zgoda` : undefined}>
+    {submit}
+  </button>
+  <p class="small form-status" data-status role="alert" hidden></p>
+  {consent && <p class="small form-note" id={`${id}-zgoda`}>{consent}</p>}
+  <p class:list={['small', 'form-privacy', consent ? 'mt-xs' : 'form-note']}>
+    {forms.privacyLead} <a href={forms.privacyHref}>{forms.privacyLink}</a>.
+  </p>
+</form>
+
+<div class="form-success" data-success-for={id} tabindex="-1" hidden>
+  <slot name="success" />
+</div>
+
+<script>
+  import { initForms } from '../../scripts/forms';
+  initForms();
+</script>

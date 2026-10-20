@@ -1,0 +1,23 @@
+---
+// Etykieta (label) nad nagłówkiem, nagłówek, opcjonalnie lead albo akapit body.
+interface Props {
+  label: string;
+  title: string;
+  lead?: string;
+  text?: string;
+  note?: string;
+  level?: 'h2' | 'h3';
+  id?: string;
+}
+
+const { label, title, lead, text, note, level = 'h2', id } = Astro.props;
+const Heading = level;
+---
+
+<div class="head">
+  <p class="label">{label}</p>
+  <Heading id={id}>{title}</Heading>
+  {lead && <p class="lead">{lead}</p>}
+  {text && <p>{text}</p>}
+  {note && <p class="small">{note}</p>}
+</div>

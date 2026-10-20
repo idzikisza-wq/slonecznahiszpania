@@ -1,0 +1,13 @@
+# zależności i build
+node_modules/
+dist/
+.astro/
+
+# klucze i zmienne środowiskowe: nigdy w repo
+.env
+.env.*
+!.env.example
+
+# logi i śmieci systemowe
+npm-debug.log*
+.DS_Store

@@ -1,0 +1,179 @@
+---
+// Porównanie (#porownanie): tabela systemowa. Nagłówek w label z linią mocną pod spodem,
+// wiersze z linią włosową, bez ramek, pionowych linii i zebry. Wiersz-kotwica „Dla kogo"
+// na tle red-tint, pogrubiony. Pod tabelą nota o gminach (zdanie o wierszu-kotwicy usunięte
+// decyzją Idziego 5.10.2026). Sekcja oddzielona cienką linią (dawny pas).
+// Na mobile każdy wiersz to blok: kryterium, potem oba regiony z etykietą.
+import SectionHead from './ui/SectionHead.astro';
+import { site } from '../content/site';
+
+const { comparison } = site;
+const [criterion, ...regions] = comparison.head;
+---
+
+<section class="section" id="porownanie">
+  <div class="container">
+    <SectionHead label={comparison.label} title={comparison.title} lead={comparison.lead} />
+    <table class="compare mt-l">
+      <thead>
+        <tr>
+          <th scope="col" class="label">{criterion}</th>
+          {
+            regions.map((region) => (
+              <th scope="col" class="label">
+                {region}
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+      <tbody>
+        {
+          comparison.rows.map((row) => (
+            <tr class:list={{ 'compare-anchor': row.anchor }}>
+              <th scope="row" class="label">
+                {row.key}
+              </th>
+              {row.values.map((value, index) => (
+                <td data-label={regions[index]}>{value}</td>
+              ))}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+    <p class="small mt-s">{comparison.note}</p>
+  </div>
+</section>
+
+<style>
+  .compare {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .compare th,
+  .compare td {
+    padding: var(--space-s) var(--gutter) var(--space-s) 0;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  /* Etykieta kryterium (12/16) na tej samej linii bazowej co tekst regionu (16/27) */
+  .compare tbody th,
+  .compare tbody td {
+    vertical-align: baseline;
+  }
+
+  /* Kolumna kryterium ma stałą szerokość, dwie kolumny regionów dzielą resztę po równo */
+  .compare tr > :first-child {
+    width: 34%;
+  }
+
+  .compare thead th {
+    padding-top: 0;
+    border-bottom: var(--rule) solid var(--ink);
+  }
+
+  .compare tbody th {
+    color: var(--muted);
+  }
+
+  .compare td {
+    color: var(--text);
+  }
+
+  .compare tbody tr + tr > * {
+    border-top: var(--rule) solid var(--line-soft);
+  }
+
+  .compare-anchor > * {
+    background: var(--red-tint);
+  }
+
+  /* Na tle red-tint tekst zawsze w ink (szary nie ma tu kontrastu AA) */
+  .compare tbody .compare-anchor > th,
+  .compare tbody .compare-anchor > td {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .compare-anchor > th {
+    padding-left: var(--space-s);
+  }
+
+  @media (max-width: 767.98px) {
+    .compare thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+
+    .compare,
+    .compare tbody,
+    .compare tr,
+    .compare th,
+    .compare td {
+      display: block;
+      width: auto;
+    }
+
+    .compare tbody tr {
+      padding-block: var(--space-s);
+    }
+
+    .compare tbody tr:first-child {
+      border-top: var(--rule) solid var(--ink);
+    }
+
+    .compare tbody tr + tr {
+      border-top: var(--rule) solid var(--line-soft);
+    }
+
+    .compare tbody tr + tr > * {
+      border-top: 0;
+    }
+
+    .compare tbody th,
+    .compare td,
+    .compare tr > :first-child {
+      width: auto;
+      padding: 0;
+    }
+
+    .compare td {
+      margin-top: var(--space-xs);
+    }
+
+    .compare td::before {
+      content: attr(data-label);
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .compare-anchor {
+      padding-inline: var(--space-s);
+      background: var(--red-tint);
+    }
+
+    .compare-anchor > * {
+      background: none;
+    }
+
+    .compare-anchor > th {
+      padding-left: 0;
+    }
+
+    .compare-anchor td::before {
+      color: var(--ink);
+    }
+  }
+</style>

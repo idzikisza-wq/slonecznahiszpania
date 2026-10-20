@@ -1,0 +1,261 @@
+---
+// Nagłówek (pasek z WebHero): lockup kwadrat-logo-lockup.svg (znak 40px z napisem NIERUCHOMOŚCI)
+// na białym, obok niego w jednej linii etykieta „Hiszpania · Costa del Sol · Costa Blanca” (decyzje
+// Idziego 5.10.2026: etykieta jak na live, ale nie pod logo). Menu tekstowe 15px 600 w ink, na końcu
+// sam piktogram słuchawki 20px w polu 40 × 40px (link tel:, bez numeru na ekranie); nazwę „Zadzwoń
+// +48 505 085 001” daje aria-label. Pod paskiem linia 1px line. Nie sticky.
+// Poniżej 1200px (tablet i telefon) linki chowane pod przyciskiem tekstowym „Menu”, piktogram zostaje.
+// Poniżej 768px etykiety nie ma: obok lockupu, piktogramu i „Menu” brakuje na nią miejsca.
+// Kolejność w HTML = kolejność tabulacji: menu stoi zaraz za przyciskiem „Menu”, więc Tab po
+// otwarciu wchodzi w linki. Telefon jest dwa razy, widoczny zawsze tylko jeden: przed przyciskiem
+// (tablet i telefon) albo za menu (od 1200px). Escape zamyka menu i wraca na przycisk.
+import PhoneIcon from './ui/PhoneIcon.astro';
+import { site, SHOW_OFFERS } from '../content/site';
+import { plainText } from '../content/typo';
+
+const { header, contact } = site;
+const nav = header.nav.filter((item) => SHOW_OFFERS || item.href !== '/#oferty');
+// Nazwa linku telefonu (na ekranie sam piktogram)
+const phoneName = plainText(`${header.phoneLabel} ${contact.phone}`);
+---
+
+<a class="skip-link" href="#tresc">{header.skipLink}</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="header-brand">
+      <a class="brand" href="/">
+        <img src="/brand/kwadrat-logo-lockup.svg" alt={header.logoAlt} width="148" height="40" />
+      </a>
+      <p class="label header-tagline">{header.tagline}</p>
+    </div>
+    <a class="nav-link header-phone header-phone--top" href={contact.phoneHref} aria-label={phoneName}>
+      <PhoneIcon />
+    </a>
+    <button class="nav-link menu-toggle" type="button" aria-expanded="false" aria-controls="nawigacja">
+      {header.menu}
+    </button>
+    <nav class="site-nav" id="nawigacja" aria-label={header.navLabel}>
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a class="nav-link" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a class="nav-link header-phone header-phone--end" href={contact.phoneHref} aria-label={phoneName}>
+      <PhoneIcon />
+    </a>
+  </div>
+</header>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: var(--side);
+    top: var(--space-xs);
+    z-index: 1;
+    padding: var(--space-xs) var(--space-s);
+    background: var(--paper);
+    color: var(--ink);
+    font-weight: 600;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  .site-header {
+    border-bottom: var(--rule) solid var(--line);
+  }
+
+  /* Od 1200px jeden rząd: lockup z etykietą obok, menu, piktogram telefonu */
+  .header-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 'brand nav phone';
+    align-items: center;
+    column-gap: var(--gutter);
+    padding-block: 20px;
+  }
+
+  .header-brand {
+    grid-area: brand;
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    min-width: 0;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  /* Lockup w proporcjach pliku (248,352 × 67,012): znak 40px jak w stopce. Gdyby zabrakło
+     miejsca (węziej niż 320px), zmniejsza się proporcjonalnie, zamiast wypychać piktogram i „Menu”. */
+  .brand img {
+    display: block;
+    width: 148px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .header-tagline {
+    white-space: nowrap;
+  }
+
+  .site-nav {
+    grid-area: nav;
+    justify-self: end;
+  }
+
+  .site-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    column-gap: var(--gutter);
+    row-gap: var(--space-xs);
+  }
+
+  .nav-link {
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 20px;
+    text-decoration: none;
+  }
+
+  a.nav-link:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+
+  .site-nav .nav-link {
+    display: inline-block;
+    padding-block: var(--space-xs);
+  }
+
+  /* Telefon: sam piktogram 20px w polu dotyku 40 × 40px. Hover: linia 1px pod piktogramem,
+     4px niżej, jak podkreślenie linku. */
+  .header-phone {
+    grid-area: phone;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+  }
+
+  .header-phone--top {
+    display: none;
+  }
+
+  .header-phone:hover::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 5px;
+    border-bottom: var(--rule) solid var(--ink);
+  }
+
+  .menu-toggle {
+    grid-area: toggle;
+    display: none;
+    padding: var(--space-xs) 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  /* Tablet i telefon: menu pod przyciskiem tekstowym „Menu”, telefon obok.
+     Bez JS przycisku nie ma, a menu stoi otwarte pod paskiem. */
+  @media (max-width: 1199.98px) {
+    .header-inner {
+      grid-template-columns: auto 1fr;
+      grid-template-areas:
+        'brand phone'
+        'nav nav';
+    }
+
+    :global(.js) .header-inner {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas:
+        'brand phone toggle'
+        'nav nav nav';
+    }
+
+    .header-phone {
+      justify-self: end;
+    }
+
+    .header-phone--top {
+      display: flex;
+    }
+
+    .header-phone--end {
+      display: none;
+    }
+
+    :global(.js) .menu-toggle {
+      display: block;
+    }
+
+    .site-nav {
+      justify-self: stretch;
+    }
+
+    :global(.js) .site-nav:not(.is-open) {
+      display: none;
+    }
+
+    .site-nav ul {
+      flex-direction: column;
+      padding-top: var(--space-s);
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .header-inner {
+      column-gap: var(--space-s);
+      padding-block: var(--space-s);
+    }
+
+    .header-tagline {
+      display: none;
+    }
+
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.getElementById('nawigacja');
+
+  const setOpen = (open: boolean) => {
+    toggle?.setAttribute('aria-expanded', String(open));
+    nav?.classList.toggle('is-open', open);
+  };
+
+  toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  nav?.addEventListener('click', (event) => {
+    if ((event.target as Element).closest('a')) setOpen(false);
+  });
+  // Escape zamyka menu tylko z fokusem w menu albo na przycisku (nie przy pisaniu w formularzu)
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || toggle?.getAttribute('aria-expanded') !== 'true') return;
+    const active = document.activeElement;
+    if (active !== toggle && !nav?.contains(active)) return;
+    setOpen(false);
+    toggle?.focus();
+  });
+</script>

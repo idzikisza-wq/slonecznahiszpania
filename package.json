@@ -1,0 +1,20 @@
+{
+  "name": "slonecznahiszpania",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "lint:kwadrat": "node scripts/lint-kwadrat.mjs",
+    "build": "npm run lint:kwadrat && astro build",
+    "preview": "astro preview",
+    "pdf:placeholder": "node scripts/placeholder-pdf.mjs",
+    "zdjecia": "node scripts/zdjecia.mjs"
+  },
+  "dependencies": {
+    "astro": "^7.3.5"
+  }
+}

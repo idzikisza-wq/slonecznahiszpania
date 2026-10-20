@@ -1,0 +1,124 @@
+---
+// Hero (#start, WebHero): etykieta, H1 w dwóch grubościach (początek 400, puenta 700, jeden kolor
+// ink), lead, jeden przycisk główny i jeden link drugi, pod nimi small. Przycisk stoi nad zdjęciami,
+// żeby następny krok był widoczny bez przewijania (1440 × 900 i 390 × 844).
+// Pod spodem dwa kierunki 6+6, każdy ze swoim zdjęciem w naturalnych proporcjach i podpisem
+// „Zdjęcie poglądowe” (decyzja Idziego 5.10.2026, jak na live). Bez nakładek i przyciemnień.
+// Na końcu pasek KPI (WebStats).
+import Photo from './ui/Photo.astro';
+import Stats from './Stats.astro';
+import { site, PHOTO_NOTE } from '../content/site';
+import { typoText } from '../content/typo';
+
+const { hero } = site;
+const photoNote = typoText(PHOTO_NOTE);
+---
+
+<section class="hero" id="start">
+  <div class="container">
+    <div class="hero-intro">
+      <p class="label">{hero.label}</p>
+      <h1 class="hero-title">
+        <span class="hero-line">{hero.title.start}</span>{' '}<b class="hero-line">{hero.title.end}</b>
+      </h1>
+      <p class="lead hero-lead">{hero.lead}</p>
+      <div class="actions hero-actions">
+        <a class="cta" href={hero.ctaPrimary.href}>{hero.ctaPrimary.label}</a>
+        <a class="cta-2" href={hero.ctaSecondary.href}>{hero.ctaSecondary.label}</a>
+      </div>
+      <p class="small hero-note">{hero.note}</p>
+    </div>
+
+    <div class="grid directions">
+      {
+        hero.directions.map((item, index) => (
+          <article class="col-6 direction">
+            <figure>
+              <Photo
+                image={item.image}
+                sizes="(min-width: 1200px) 548px, (min-width: 768px) calc(50vw - 52px), calc(100vw - 40px)"
+                eager={index === 0}
+              />
+              {photoNote && <figcaption class="small">{photoNote}</figcaption>}
+            </figure>
+            <div class="direction-body">
+              <p class="label">{item.label}</p>
+              <h2 class="h3 mt-xs">{item.title}</h2>
+              <p class="mt-xs">{item.text}</p>
+              <p class="direction-link">
+                <a class="cta-2" href={item.link.href}>
+                  {item.link.label}
+                </a>
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="hero-stats">
+      <Stats />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: 48px;
+    padding-bottom: var(--section);
+  }
+
+  .hero-intro > * {
+    max-width: var(--measure);
+  }
+
+  .hero-title {
+    margin-top: var(--space-s);
+  }
+
+  .hero-line {
+    display: block;
+  }
+
+  .hero-lead {
+    margin-top: 20px;
+  }
+
+  .hero-actions {
+    margin-top: 32px;
+  }
+
+  .hero-note {
+    margin-top: var(--space-s);
+  }
+
+  .directions,
+  .hero-stats {
+    margin-top: var(--block);
+  }
+
+  /* Kierunki w rzędzie mają równą wysokość, link stoi na dole: linki obu kierunków na jednej linii */
+  .direction,
+  .direction-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .direction-body {
+    flex: 1;
+    margin-top: var(--space-m);
+    border-top: var(--rule) solid var(--ink);
+    padding-top: 14px;
+  }
+
+  .direction-link {
+    margin-top: auto;
+    padding-top: var(--space-s);
+  }
+
+  @media (max-width: 767.98px) {
+    .hero {
+      padding-top: var(--block);
+    }
+  }
+</style>

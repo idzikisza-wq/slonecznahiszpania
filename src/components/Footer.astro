@@ -1,0 +1,79 @@
+---
+// Stopka (WebFooter): linia 1px ink nad stopką, tekst 13/20px muted, nagłówki kolumn 700 ink.
+// Trzy kolumny 4+4+4 (na telefonie jedna): marka z hasłem i social media tekstem, kontakt
+// (jedyny telefon strony, biuro@kwadrat.io, www.kwadrat.io), dane spółki z REGON i sądem
+// (decyzje Idziego 5.10.2026, jak na live). Pasek dolny za linią 1px line: zastrzeżenie,
+// polityka prywatności i, z Google Analytics, przycisk „Ustawienia cookies”. Bez ikon.
+import { site, SOCIAL, GA_ID } from '../content/site';
+import { typoText } from '../content/typo';
+
+const { footer, company, contact, consent } = site;
+const SEP = ' · ';
+---
+
+<footer class="container">
+  <div class="kw-foot">
+    <div class="kw-cols">
+      <div>
+        <img src="/brand/kwadrat-logo.svg" alt="" width="40" height="40" />
+        <p>
+          <b>{company.brand}</b><br />{typoText(company.tagline)}
+        </p>
+        <p class="mt-s">
+          {
+            SOCIAL.map((item, index) => (
+              <>
+                {index > 0 && SEP}
+                <a href={item.href}>{item.label}</a>
+              </>
+            ))
+          }
+        </p>
+      </div>
+      <div>
+        <p><b>{footer.contactHeading}</b></p>
+        <ul class="kw-foot-links">
+          <li><a href={contact.phoneHref}>{typoText(`${footer.phonePrefix} ${contact.phone}`)}</a></li>
+          <li><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+          <li><a href={company.website}>{company.websiteLabel}</a></li>
+        </ul>
+      </div>
+      <div>
+        <p>
+          <b>{company.legalName}</b>
+          {
+            footer.company.map((line) => (
+              <>
+                <br />
+                {typeof line === 'string'
+                  ? typoText(line)
+                  : line.map((part, index) => (
+                      <>
+                        {index > 0 && ' '}
+                        <span class="nowrap">{part}</span>
+                      </>
+                    ))}
+              </>
+            ))
+          }
+        </p>
+      </div>
+    </div>
+    <div class="kw-legal">
+      <p>{footer.disclaimer}</p>
+      <p>
+        <a href={footer.privacy.href}>{footer.privacy.label}</a>
+        {
+          GA_ID && (
+            <>
+              {SEP}
+              <button type="button" class="kw-foot-btn" data-zgoda-ustawienia>
+                {consent.settings}
+              </button>
+            </>
+          )
+        }
+      </p>
+    </div>
+  </div>
+</footer>
