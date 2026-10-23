@@ -66,9 +66,9 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 | `zespol-hiszpania.jpg` | Na miejscu w Hiszpanii (Idzi z Sylwią i Gilbertem, bez podpisu) | naturalne (dziś selfie 1500 × 2000, robocze); przy podmianie popraw alt z imionami od lewej (`IMAGES.team` w `site.ts`) |
 
 1. Wrzuć plik do `zdjecia/` pod nazwą z tabeli (jpg, jpeg, png albo webp). Najlepiej co najmniej 1600 px szerokości. Zdjęcia z iPhone'a w HEIC najpierw wyeksportuj jako JPG.
-2. Uruchom `npm run zdjecia`. Skrypt zapisuje WebP i JPG w szerokościach 800 i 1600 px do `public/img/` (mniejsze źródło także w jego pełnej szerokości) i usuwa metadane (EXIF, GPS). Z `public/img/` usuwa tylko swoje warianty miejsc, których nie ma już na liście; innych plików i katalogów nie rusza. Kadr do innych proporcji ustawiasz polem `ratio` i punktem `focus` przy danym miejscu w `scripts/zdjecia.mjs`.
-3. Jeśli zmieniły się proporcje, popraw `ratio` przy danym zdjęciu w `src/content/site.ts`. Tam też są teksty alternatywne (`alt`).
-4. Zrób commit plików z `zdjecia/` i `public/img/`.
+2. Uruchom `npm run zdjecia`. Skrypt zapisuje WebP i JPG w szerokościach 800 i 1600 px do `public/img/` (mniejsze źródło także w jego pełnej szerokości) i usuwa metadane (EXIF, GPS). Z `public/img/` usuwa tylko swoje warianty miejsc, których nie ma już na liście; innych plików i katalogów nie rusza. Kadr do innych proporcji ustawiasz polem `ratio` i punktem `focus` przy danym miejscu w `scripts/zdjecia.mjs`. Na koniec zapisuje `src/content/zdjecia.json` z wymiarami plików: z niego strona bierze `width` i `height`, więc znaczniki zawsze pasują do zdjęć.
+3. Popraw tekst alternatywny (`alt`) przy danym zdjęciu w `src/content/site.ts`. Pole `ratio` służy tam tylko szaremu polu, gdy zdjęcia brak. Zdjęcia w jednym rzędzie (dwa w hero, trzy oferty) powinny mieć te same proporcje; inaczej ustaw im wspólne `ratio` w `scripts/zdjecia.mjs`.
+4. Zrób commit plików z `zdjecia/`, `public/img/` i `src/content/zdjecia.json`.
 
 Dopóki zdjęcia nie ma, strona pokazuje szare pole z podpisem, np. „Zdjęcie 4:3". Na podglądzie zamiast szarego pola daj kopię zdjęcia, które już jest (decyzja Idziego 5.10.2026): skopiuj plik źródłowy w `zdjecia/` pod nazwą brakującego miejsca i uruchom `npm run zdjecia`. Dziś każde miejsce ma swoje zdjęcie. Podfoldery w `zdjecia/` są pomijane przez skrypt i nie trafiają na stronę: w `zdjecia/do-decyzji/` czekają zdjęcia bez miejsca na stronie:
 

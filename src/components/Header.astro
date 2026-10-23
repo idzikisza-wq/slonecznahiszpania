@@ -131,7 +131,7 @@ const phoneName = plainText(`${header.phoneLabel} ${contact.phone}`);
     text-decoration: none;
   }
 
-  a.nav-link:hover {
+  .nav-link:hover {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 4px;
@@ -256,6 +256,7 @@ const phoneName = plainText(`${header.phoneLabel} ${contact.phone}`);
     const active = document.activeElement;
     if (active !== toggle && !nav?.contains(active)) return;
     setOpen(false);
-    toggle?.focus();
+    // Przycisk „Menu” jest ukryty od 1200px (okno poszerzone przy otwartym menu): wtedy fokus zostaje
+    if (toggle?.offsetParent) toggle.focus();
   });
 </script>

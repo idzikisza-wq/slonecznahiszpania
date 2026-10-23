@@ -7,9 +7,11 @@
 // (mniejsze źródło także w jego pełnej szerokości) i usuwa metadane (EXIF, GPS).
 // Warianty miejsc, których już nie ma na liście, są usuwane z public/img.
 // Podfoldery w zdjecia/ (np. do-decyzji/) są pomijane.
+// Na końcu zapisuje src/content/zdjecia.json: szerokości wariantów i wymiary największego pliku
+// dla każdego miejsca. Z niego Photo.astro bierze width i height, więc znaczniki zawsze pasują do plików.
 // sharp instaluje się razem z Astro (opcjonalna zależność), osobna instalacja niepotrzebna.
 
-import { readdir, unlink } from 'node:fs/promises';
+import { readdir, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 
@@ -49,6 +51,8 @@ for (const old of outputs.filter((f) => isVariant(f) && !Object.keys(SLOTS).some
   console.log(`${old}: usunięty (miejsca nie ma już na stronie)`);
 }
 
+const manifest = {};
+
 for (const [slot, { ratio, focus = [0.5, 0.5] }] of Object.entries(SLOTS)) {
   const source = sources.find((f) => f.isFile() && /\.(jpe?g|png|webp)$/i.test(f.name) && path.parse(f.name).name === slot);
   if (!source) {
@@ -77,9 +81,11 @@ for (const [slot, { ratio, focus = [0.5, 0.5] }] of Object.entries(SLOTS)) {
 
   const widths = WIDTHS.filter((x) => x <= cropW);
   if (cropW < Math.max(...WIDTHS)) {
-    widths.push(cropW);
+    if (!widths.includes(cropW)) widths.push(cropW);
     console.warn(`${slot}: źródło ma ${cropW} px szerokości po kadrze, za mało na ${Math.max(...WIDTHS)} px`);
   }
+  const largest = Math.max(...widths);
+  manifest[slot] = { widths, width: largest, height: Math.round((largest * cropH) / cropW) };
 
   for (const old of outputs.filter((f) => isSlotFile(f, slot))) {
     await unlink(path.join(OUT, old));
@@ -97,3 +103,6 @@ for (const [slot, { ratio, focus = [0.5, 0.5] }] of Object.entries(SLOTS)) {
     console.log(`${slot}: ${width}×${height} webp + jpg`);
   }
 }
+
+await writeFile(path.join('src', 'content', 'zdjecia.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+console.log('src/content/zdjecia.json: wymiary zapisane');
