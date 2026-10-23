@@ -16,6 +16,10 @@ import { site } from '../content/site';
 const { guide } = site;
 const { form } = guide;
 const formId = 'poradnik-formularz';
+// Bez JS Web3Forms przekierowuje po zapisie na PDF. Na podglądach Cloudflare Pages (inne gałęzie niż main)
+// na adres tego podglądu, bo domena może jeszcze wskazywać starą stronę; w produkcji na domenę.
+const branch = process.env.CF_PAGES_BRANCH;
+const pdfOrigin = branch && branch !== 'main' && process.env.CF_PAGES_URL ? process.env.CF_PAGES_URL : Astro.site;
 ---
 
 <section class="section" id="poradnik">
@@ -43,7 +47,7 @@ const formId = 'poradnik-formularz';
           subject={form.subject}
           submit={form.submit}
           consent={form.consent}
-          redirect={new URL(form.pdf, Astro.site).href}
+          redirect={new URL(form.pdf, pdfOrigin).href}
         >
           <div class="field-row">
             <Field

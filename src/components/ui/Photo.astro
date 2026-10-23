@@ -1,46 +1,48 @@
 ---
 // Zdjęcie w naturalnych proporcjach: <picture> z WebP i JPG, width i height zawsze ustawione.
-// Szerokości wykrywa z plików w public/img. Brak plików: szare pole z podpisem w small.
+// Szerokości wariantów i wymiary bierze z src/content/zdjecia.json (zapisuje go npm run zdjecia),
+// więc znaczniki pasują do plików nawet po podmianie zdjęcia na inne proporcje.
+// Brak wpisu albo pliku: szare pole z podpisem w small (proporcje z ratio w site.ts).
+// eager: bez lazy loading (zdjęcia w hero); priority: fetchpriority, high tylko dla pierwszego zdjęcia strony,
+// low dla drugiego zdjęcia w hero (na telefonie jest pod pierwszym i nie powinno spowalniać pierwszego).
 import fs from 'node:fs';
 import path from 'node:path';
 import type { Img } from '../../content/site';
+import manifest from '../../content/zdjecia.json';
 
 interface Props {
   image: Img;
   sizes: string;
   eager?: boolean;
+  priority?: 'high' | 'low';
 }
 
-const { image, sizes, eager = false } = Astro.props;
+type Entry = { widths: number[]; width: number; height: number };
+
+const { image, sizes, eager = false, priority } = Astro.props;
 const [rw, rh] = image.ratio;
 
-const dir = path.join(process.cwd(), 'public', 'img');
-const files = fs.existsSync(dir) ? fs.readdirSync(dir) : [];
-const pattern = new RegExp(`^${image.name}-(\\d+)\\.jpg$`);
-const widths = files
-  .map((file) => Number(file.match(pattern)?.[1]))
-  .filter((w) => w && files.includes(`${image.name}-${w}.webp`))
-  .sort((a, b) => a - b);
-
-const largest = widths.at(-1) ?? 0;
+const entry = (manifest as Record<string, Entry>)[image.name];
 const url = (w: number, ext: string) => `/img/${image.name}-${w}.${ext}`;
+const ready = Boolean(entry) && fs.existsSync(path.join(process.cwd(), 'public', url(entry.width, 'jpg')));
+const widths = ready ? [...entry.widths].sort((a, b) => a - b) : [];
 const srcset = (ext: string) => widths.map((w) => `${url(w, ext)} ${w}w`).join(', ');
 ---
 
 {
-  largest ? (
+  ready ? (
     <picture class="photo">
       <source type="image/webp" srcset={srcset('webp')} sizes={sizes} />
       <img
-        src={url(largest, 'jpg')}
+        src={url(entry.width, 'jpg')}
         srcset={srcset('jpg')}
         sizes={sizes}
-        width={largest}
-        height={Math.round((largest * rh) / rw)}
+        width={entry.width}
+        height={entry.height}
         alt={image.alt}
         loading={eager ? 'eager' : 'lazy'}
         decoding={eager ? undefined : 'async'}
-        fetchpriority={eager ? 'high' : undefined}
+        fetchpriority={priority}
       />
     </picture>
   ) : (

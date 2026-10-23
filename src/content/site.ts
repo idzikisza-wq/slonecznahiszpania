@@ -62,7 +62,6 @@ export const SOCIAL = [
 // Ocena Google (pasek KPI pod hero i sekcja Opinie): wartość i liczba opinii z nowej strony,
 // nazwa wizytówki i data odczytu od Idziego (3.10.2026). Nie wpisywać z głowy.
 // Jeśli którekolwiek z pięciu pól (razem z linkiem) jest puste, kafelki z oceną się nie renderują.
-// DO POTWIERDZENIA: link prowadzi do wyszukiwania w Mapach Google; najlepiej podać link do wizytówki.
 export const GOOGLE_RATING = '4,9';
 export const GOOGLE_REVIEWS = '120';
 export const GOOGLE_PROFILE_NAME = 'Kwadrat Otwock';
@@ -80,9 +79,8 @@ export const HAS_GOOGLE_RATING = [GOOGLE_RATING, GOOGLE_REVIEWS, GOOGLE_PROFILE_
 );
 
 // Zdjęcia: źródła w zdjecia/, warianty w public/img/{name}-{szerokość}.webp i .jpg
-// (generuje npm run zdjecia). ratio to naturalne proporcje pliku, bez kadrowania.
-// Brak plików = szare pole z podpisem.
-// Źródło zdjęć w ofertach: deweloper (potwierdził Idzi 3.10.2026).
+// (generuje npm run zdjecia razem z src/content/zdjecia.json, z którego biorą się width i height).
+// ratio służy szaremu polu z podpisem, gdy zdjęcia brak. Zdjęcia ofert: patrz niżej (Octavia).
 // Hero: dwa zdjęcia, po jednym przy każdym kierunku (decyzja Idziego 5.10.2026, jak na live), od 20.10.2026
 // oba prawdziwe, od Idziego: przy Costa del Sol zachód słońca w Algarrobo, przy Costa Blanca gaj palmowy
 // z jego zdjęć spoza Costa Blanca (zgoda Idziego), więc alt nie nazywa go Costa Blanca.

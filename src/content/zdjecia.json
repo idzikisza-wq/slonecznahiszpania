@@ -1,0 +1,65 @@
+{
+  "hero-costa-del-sol": {
+    "widths": [
+      800,
+      1600
+    ],
+    "width": 1600,
+    "height": 1200
+  },
+  "hero-costa-blanca": {
+    "widths": [
+      800,
+      1600
+    ],
+    "width": 1600,
+    "height": 1200
+  },
+  "poradnik-cover": {
+    "widths": [
+      800,
+      1600
+    ],
+    "width": 1600,
+    "height": 2263
+  },
+  "oferta-malaga": {
+    "widths": [
+      800,
+      1448
+    ],
+    "width": 1448,
+    "height": 1086
+  },
+  "oferta-mijas": {
+    "widths": [
+      800,
+      1448
+    ],
+    "width": 1448,
+    "height": 1086
+  },
+  "oferta-marbella": {
+    "widths": [
+      800,
+      1448
+    ],
+    "width": 1448,
+    "height": 1086
+  },
+  "kontakt": {
+    "widths": [
+      720
+    ],
+    "width": 720,
+    "height": 540
+  },
+  "zespol-hiszpania": {
+    "widths": [
+      800,
+      1500
+    ],
+    "width": 1500,
+    "height": 2000
+  }
+}

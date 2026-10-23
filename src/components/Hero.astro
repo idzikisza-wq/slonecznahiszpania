@@ -37,7 +37,8 @@ const photoNote = typoText(PHOTO_NOTE);
               <Photo
                 image={item.image}
                 sizes="(min-width: 1200px) 548px, (min-width: 768px) calc(50vw - 52px), calc(100vw - 40px)"
-                eager={index === 0}
+                eager
+                priority={index === 0 ? 'high' : 'low'}
               />
               {photoNote && <figcaption class="small">{photoNote}</figcaption>}
             </figure>
