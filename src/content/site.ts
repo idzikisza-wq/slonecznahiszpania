@@ -28,7 +28,8 @@ export const CONTACT_PHONE = '+48 505 085 001';
 const CONTACT = {
   phone: CONTACT_PHONE,
   phoneHref: `tel:${CONTACT_PHONE.replace(/[^\d+]/g, '')}`,
-  // Na ten adres trafiają zgłoszenia z formularzy (klucz Web3Forms); jest też w danych strukturalnych
+  // Adres kontaktowy na stronie (stopka, polityka prywatności, schema.org). Zgłoszenia z formularzy
+  // trafiają tam, dokąd prowadzi klucz Web3Forms: od 24.10.2026 skrzynka Idziego (decyzja Idziego).
   email: 'biuro@kwadrat.io',
 };
 

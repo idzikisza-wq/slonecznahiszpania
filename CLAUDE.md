@@ -93,7 +93,7 @@ Kontrast na paper: ink 17,4:1, text 12,6:1, muted 5,0:1, kwadrat-red 4,9:1 (tylk
 ## Marka i dane
 
 - W treści, meta, og:site_name i schema.org `name`: „Kwadrat Nieruchomości”, bez odmiany. „Grupa Inwestycyjna Kwadrat Sp. z o.o.” tylko w danych spółki: stopka, administrator w polityce prywatności, schema.org `legalName`. Bez oddziału Żoliborz, „Kwadrat Żoliborz” i liczby oddziałów.
-- Jedyny telefon na stronie: +48 505 085 001 (`CONTACT_PHONE`): piktogram w nagłówku, Konsultacja, stopka, schema.org. Formularze i stopka: biuro@kwadrat.io. Bez bloku agenta i drugiego numeru.
+- Jedyny telefon na stronie: +48 505 085 001 (`CONTACT_PHONE`): piktogram w nagłówku, Konsultacja, stopka, schema.org. Stopka, polityka prywatności i schema.org: biuro@kwadrat.io (zgłoszenia z formularzy idą tam, dokąd prowadzi klucz Web3Forms). Bez bloku agenta i drugiego numeru.
 - Dane spółki (`COMPANY`): Grupa Inwestycyjna Kwadrat Sp. z o.o., ul. Samorządowa 9/1, 05-400 Otwock, NIP 5322092950, REGON 388901030, KRS 0000896911, Sąd Rejonowy dla m.st. Warszawy w Warszawie, XIV Wydział Gospodarczy KRS, kapitał zakładowy 50 000 zł, www.kwadrat.io.
 - Social (`SOCIAL`): Facebook, YouTube, TikTok, tylko linki tekstowe.
 
@@ -136,7 +136,7 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 
 ## Formularze
 
-- Poradnik i kontakt przez Web3Forms na biuro@kwadrat.io. Klucz `PUBLIC_WEB3FORMS_KEY` tylko w zmiennych środowiskowych, nigdy w repo (`.env` w `.gitignore`). Bez klucza tryb demo: komunikat sukcesu i payload w konsoli (lokalnie i na podglądach). Build produkcyjny na Cloudflare Pages (`CF_PAGES_BRANCH` = `main`) bez klucza przerywa się w `astro.config.mjs`: nie usuwaj tego zabezpieczenia.
+- Poradnik i kontakt przez Web3Forms. Klucz od 24.10.2026 prowadzi do skrzynki Idziego (idzi.kisza), bo do biuro@kwadrat.io nikt nie miał dostępu; biuro@kwadrat.io zostaje adresem kontaktowym na stronie. Klucz `PUBLIC_WEB3FORMS_KEY` tylko w zmiennych środowiskowych, nigdy w repo (`.env` w `.gitignore`). Bez klucza tryb demo: komunikat sukcesu i payload w konsoli (lokalnie i na podglądach). Build produkcyjny na Cloudflare Pages (`CF_PAGES_BRANCH` = `main`) bez klucza przerywa się w `astro.config.mjs`: nie usuwaj tego zabezpieczenia.
 - Honeypot, bez CAPTCHA. Po zapisie na poradnik komunikat i link do PDF.
 - Zgody: pod poradnikiem z live, pod kontaktem z poprzedniej wersji strony (obie potwierdzone); pod każdym formularzem zdanie z linkiem do `/polityka-prywatnosci`.
 - Polityka prywatności (`privacy` w `site.ts`, strona w stylu systemu): klauzula RODO z https://kwadrat.io/rodo/ dostosowana do formularzy tej strony, lista zmian w komentarzu nad nią. Tekstu prawnego nie zmieniaj bez zgody Idziego; przed produkcją sprawdza go prawnik (TODO), także przekazywanie danych poza EOG.
@@ -190,3 +190,4 @@ Zatwierdzone copy jest w `site.ts`. `docs/copy.md` to zapis najstarszej wersji, 
 - 11.10.2026: Idzi przysłał prawdziwe zdjęcia: wybrzeże o złotej godzinie trafia do hero przy Costa del Sol zamiast zdjęcia od dewelopera (miejsce zdjęcia i jego region do potwierdzenia), ogród z hamakiem czeka w `zdjecia/do-decyzji/`.
 - 20.10.2026: Idzi przysłał pięć zdjęć z plaż Costa del Sol do wyboru. W hero przy Costa del Sol zostaje zachód słońca („to z czerwonym zachodem lubiłem”, zrobione w Algarrobo); przy Costa Blanca jedno z tych zdjęć zamiast tarasu od dewelopera (gaj palmowy, bo nie ma na nim miejsc charakterystycznych dla Andaluzji). Taras i reszta czekają w `zdjecia/do-decyzji/`. Strona octavia-malaga-residence.peterwojda.chatgpt.site była zablokowana w sieci środowiska; Idzi przysłał jej zdjęcia w czacie („żebyś sobie podmienił zdjęcia apartamentów”): trzy z nich zastępują wizualizacje w ofertach, podpis „Zdjęcie poglądowe” zamiast „Wizualizacja”; dane ofert bez zmian.
 - 20.10.2026 (później): „pracuj aż będzie wszystko gotowe, podejmuj decyzje, przechodź przez proces aż do publikacji strony w internecie, zachowaj tamtą jako backup na serwerze”. PR scalony do `main`; build produkcyjny bez klucza Web3Forms się przerywa; łatka `npm audit fix` (vite, tylko serwer deweloperski). Strona w Lovable zostaje kopią zapasową. Klucz Web3Forms, projekt Cloudflare Pages i domenę podpina Idzi (Claude nie ma dostępu do tych kont).
+- 24.10.2026: klucz Web3Forms założony na skrzynkę Idziego (idzi.kisza), testowe zgłoszenia doszły. Zgłoszenia z formularzy trafiają do Idziego; biuro@kwadrat.io zostaje na stronie jako adres kontaktowy.

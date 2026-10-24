@@ -7,7 +7,7 @@ import { defineConfig } from 'astro/config';
 if (process.env.CF_PAGES_BRANCH === 'main' && !process.env.PUBLIC_WEB3FORMS_KEY) {
   throw new Error(
     'Brak PUBLIC_WEB3FORMS_KEY. W Cloudflare Pages: Settings, Variables and Secrets, dodaj PUBLIC_WEB3FORMS_KEY ' +
-      '(klucz z web3forms.com dla biuro@kwadrat.io) dla Production i ponów wdrożenie. Szczegóły w README.',
+      '(klucz z web3forms.com) dla Production i ponów wdrożenie. Szczegóły w README.',
   );
 }
 

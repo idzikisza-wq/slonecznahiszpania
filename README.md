@@ -125,7 +125,7 @@ Treść strony `/polityka-prywatnosci` jest w `src/content/site.ts` (obiekt `pri
 
 Oba formularze (poradnik i kontakt) wysyłają zgłoszenia przez [Web3Forms](https://web3forms.com) na adres przypisany do klucza.
 
-1. Na web3forms.com utwórz klucz (Access Key) dla adresu biuro@kwadrat.io. Klucz przychodzi mailem.
+1. Na web3forms.com utwórz klucz (Access Key) dla adresu, na który mają przychodzić zgłoszenia. Klucz przychodzi mailem. Od 24.10.2026 klucz prowadzi do skrzynki Idziego (decyzja Idziego, bo nikt nie miał dostępu do biuro@kwadrat.io); zmiana adresata to nowy klucz i podmiana zmiennej w Cloudflare Pages.
 2. Lokalnie: skopiuj `.env.example` do `.env` i wpisz `PUBLIC_WEB3FORMS_KEY=twój-klucz`. Plik `.env` jest w `.gitignore`, nigdy nie trafia do repo.
 3. W Cloudflare Pages: Settings, Variables and Secrets (zmienne środowiskowe), dodaj `PUBLIC_WEB3FORMS_KEY` dla Production i Preview, potem ponów wdrożenie (klucz jest wstawiany w czasie buildu).
 
@@ -147,7 +147,7 @@ Jak działa: z identyfikatorem na górze strony pojawia się baner zgody („Akc
 
 Strona jest gotowa i scalona do gałęzi `main`. Zostały trzy kroki, które wymagają kont Idziego (Claude nie ma do nich dostępu):
 
-1. **Klucz formularzy** (2 minuty): na [web3forms.com](https://web3forms.com) wpisz biuro@kwadrat.io, klucz przyjdzie mailem. Bez klucza wersja produkcyjna się nie zbuduje (zabezpieczenie w `astro.config.mjs`), bo formularz pokazywałby „wysłano”, a zgłoszenie by przepadło.
+1. **Klucz formularzy** (2 minuty): na [web3forms.com](https://web3forms.com) wpisz adres, na który mają przychodzić zgłoszenia (od 24.10.2026 skrzynka Idziego), klucz przyjdzie mailem. Gotowe 24.10.2026, testy doszły. Bez klucza wersja produkcyjna się nie zbuduje (zabezpieczenie w `astro.config.mjs`), bo formularz pokazywałby „wysłano”, a zgłoszenie by przepadło.
 2. **Cloudflare Pages** (10 minut): projekt połączony z tym repozytorium, z kluczem w zmiennych (kroki niżej). Po buildzie strona działa pod adresem `nazwa-projektu.pages.dev`: tam sprawdź ją i wyślij testowe zgłoszenie z obu formularzy.
 3. **Domena**: podepnij `www.slonecznahiszpania.pl` do projektu Pages (checklista niżej).
 
@@ -176,7 +176,7 @@ Wykonuje Idzi (podgląd zaakceptowany 20.10.2026).
 
 0. Zapisać adres strony w Lovable (`*.lovable.app`): to kopia zapasowa starej strony. Projektu w Lovable nie usuwać.
 1. Sprawdzić, gdzie trafiają dziś zapytania z formularzy na stronie w Lovable, i wyeksportować dotychczasowe leady.
-2. Podpiąć klucz Web3Forms, wysłać testowe zgłoszenie z obu formularzy, potwierdzić odbiór na biuro@kwadrat.io.
+2. Podpiąć klucz Web3Forms, wysłać testowe zgłoszenie z obu formularzy, potwierdzić odbiór w skrzynce przypisanej do klucza (od 24.10.2026 skrzynka Idziego).
 3. Wgrać docelowe zdjęcia (PDF poradnika już jest), potwierdzić z prawnikiem treść polityki prywatności.
 4. Domena, najprościej z DNS w Cloudflare:
    - w panelu Cloudflare dodać domenę (Add a domain, plan Free) i u rejestratora zmienić serwery nazw na te, które poda Cloudflare;
