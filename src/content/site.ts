@@ -29,7 +29,7 @@ const CONTACT = {
   phone: CONTACT_PHONE,
   phoneHref: `tel:${CONTACT_PHONE.replace(/[^\d+]/g, '')}`,
   // Adres kontaktowy na stronie (stopka, polityka prywatności, schema.org). Zgłoszenia z formularzy
-  // trafiają tam, dokąd prowadzi klucz Web3Forms: od 24.10.2026 skrzynka Idziego (decyzja Idziego).
+  // trafiają tam, dokąd prowadzi klucz Web3Forms: biuro@kwadrat.io (decyzja Idziego 29.10.2026).
   email: 'biuro@kwadrat.io',
 };
 
