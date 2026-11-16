@@ -63,7 +63,6 @@ Miejsca na stronie (źródła w `zdjecia/`, nazwa pliku = nazwa miejsca):
 | `oferta-mijas.webp` | oferta Mijas (salon apartamentu Octavia) | naturalne |
 | `oferta-marbella.webp` | oferta Marbella (jadalnia z tarasem apartamentu Octavia) | naturalne |
 | `kontakt.jpg` | Kontakt, pod telefonem (Piotr i Ania) | kadr 4:3 z pionowego zdjęcia (dziś 720 × 960) |
-| `zespol-hiszpania.jpg` | Na miejscu w Hiszpanii (Idzi z Sylwią i Gilbertem, bez podpisu) | naturalne (dziś selfie 1500 × 2000, robocze); przy podmianie popraw alt z imionami od lewej (`IMAGES.team` w `site.ts`) |
 
 1. Wrzuć plik do `zdjecia/` pod nazwą z tabeli (jpg, jpeg, png albo webp). Najlepiej co najmniej 1600 px szerokości. Zdjęcia z iPhone'a w HEIC najpierw wyeksportuj jako JPG.
 2. Uruchom `npm run zdjecia`. Skrypt zapisuje WebP i JPG w szerokościach 800 i 1600 px do `public/img/` (mniejsze źródło także w jego pełnej szerokości) i usuwa metadane (EXIF, GPS). Z `public/img/` usuwa tylko swoje warianty miejsc, których nie ma już na liście; innych plików i katalogów nie rusza. Kadr do innych proporcji ustawiasz polem `ratio` i punktem `focus` przy danym miejscu w `scripts/zdjecia.mjs`. Na koniec zapisuje `src/content/zdjecia.json` z wymiarami plików: z niego strona bierze `width` i `height`, więc znaczniki zawsze pasują do zdjęć.

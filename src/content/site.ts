@@ -107,15 +107,6 @@ const IMAGES = {
     alt: 'Piotr i Ania na deptaku w centrum Málagi',
     placeholder: 'Zdjęcie 4:3',
   },
-  // Na miejscu w Hiszpanii: Idzi z Sylwią i Gilbertem (selfie od Idziego 7.10.2026, robocze).
-  // Prawdziwe zdjęcie zespołu, nie poglądowe, więc bez podpisu (team.photoNote pusty).
-  // Imiona w alcie w kolejności ze zdjęcia, od lewej.
-  team: {
-    name: 'zespol-hiszpania',
-    ratio: [3, 4],
-    alt: 'Od lewej: Idzi Kisza, Sylwia Antczak Baranowska i Gilberto Tejada przed apartamentowcem z palmami',
-    placeholder: 'Zdjęcie 3:4',
-  },
   // Okładka poradnika: pierwsza strona PDF z 9.10.2026 (public/poradnik.pdf), wyrenderowana do PNG
   // (A4, 1654 × 2339). Przy nowym PDF podmienić ją tak samo (README, sekcja o PDF).
   guideCover: {
@@ -492,17 +483,13 @@ const raw = {
     ],
   },
 
-  // Na miejscu w Hiszpanii (prośba Idziego 7.10.2026): rezydenci i lokalni agenci. Bez ich telefonów
-  // i e-maili: na stronie jest jeden numer. TODO: tekst do akceptacji Idziego; zgoda Sylwii
-  // i Gilberta na imiona i zdjęcie; zdjęcie robocze (selfie), Idzi może podmienić na inne.
+  // Na miejscu w Hiszpanii (prośba Idziego 7.10.2026): rezydenci i lokalni agenci. Od 16.11.2026 bez
+  // zdjęcia i bez imion (prośba Idziego): akapit to dawne zdanie bez imion na początku. Bez telefonów
+  // i e-maili: na stronie jest jeden numer.
   team: {
     label: 'Na miejscu w Hiszpanii',
     title: 'Nasi rezydenci i lokalni agenci',
-    text: 'Sylwia Antczak Baranowska i Gilberto Tejada mieszkają w Hiszpanii i pracują z nami na miejscu, także wtedy, gdy Ty jesteś w Polsce.',
-    image: IMAGES.team,
-    // Bez podpisu: prawdziwe zdjęcie zespołu (jak Piotr i Ania w Kontakcie). PHOTO_NOTE tylko przy
-    // zdjęciu poglądowym.
-    photoNote: '',
+    text: 'Mieszkają w Hiszpanii i pracują z nami na miejscu, także wtedy, gdy Ty jesteś w Polsce.',
   },
 
   reviews: {

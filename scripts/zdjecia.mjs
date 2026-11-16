@@ -34,9 +34,6 @@ const SLOTS = {
   // Piotr i Ania w Kontakcie (decyzja Idziego 5.10.2026): pionowe zdjęcie 3:4 w kadrze 4:3
   // z dolnej części, całe sylwetki z zapasem nad głowami.
   kontakt: { ratio: [4, 3], focus: [0.5, 0.86] },
-  // Na miejscu w Hiszpanii (prośba Idziego 7.10.2026): Idzi z Sylwią i Gilbertem, selfie 3:4 z telefonu
-  // (robocze, Idzi może je podmienić). Naturalne proporcje, bez kadru; alt w site.ts (team).
-  'zespol-hiszpania': { ratio: null },
 };
 
 const sources = await readdir(SRC, { withFileTypes: true });
